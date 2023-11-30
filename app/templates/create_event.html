@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+    <h2>Create an Event</h2>
+
+    <form id="event-creation-form" method="post" action="{{ url_for('create_event') }}">
+      <div class="form-group">
+        <label for="title">Event Title:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Event Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Event Location:</label>
+        <input type="text" id="location" name="location" required>
+      </div>
+
+      <button type="submit" class="btn">Create Event</button>
+    </form>
+
+  </div>
+
+{% endblock %}
+
