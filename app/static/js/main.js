@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Hello from main.js!');
 
-  // Function to handle event creation form submission
   function handleEventCreationForm() {
-    const eventForm = document.getElementById('event-creation-form');
+    const eventForm = document.getElementById('create_event');
 
     if (eventForm) {
       eventForm.addEventListener('submit', function(event) {

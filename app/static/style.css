@@ -1,6 +1,5 @@
 """ container stylesheet """
 
-
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -8,7 +7,7 @@ body {
 }
 
 .header {
-  background-color: #333;
+  background-color: #ff6b6b; /* Fun red color */
   color: #fff;
   padding: 10px;
   text-align: center;
@@ -25,14 +24,14 @@ body {
   font-size: 16px;
   text-align: center;
   text-decoration: none;
-  background-color: #007BFF;
+  background-color: #5cb85c; /* Playful green color */
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #4cae4c; /* Darker green on hover */
 }
 
 .form-group {
@@ -45,18 +44,45 @@ body {
   margin-bottom: 8px;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
+.form-group input,
 .form-group textarea {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #5bc0de; /* Light blue border */
   border-radius: 5px;
 }
+
+.form-group textarea {
+  resize: vertical; /* Allow vertical resizing for textarea */
+}
+
+/* Additional styles for a playful touch */
+.container h2 {
+  color: #3498db; /* Blue heading color */
+}
+
+.container p {
+  color: #2ecc71; /* Light green paragraph color */
+}
+
+.event-card {
+  border: 1px solid #e74c3c; /* Red border for event cards */
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.event-card h4 {
+  color: #e74c3c;
+}
+
+.event-card a.btn {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.event-card a.btn:hover {
+  background-color: #2980b9;
+}
+

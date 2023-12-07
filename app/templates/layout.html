@@ -15,9 +15,10 @@
 
   <nav class="container">
 	  <ul>
-		  <li><a href="{{ url_for('home') }}">Home</a></li>
-		  <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
-		  <li><a href="{{ url_for('event_created') }}">Event created</a></li>
+		  <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
+		  <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
+		  <li><a href="{{ url_for('event_created') }}" class="btn">Event created</a></li>
+		  <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
 	  </ul>
   </nav>
 
