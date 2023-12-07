@@ -1,43 +1,73 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<base href="/">
-	<link rel="stylesheet" href="static/css/styles.css">
-	<title>Your Party with Me Application</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>Party with Me - Connect, Create, Celebrate</title>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
-
 <body>
 
-  <div class="container" style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    <h2 style="color: #333;">Welcome to Party with Me!</h2>
+    <!-- Introduction Section -->
+    <section class="intro">
+        <div class="cover-image">
+            <img src="party with me.png" alt="Party with Me Cover Image">
+        </div>
+        <header>
+            <h1>PARTY WITH ME</h1>
+            <p>Connect with friends, create memorable events, and celebrate together!</p>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
+                    <li><a href="{{ url_for('event_created') }}">Event Created</a></li>
+                    <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
+                </ul>
+            </nav>
+            <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
+        </header>
+    </section>
 
-    <p style="color: #555;">This is the home page content. Explore events, connect with friends, and create memorable moments.</p>
+    <!-- Key Features Section -->
+    <section id="section1" class="features">
+        <div class="feature">
+            <img src="feature1.jpg" alt="Feature 1 Image">
+            <h2>Feature 1</h2>
+            <p>Create event feature, where you can create your own event</p>
+        </div>
+	<div class="feature">
+            <img src="feature1.jpg" alt="Feature 1 Image">
+            <h2>Feature 2</h2>
+            <p>Event created where you will see events once created</p>
+        </div>
+	<div class="feature">
+            <img src="feature1.jpg" alt="Feature 1 Image">
+            <h2>Feature 3</h2>
+            <p>RSVP feature where anyone can be RSVP</p>
+        </div>
+    </section>
 
-    <a href="create_event.html" class="btn" style="background-color: #3498db; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Create Event</a>
+    <!-- About Section -->
+    <section id="section2" class="about">
+        <div>
+            <h2>About the Party with Me Project</h2>
+            <p>Description of what inspired the Party with Me project was seeing the way the world has changed, everyone uses an uber to get to their destination, basically their invite strangers to their life , why not invite them to party with you...</p>
+            <p>This is a Portfolio Project for Holberton School with a link: <a href="https://holbertonschool.com" target="_blank">Holberton School</a>.</p>
+        </div>
+        <div class="team-members">
+            <!-- Include LinkedIn, GitHub, and Twitter links for each team member -->
+            <div class="member">
+                <h3>Emdinga Mbhamali</h3>
+                <a href="https://linkedin.com/emdinga" target="_blank">LinkedIn</a>
+                <a href="https://github.com/emdinga" target="_blank">GitHub</a>
+            </div>
+        </div>
+        <div class="github-link">
+            <p>Explore the code on GitHub: <a href="https://github.com/emdinga/Party_with_me" target="_blank">GitHub Repository</a></p>
+        </div>
+    </section>
 
-    <hr style="border-color: #ddd;">
-
-    <h3 style="color: #333;">Upcoming Events</h3>
-
-    <div class="event-card" style="background-color: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
-      <h4 style="color: #333;">Awesome Party</h4>
-      <p style="color: #555;">Date: December 15, 2023</p>
-      <p style="color: #555;">Location: Trendy Venue</p>
-      <p style="color: #555;">Hosted by: John Doe</p>
-      <a href="#" class="btn" style="background-color: #3498db; color: #fff; text-decoration: none; padding: 5px 10px; border-radius: 3px;">RSVP</a>
-    </div>
-
-    <div class="event-card" style="background-color: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
-      <h4 style="color: #333;">Summer BBQ</h4>
-      <p style="color: #555;">Date: July 22, 2023</p>
-      <p style="color: #555;">Location: Park Pavilion</p>
-      <p style="color: #555;">Hosted by: Jane Smith</p>
-      <a href="#" class="btn" style="background-color: #3498db; color: #fff; text-decoration: none; padding: 5px 10px; border-radius: 3px;">RSVP</a>
-    </div>
-
-  </div>
 </body>
+</html>
+
