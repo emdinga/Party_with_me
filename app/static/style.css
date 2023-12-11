@@ -1,47 +1,48 @@
 """ container stylesheet """
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
+	background-color: #add8e6;
+       	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       	margin: 0;
+	padding: 0;
 }
 
 .header {
-  background-color: #ff6b6b; /* Fun red color */
-  color: #fff;
-  padding: 10px;
-  text-align: center;
+	background-color: #ff6b6b;
+	color: #fff;
+	padding: 10px;
+	text-align: center;
 }
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+	max-width: 800px;
+	margin: 0 auto;
 }
 
 .btn {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  background-color: #5cb85c; /* Playful green color */
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
+	display: inline-block;
+	padding: 10px 20px;
+	font-size: 16px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #5cb85c;
+	color: #fff;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #4cae4c; /* Darker green on hover */
+	background-color: #4cae4c;
 }
 
 .form-group {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .form-group label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 8px;
+	display: block;
+	font-size: 16px;
+	margin-bottom: 8px;
 }
 
 .form-group input,
