@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Party with Me</title>
-    <link rel="stylesheet" href="{{ templates/static/style.css('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
@@ -18,10 +18,10 @@
 
   <nav class="container">
 	  <ul>
-		  <li><a href="{{ templates/layout.html('home') }}" class="btn">Home</a></li>
-		  <li><a href="{{ templates/create_event.html('create_event') }}" class="btn">Create Event</a></li>
-		  <li><a href="{{ templates/event_created.html('event_created') }}" class="btn">Event created</a></li>
-		  <li><a href="{{ templates/rsvp.html('rsvp') }}" class="btn">RSVP</a></li>
+		  <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
+		  <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
+		  <li><a href="{{ url_for('event_created') }}" class="btn">Event created</a></li>
+		  <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
 	  </ul>
   </nav>
 
