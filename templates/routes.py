@@ -28,7 +28,7 @@ def create_event():
     return render_template('create_event.html')
 
 
-@app.route('/event_created')
+@app.route('/event_created', methods=['GET', 'POST'])
 def event_created():
     """ return data for created events """
     event_data = {
