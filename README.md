@@ -91,3 +91,4 @@ Our Project is designed to address a specific niche within the event management 
 
 In summary our project is designed to serve users looking for a dedicated platform for organising and participating in house parties. It offers a distinct user experience compared to broader event management solutions. PARTY WITH ME.
 
+LInked in linke: https://www.linkedin.com/pulse/party-me-emdinga-mbhamali-vugqe/
