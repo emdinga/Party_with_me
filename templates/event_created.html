@@ -8,10 +8,8 @@
     <h2>Event Created Successfully!</h2>
 
     <p>Your event "{{ event_data.title }}" has been created.</p>
-
     <p>Date: {{ event_data.date }}</p>
     <p>Location: {{ event_data.location }}</p>
-    <p>Hosted by: {{ event_data.organizer }}</p>
 
     <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
   </div>
