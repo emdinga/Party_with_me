@@ -18,5 +18,9 @@ def create_event():
 def event_created():
     return render_template('event_created.html')
 
+@app.route('/rsvp')
+def rsvp():
+    return rsvp('rsvp.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
