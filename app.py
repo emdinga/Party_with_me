@@ -2,12 +2,15 @@
 """ start flask application """
 
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, g
 
 
 app = Flask(__name__)
 
-events = []
+events = [
+    {'id': 1, 'title': 'Birthday celebration', 'date': '2024-01-01', 'location': 'Durban South Africa', 
+        'organizer': 'Emdinga Mbhamali'},
+    {'id': 2, 'title': 'Pens down', 'date': '2023-12-31', 'location': 'Beach front', 'organizer': 'Emdinga Mbhamali'},
 
 @app.route('/')
 def home():
