@@ -5,13 +5,16 @@
 {% block content %}
 
   <div class="container">
-    <h2>Event Created Successfully!</h2>
+    <h2>Events Created</h2>
 
-    <p>Your event "{{ event_data.title }}" has been created.</p>
-    <p>Date: {{ event_data.date }}</p>
-    <p>Location: {{ event_data.location }}</p>
+    {% for event in events %}
+      <h3>{{ event.title }}</h3>
+      <p>Date: {{ event.date }}</p>
+      <p>Location: {{ event.location }}</p>
+      <a href="{{ url_for('rsvp', event_id=loop.index0) }}" class="btn">RSVP</a>
+      <hr>
+    {% endfor %}
 
-    <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
   </div>
 
 {% endblock %}
