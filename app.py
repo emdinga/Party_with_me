@@ -28,6 +28,7 @@ def create_event():
             'organizer': 'John Doe'
         }
         events.append(event_data)
+        g.title = event_data['title']
         return redirect(url_for('event_created'))
 
     return render_template('create_event.html')
