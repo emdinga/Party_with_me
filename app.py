@@ -37,8 +37,8 @@ def event_created():
     """ return events created """
     return render_template('event_created.html', events=events)
 
-@app.route('/rsvp/<int:event_id>', methods=['GET', 'POST'])
-def rsvp(event_id):
+@app.route('/rsvp/<title>', methods=['GET', 'POST'])
+def rsvp(title):
     """ allows rsvp """
     if request.method == 'POST':
         """ Process RSVP form data for the specified event """
@@ -48,9 +48,9 @@ def rsvp(event_id):
             'guests': request.form.get('guests')
         }
         """Handle RSVP data for the event (you can store it as needed)"""
-        return render_template('rsvp.html', event_id=event_id, rsvp_data=rsvp_data)
+        return render_template('rsvp.html', title=title, rsvp_data=rsvp_data)
 
-    return render_template('rsvp.html', event_id=event_id)
+    return render_template('rsvp.html', title=title)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

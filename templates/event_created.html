@@ -11,7 +11,7 @@
       <h3>{{ event.title }}</h3>
       <p>Date: {{ event.date }}</p>
       <p>Location: {{ event.location }}</p>
-      <a href="{{ url_for('rsvp', event_id=loop.index0) }}" class="btn">RSVP</a>
+      <li><a href="{{ url_for('rsvp', title=event.title) }}" class="btn">RSVP</a></li>
       <hr>
     {% endfor %}
 
