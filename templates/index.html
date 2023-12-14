@@ -22,7 +22,12 @@
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
                     <li><a href="{{ url_for('event_created') }}">Event Created</a></li>
-                    <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
+		    {% for event in events %}
+		    <li>
+			    <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</P>
+			    <a href="{{ url_for('rsvp', event_id=event.id) }}" class="btn">RSVP</a>
+		    </li>
+		    {% endfor %}
                 </ul>
             </nav>
             <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
