@@ -1,89 +1,100 @@
-""" container stylesheet """
-
 body {
-	background-color: #add8e6;
-       	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-       	margin: 0;
-	padding: 0;
+    background-color: #add8e6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    animation: colorChange 10s infinite; /* Add animation for color change */
+}
+
+/* Keyframes for the background color animation */
+@keyframes colorChange {
+    0% {
+        background-color: #add8e6;
+    }
+    50% {
+        background-color: #87ceeb;
+    }
+    100% {
+        background-color: #add8e6;
+    }
 }
 
 .header {
-	background-color: #ff6b6b;
-	color: #fff;
-	padding: 10px;
-	text-align: center;
+    background-color: #ff6b6b;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }
 
 .container {
-	max-width: 800px;
-	margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .btn {
-	display: inline-block;
-	padding: 10px 20px;
-	font-size: 16px;
-	text-align: center;
-	text-decoration: none;
-	background-color: #5cb85c;
-	color: #fff;
-	border-radius: 5px;
-	cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #5cb85c;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .btn:hover {
-	background-color: #4cae4c;
+    background-color: #4cae4c;
 }
 
 .form-group {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
-	display: block;
-	font-size: 16px;
-	margin-bottom: 8px;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
 .form-group input,
 .form-group textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #5bc0de; /* Light blue border */
-  border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #5bc0de;
+    border-radius: 5px;
 }
 
 .form-group textarea {
-  resize: vertical; /* Allow vertical resizing for textarea */
+    resize: vertical;
 }
 
-/* Additional styles for a playful touch */
 .container h2 {
-  color: #3498db; /* Blue heading color */
+    color: #3498db;
 }
 
 .container p {
-  color: #2ecc71; /* Light green paragraph color */
+    color: #2ecc71;
 }
 
 .event-card {
-  border: 1px solid #e74c3c; /* Red border for event cards */
-  border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 20px;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .event-card h4 {
-  color: #e74c3c;
+    color: #e74c3c;
 }
 
 .event-card a.btn {
-  background-color: #3498db;
-  color: #fff;
+    background-color: #3498db;
+    color: #fff;
 }
 
 .event-card a.btn:hover {
-  background-color: #2980b9;
+    background-color: #2980b9;
 }
 

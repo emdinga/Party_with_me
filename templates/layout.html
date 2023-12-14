@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Party with Me</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
   <header class="header">
     <h1>PARTY WITH ME</h1>
     <div class="cover image">
-	    <img src="images/party-with-me.png" alt="Header image">
+      <img src="images/party-with-me.png" alt="Header image">
     </div>
   </header>
 
   <nav class="container">
-	  <ul>
-		  <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
-		  <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
-		  <li><a href="{{ url_for('event_created') }}" class="btn">Event created</a></li>
-		  <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
-	  </ul>
+    <ul>
+      <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
+      <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
+      <li><a href="{{ url_for('event_created') }}" class="btn">Event created</a></li>
+      <!-- Check if 'event_id' is defined before generating the URL -->
+      {% if 'event_id' in g %}
+        <li><a href="{{ url_for('rsvp', event_id=g.event_id) }}" class="btn">RSVP</a></li>
+      {% else %}
+        <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
+      {% endif %}
+    </ul>
   </nav>
 
   <div class="container">
@@ -30,5 +37,6 @@
   </div>
 
 </body>
+
 </html>
 
