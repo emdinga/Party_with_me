@@ -33,7 +33,7 @@
         <li>
           <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</p>
           <!-- Include event_id when generating the URL for rsvp -->
-          <a href="{{ url_for('rsvp', event_id=event.id) }}" class="btn">RSVP</a>
+          <a href="{{ url_for('rsvp', title=event_data.title) }}" class="btn">RSVP</a>
         </li>
       {% endfor %}
     </ul>
