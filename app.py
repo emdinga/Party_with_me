@@ -10,7 +10,7 @@ app = Flask(__name__)
 events = [
     {'id': 1, 'title': 'Birthday celebration', 'date': '2024-01-01', 'location': 'Durban South Africa', 
         'organizer': 'Emdinga Mbhamali'},
-    {'id': 2, 'title': 'Pens down', 'date': '2023-12-31', 'location': 'Beach front', 'organizer': 'Emdinga Mbhamali'},
+    {'id': 2, 'title': 'Pens down', 'date': '2023-12-31', 'location': 'Beach front', 'organizer': 'Emdinga Mbhamali'}]
 
 @app.route('/')
 def home():
