@@ -25,7 +25,7 @@
       <li><a href="{{ url_for('event_created') }}" class="btn">Event created</a></li>
 	<!-- Check if 'title' is defined before generating the URL -->
 	{% if 'title' in g %}
-  	<li><a href="{{ url_for('rsvp', title=g.title) }}" class="btn">RSVP</a></li>
+	<li><a href="{{ url_for('rsvp', title=g.title) }}" class="btn">RSVP</a></li>
 	{% else %}
   	<li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
 	{% endif %}
