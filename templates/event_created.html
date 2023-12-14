@@ -11,6 +11,7 @@
       <h3>{{ event.title }}</h3>
       <p>Date: {{ event.date }}</p>
       <p>Location: {{ event.location }}</p>
+      <p>RSVPs: {{ g.rsvps.get(event.title, 0) }}</p>
       <li><a href="{{ url_for('rsvp', title=event.title) }}" class="btn">RSVP</a></li>
       <hr>
     {% endfor %}

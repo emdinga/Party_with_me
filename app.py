@@ -53,7 +53,11 @@ def rsvp(title):
             'guests': request.form.get('guests')
         }
         """Handle RSVP data for the event (you can store it as needed)"""
-        return render_template('rsvp.html', title=title, rsvp_data=rsvp_data)
+        rsvps = g.get('rsvps', {})
+        rsvps[title] = rsvps.get(title, 0) + int(rsvp_data['guests'])
+        g.rsvps = rsvps
+
+        return redirect(url_for('event_created'))
 
     return render_template('rsvp.html', title=title)
 
