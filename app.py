@@ -35,6 +35,10 @@ def create_event():
 @app.route('/event-created')
 def event_created():
     """ return events created """
+    """Iterate over events and set 'title' in the g context"""
+    for event in events:
+        g.title = event['title']
+
     return render_template('event_created.html', events=events)
 
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
