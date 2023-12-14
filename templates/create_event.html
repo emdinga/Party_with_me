@@ -26,17 +26,6 @@
 
       <button type="submit" class="btn">Create Event</button>
     </form>
-
-    <!-- Display events and RSVP links -->
-    <ul>
-      {% for event in events %}
-        <li>
-          <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</p>
-          <!-- Include event_id when generating the URL for rsvp -->
-          <a href="{{ url_for('rsvp', title=event_data.title) }}" class="btn">RSVP</a>
-        </li>
-      {% endfor %}
-    </ul>
   </div>
 
 {% endblock %}
