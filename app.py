@@ -42,6 +42,10 @@ def event_created():
 
     return render_template('event_created.html', events=events)
 
+@app.before_request
+def before_request():
+    g.rsvps = {}
+
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
 def rsvp(title):
     """ allows rsvp """
@@ -53,9 +57,7 @@ def rsvp(title):
             'guests': request.form.get('guests')
         }
         """Handle RSVP data for the event (you can store it as needed)"""
-        rsvps = g.get('rsvps', {})
-        rsvps[title] = rsvps.get(title, 0) + int(rsvp_data['guests'])
-        g.rsvps = rsvps
+        g.rsvps[title] = g.rsvps.get(title, 0) + int(rsvp_data['guests'])
 
         return redirect(url_for('event_created'))
 
