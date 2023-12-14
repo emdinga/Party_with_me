@@ -5,7 +5,7 @@
 from flask import Flask, render_template, request, redirect, url_for, g
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 events = [
     {'id': 1, 'title': 'Birthday celebration', 'date': '2024-01-01', 'location': 'Durban South Africa', 
