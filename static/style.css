@@ -1,4 +1,8 @@
 body {
+    background-image: url('/static/images/party-with-me.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: #add8e6;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
