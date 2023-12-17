@@ -13,6 +13,9 @@
       <p>Location: {{ event.location }}</p>
       <p>RSVPs: {{ g.rsvps.get(event.title, 0) }}</p>
       <li><a href="{{ url_for('rsvp', title=event.title) }}" class="btn">RSVP</a></li>
+      {% if rsvps_count[event.id] > 0 %}
+      	<a href="{{ url_for('event_details', event_id=event.id) }}" class="btn">Event Details</a>
+      {% endif %}
       <hr>
     {% endfor %}
 

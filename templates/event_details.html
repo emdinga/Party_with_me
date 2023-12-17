@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>{{ title }} RSVPs</h2>
+
+<button id="showGuestListBtn">Show Guest List</button>
+
+<div id="guestList" style="display: none;">
+  {% if rsvps %}
+    <ul>
+      {% for rsvp in rsvps %}
+        <li>{{ rsvp.name }} - {{ rsvp.email }} ({{ rsvp.guests }} guests)</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No RSVPs yet.</p>
+  {% endif %}
+</div>
+
+<script>
+  document.getElementById('showGuestListBtn').addEventListener('click', function() {
+    document.getElementById('guestList').style.display = 'block';
+  });
+</script>
+
+{% endblock %}
+
