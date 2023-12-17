@@ -1,4 +1,8 @@
 Flask==2.0.1
 gunicorn==20.1.0
 Werkzeug==2.1.1
+<<<<<<< HEAD
 SQLAlchemy
+=======
+sqlite3
+>>>>>>> f41c80e25a03f11846dabbff102f310ca9e25543
