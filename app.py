@@ -3,9 +3,14 @@
 
 
 from flask import Flask, render_template, request, redirect, url_for, g
+from models import db, Event, RSVP
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/party.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 
 events = [
     {'id': 1, 'title': 'Birthday celebration', 'date': '2024-01-01', 'location': 'Durban South Africa', 
@@ -15,7 +20,7 @@ events = [
 @app.route('/')
 def home():
     """ return home page for the application """
-    return render_template('index.html')
+    return render_template('event_created.html')
 
 @app.route('/create-event', methods=['GET', 'POST'])
 def create_event():
