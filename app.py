@@ -3,51 +3,15 @@
 
 
 from flask import Flask, render_template, request, redirect, url_for, g
-from flask_sqlalchemy import SQLAlchemy
-from models import Event, RSVP
+from models import Event, RSVP, db
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/party.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
-class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
-    date = db.Column(db.String(10), nullable=False)
-    location = db.Column(db.String(255), nullable=False)
-    organizer = db.Column(db.String(255), nullable=False)
-
-class RSVP(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
-    guests = db.Column(db.Integer, nullable=False)
-
-
-
-db = SQLAlchemy(app)
-
-class Event(db.Model):
-""" creating events db """
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
-    date = db.Column(db.String(10), nullable=False)
-    location = db.Column(db.String(255), nullable=False)
-    organizer = db.Column(db.String(255), nullable=False)
-
-class RSVP(db.Model):
-""" creating RSVP db """
-    id = db.Column(db.Integer, primary_key=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
-    guests = db.Column(db.Integer, nullable=False)
-
-db.create_all()
 
 @app.route('/')
 def home():
@@ -75,7 +39,6 @@ def create_event():
 
 @app.route('/event-created')
 def event_created():
-<<<<<<< HEAD
     """Return events created"""
     events = Event.query.all()
 
@@ -108,5 +71,7 @@ def rsvp(title):
     return render_template('rsvp.html', title=title)
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(host='0.0.0.0', port=5000, debug=True)
 
