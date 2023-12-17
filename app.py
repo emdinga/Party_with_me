@@ -1,21 +1,34 @@
 #!/usr/bin/python3
-""" start flask application """
+""" Start Flask application """
 
 
 from flask import Flask, render_template, request, redirect, url_for, g
-from models import db, Event, RSVP
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/party.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
+db = SQLAlchemy(app)
 
-events = [
-    {'id': 1, 'title': 'Birthday celebration', 'date': '2024-01-01', 'location': 'Durban South Africa', 
-        'organizer': 'Emdinga Mbhamali'},
-    {'id': 2, 'title': 'Pens down', 'date': '2023-12-31', 'location': 'Beach front', 'organizer': 'Emdinga Mbhamali'}]
+class Event(db.Model):
+""" creating events db """
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    location = db.Column(db.String(255), nullable=False)
+    organizer = db.Column(db.String(255), nullable=False)
+
+class RSVP(db.Model):
+""" creating RSVP db """
+    id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    guests = db.Column(db.Integer, nullable=False)
+
+db.create_all()
 
 @app.route('/')
 def home():
@@ -32,8 +45,11 @@ def create_event():
             'location': request.form.get('location'),
             'organizer': 'John Doe'
         }
-        events.append(event_data)
-        g.title = event_data['title']
+
+        new_event = Event(**event_data)
+        db.session.add(new_event)
+        db.session.commit()
+
         return redirect(url_for('event_created'))
 
     return render_template('create_event.html')
@@ -41,15 +57,8 @@ def create_event():
 @app.route('/event-created')
 def event_created():
     """ return events created """
-    """Iterate over events and set 'title' in the g context"""
-    for event in events:
-        g.title = event['title']
-
+    events = Event.query.all()
     return render_template('event_created.html', events=events)
-
-@app.before_request
-def before_request():
-    g.rsvps = {}
 
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
 def rsvp(title):
@@ -61,8 +70,12 @@ def rsvp(title):
             'email': request.form.get('email'),
             'guests': request.form.get('guests')
         }
-        """Handle RSVP data for the event (you can store it as needed)"""
-        g.rsvps[title] = g.rsvps.get(title, 0) + int(rsvp_data['guests'])
+
+        event = Event.query.filter_by(title=title).first()
+        if event:
+            new_rsvp = RSVP(event_id=event.id, **rsvp_data)
+            db.session.add(new_rsvp)
+            db.session.commit()
 
         return redirect(url_for('event_created'))
 
