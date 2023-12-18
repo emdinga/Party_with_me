@@ -78,6 +78,21 @@ def rsvp(title):
 
     return render_template('rsvp.html', title=title)
 
+def get_event_and_rsvps(event_id):
+    """ get events and counts"""
+    event = Event.query.get(event_id)
+    if event:
+        rsvps = RSVP.query.filter_by(event_id=event.id).all()
+        return event, rsvps
+    return None, None
+
+@app.route('/event_details/<int:event_id>')
+def event_details(event_id):
+    """ get event details"""
+    event, rsvps = get_event_and_rsvps(event_id)
+    return render_template('event_details.html', event=event, rsvps=rsvps)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
