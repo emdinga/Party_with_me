@@ -12,11 +12,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+@app.before_request
+def before_request():
+    """ generating rsvp counts """
+    g.rsvps_count = {}
+    events = Event.query.all()
+    for event in events:
+        g.rsvps_count[event.id] = RSVP.query.filter_by(event_id=event.id).count()
 
 @app.route('/')
 def home():
     """ return home page for the application """
-    return render_template('event_created.html')
+    events = Event.query.all()
+    return render_template('event_created.html', events=events, rsvps_count=g.rsvps_count)
 
 @app.route('/create-event', methods=['GET', 'POST'])
 def create_event():
