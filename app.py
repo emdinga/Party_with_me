@@ -24,7 +24,7 @@ def before_request():
 def home():
     """ return home page for the application """
     events = Event.query.all()
-    return render_template('event_created.html', events=events, rsvps_count=g.rsvps_count)
+    return render_template('index.html')
 
 @app.route('/create-event', methods=['GET', 'POST'])
 def create_event():
