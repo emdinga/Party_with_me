@@ -7,23 +7,31 @@
     <title>Party with Me</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-<div class ="container">
-	<a href="{{ url_for('home') }}" class="home-btn">Home</a>
-	<h2>Events Created</h2>
+<div class="container">
+    <a href="{{ url_for('home') }}" class="home-btn">Home</a>
+    <h2>Events Created</h2>
 
-	{% for event in events %}
-	<h3>{{ event.title }}</h3>
-	<p>Date: {{ event.date }}</p>
-	<p>Location: {{ event.location }}</p>
-	<p>RSVPs: {{ g.rsvps_count.get(event.id, 0) }}</p>
-	<li><a href="{{ url_for('rsvp', title=event.title) }}" class="btn">RSVP for {{ event.title }}</a></li>
-	{% if g.rsvps_count.get(event.id, 0) > 0 %}
-	<a href="{{ url_for('event_details', event_id=event.id) }}" class="btn">Event Details</a>
-	{% endif %}
-	<hr>
-	{% endfor %}
+    {% if events %}
+        {% for event in events %}
+            <h3>{{ event.title }}</h3>
+            <p>Date: {{ event.date }}</p>
+            <p>Location: {{ event.location }}</p>
+            <p>RSVPs: {{ g.rsvps_count.get(event.id, 0) }}</p>
+            <li><a href="{{ url_for('rsvp', title=event.title) }}" class="btn">RSVP for {{ event.title }}</a></li>
+            {% if g.rsvps_count.get(event.id, 0) > 0 %}
+                <a href="{{ url_for('event_details', event_id=event.id) }}" class="btn">Event Details</a>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No events to show at this time , please try again later</p>
+    {% endif %}
 </div>
+
 </body>
+
 </html>
+
