@@ -47,7 +47,7 @@ body {
 .body-image {
     display: block;
     margin: 0 auto; /* Center the image horizontally */
-    max-width: 50%; /* Set a maximum width for responsiveness */
+    max-width: 100%; /* Set a maximum width for responsiveness */
     height: auto; /* Maintain the aspect ratio */
     margin-bottom: 20px; /* Add some space below the image */
 }
