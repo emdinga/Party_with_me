@@ -11,8 +11,8 @@
 
     <!-- Introduction Section -->
     <section class="intro">
-        <div class="cover-image">
-             <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header image">
+        <div class="header">
+             <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image">
         </div>
         <header>
             <h1>PARTY WITH ME</h1>
@@ -20,8 +20,8 @@
             <nav>
                 <ul>
                     <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
-                    <li><a href="{{ url_for('event_created') }}">Event Created</a></li>
+                    <li><a href="{{ url_for('create_event') }}">Create an Event</a></li>
+                    <li><a href="{{ url_for('event_created') }}">Future Events</a></li>
 		    {% for event in events %}
 		    <li>
 			    <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</P>
@@ -36,17 +36,17 @@
 
     <!-- Key Features Section -->
     <section id="section1" class="features">
-        <div class="feature">
+        <div class="body-image">
             <h2>Feature 1</h2>
 	    <img src="{{ url_for('static', filename='images/create-event.png') }}" alt="Feature 1 Image">
             <p>Create event feature, where you can create your own event</p>
         </div>
-	<div class="feature">
+	<div class="body-image">
             <h2>Feature 2</h2>
 	    <img src="{{ url_for('static', filename='images/events-created.png') }}" alt="Feature 1 Image">
             <p>Event created where you will see events once created</p>
         </div>
-	<div class="feature">
+	<div class="body-image">
             <h2>Feature 3</h2>
 	    <img src="{{ url_for('static', filename='images/rsvp.png') }}" alt="Feature 1 Image">
             <p>RSVP feature where anyone can be RSVP</p>
