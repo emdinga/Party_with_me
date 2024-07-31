@@ -1,14 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html"}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
-<body>
+{% block content}
   <div class="container">
 	  <a href="{{ url_for('home') }}" class="home-btn">Home</a>
     <h2>Create an Event</h2>
@@ -34,6 +27,5 @@
     </form>
   </div>
 </body>
-
 </html>
-
+{% endblock %}

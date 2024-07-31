@@ -12,7 +12,7 @@
     <!-- Introduction Section -->
     <section class="intro">
         <div class="header">
-             <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image">
+            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image">
         </div>
         <header>
             <h1>PARTY WITH ME</h1>
@@ -22,42 +22,23 @@
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('create_event') }}">Create an Event</a></li>
                     <li><a href="{{ url_for('event_created') }}">Future Events</a></li>
-		    {% for event in events %}
-		    <li>
-			    <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</P>
-			    <a href="{{ url_for('rsvp', event_id=event.id) }}" class="btn">RSVP</a>
-		    </li>
-		    {% endfor %}
+                    {% for event in events %}
+                    <li>
+                        <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</p>
+                        <a href="{{ url_for('rsvp', event_id=event.id) }}" class="btn">RSVP</a>
+                    </li>
+                    {% endfor %}
                 </ul>
             </nav>
             <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
         </header>
     </section>
 
-    <!-- Key Features Section -->
-    <section id="section1" class="features">
-        <div class="body-image">
-            <h2>Feature 1</h2>
-	    <img src="{{ url_for('static', filename='images/create-event.png') }}" alt="Feature 1 Image">
-            <p>Create event feature, where you can create your own event</p>
-        </div>
-	<div class="body-image">
-            <h2>Feature 2</h2>
-	    <img src="{{ url_for('static', filename='images/events-created.png') }}" alt="Feature 1 Image">
-            <p>Event created where you will see events once created</p>
-        </div>
-	<div class="body-image">
-            <h2>Feature 3</h2>
-	    <img src="{{ url_for('static', filename='images/rsvp.png') }}" alt="Feature 1 Image">
-            <p>RSVP feature where anyone can be RSVP</p>
-        </div>
-    </section>
-
     <!-- About Section -->
     <section id="section2" class="about">
         <div>
             <h2>About the Party with Me Project</h2>
-            <p>Description of what inspired the Party with Me project was seeing the way the world has changed, everyone uses an uber to get to their destination, basically their invite strangers to their life , why not invite them to party with you...</p>
+            <p>The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
         </div>
         <div class="team-members">
             <!-- Include LinkedIn, GitHub, and Twitter links for each team member -->
