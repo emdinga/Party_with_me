@@ -47,14 +47,8 @@ def create_event():
 
 @app.route('/event-created')
 def event_created():
-    """Return events created"""
     events = Event.query.all()
-
-    """ Fetch RSVP counts for each event """
-    rsvps_count = {}
-    for event in events:
-        rsvps_count[event.id] = RSVP.query.filter_by(event_id=event.id).count()
-
+    rsvps_count = {event.id: RSVP.query.filter_by(event_id=event.id).count() for event in events}
     return render_template('event_created.html', events=events, rsvps_count=rsvps_count, title=g.get('title'))
 
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])

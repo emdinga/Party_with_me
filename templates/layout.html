@@ -22,10 +22,10 @@
       <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
       <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
       <li><a href="{{ url_for('event_created') }}" class="btn">Event Created</a></li>
-      {% if 'title' in g %}
-        <li><a href="{{ url_for('rsvp', title=g.title) }}" class="btn">RSVP</a></li>
+      {% if title %}
+      <li><a href="{{ url_for('rsvp', title=title) }}" class="btn">RSVP</a></li>
       {% else %}
-        <li><a href="{{ url_for('rsvp') }}" class="btn">RSVP</a></li>
+      <li><a href="#" class="btn" aria-disabled="true">RSVP</a></li>
       {% endif %}
     </ul>
   </nav>
