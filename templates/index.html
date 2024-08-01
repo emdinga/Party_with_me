@@ -3,36 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Party with Me - Connect, Create, Celebrate</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .flashing-logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink {
-            0% { color: red; }
-            25% { color: blue; }
-            50% { color: green; }
-            75% { color: yellow; }
-            100% { color: red; }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
+
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <h1 class="flashing-logo">Party with Me</h1>
         </div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="login.html">Login</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
         </nav>
     </header>
 
+    <!-- Main Content -->
     <main>
         <section class="card">
             <header>
@@ -40,22 +31,22 @@
             </header>
             <div class="party-images">
                 <div class="image-slider">
-                    <img src="images/party1.jpg" alt="Party Image 1">
-                    <img src="images/party2.jpg" alt="Party Image 2">
-                    <img src="images/party3.jpg" alt="Party Image 3">
-                    <img src="images/party4.jpg" alt="Party Image 4">
+                    <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
+                    <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
+                    <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
+                    <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
                 </div>
             </div>
             <button class="see-more-btn" onclick="toggleSeeMore()">See More</button>
-            <div class="see-more">
+            <div class="see-more" style="display: none;">
                 <section class="future-events">
                     <h2>Future Events</h2>
                     <div class="event">
-                        <img src="images/event1.jpg" alt="Event 1">
+                        <img src="{{ url_for('static', filename='images/event1.jpg') }}" alt="Event 1">
                         <p>Summer Fiesta - August 2024</p>
                     </div>
                     <div class="event">
-                        <img src="images/event2.jpg" alt="Event 2">
+                        <img src="{{ url_for('static', filename='images/event2.jpg') }}" alt="Event 2">
                         <p>Winter Wonderland - December 2024</p>
                     </div>
                 </section>
@@ -72,6 +63,7 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Party with Me. All rights reserved.</p>
     </footer>
