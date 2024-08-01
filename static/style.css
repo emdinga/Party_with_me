@@ -25,11 +25,12 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 .logo h1 {
     font-family: 'Pacifico', cursive;
-    font-size: 2rem;
+    font-size: 1.8rem; /* Adjusted for better fit */
     margin: 0;
     animation: blink 1.5s infinite;
 }
@@ -43,6 +44,7 @@ body {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 1rem; /* Adjust font size as needed */
 }
 
 .auth-links a:hover {
@@ -69,11 +71,11 @@ body {
 .card {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 20px 40px;
+    padding: 20px 30px; /* Adjusted padding */
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 800px;
+    max-width: 600px; /* Adjusted for better fit on larger screens */
 }
 
 .card header p {
@@ -100,8 +102,8 @@ body {
     padding: 20px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    width: 80%;
-    max-width: 800px;
+    width: 90%;
+    max-width: 600px; /* Adjusted for better fit on larger screens */
     text-align: center;
 }
 
@@ -118,4 +120,57 @@ body {
     font-size: 0.9rem;
     margin-top: 20px;
     color: #ddd;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .auth-links {
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .auth-links a {
+        font-size: 0.9rem;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .party-images img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .about {
+        padding: 15px;
+    }
+
+    .about .content h2 {
+        font-size: 1.3rem;
+    }
+
+    .about .content p {
+        font-size: 0.9rem;
+    }
+
+    .about .empowered-by p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .card {
+        width: 80%;
+    }
 }
