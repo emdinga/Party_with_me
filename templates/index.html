@@ -18,6 +18,7 @@
         <div class="auth-links">
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('signup') }}">Sign Up</a>
+            <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
         </div>
     </header>
 
@@ -36,6 +37,32 @@
         </div>
     </section>
 
+    <!-- Featured Parties Section -->
+    <section id="featured-parties" class="featured-parties">
+        <h2>Featured Parties</h2>
+        <div class="featured-party">
+            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Featured Party 1">
+            <p>Summer Fiesta - August 2024</p>
+        </div>
+        <div class="featured-party">
+            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Featured Party 2">
+            <p>Winter Wonderland - December 2024</p>
+        </div>
+        <!-- Add more featured parties here -->
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Users Are Saying</h2>
+        <div class="testimonial">
+            <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+        </div>
+        <div class="testimonial">
+            <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+        </div>
+        <!-- Add more testimonials here -->
+    </section>
+
     <!-- About Section -->
     <section id="about" class="about">
         <div class="content">
@@ -47,6 +74,23 @@
             <p>Disclaimer: This is a demo application for educational purposes.</p>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="social-media">
+            <a href="https://facebook.com/emdinga" target="_blank" class="social-link">Facebook</a>
+            <a href="https://twitter.com/emdinga" target="_blank" class="social-link">Twitter</a>
+            <a href="https://instagram.com/emdinga" target="_blank" class="social-link">Instagram</a>
+            <!-- Add more social media links here -->
+        </div>
+        <div class="footer-links">
+            <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
+            <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+        </div>
+        <div class="footer-note">
+            <p>&copy; 2024 Party with Me. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>

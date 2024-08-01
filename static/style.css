@@ -100,8 +100,8 @@ body {
 }
 
 .party-images img {
-    width: 180px; /* Larger images */
-    height: 180px;
+    width: 250px; /* Larger images */
+    height: 250px;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -112,37 +112,129 @@ body {
     100% { transform: translateX(-100%); }
 }
 
-/* About Section */
-.about {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
+/* Featured Parties Section */
+.featured-parties {
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
+    padding: 20px;
     width: 90%;
     max-width: 1000px; /* Increased for larger screens */
     text-align: center;
+    margin: 40px 0;
 }
 
-.about .content {
+.featured-parties h2 {
+    font-size: 2rem;
     margin-bottom: 20px;
 }
 
-.about .content h2 {
-    font-size: 1.8rem; /* Increased font size */
-    margin-bottom: 10px;
+.featured-party {
+    margin-bottom: 20px;
 }
 
-.about .content p {
-    font-size: 1.1rem; /* Slightly larger text */
+.featured-party img {
+    width: 250px; /* Larger images */
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
-.about .empowered-by {
+.featured-party p {
+    font-size: 1.2rem;
     margin-top: 10px;
 }
 
+/* Testimonials Section */
+.testimonials {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 1000px; /* Increased for larger screens */
+    text-align: center;
+    margin: 40px 0;
+}
+
+.testimonials h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.testimonial {
+    margin-bottom: 20px;
+}
+
+.testimonial p {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+/* About Section */
+.about {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 1000px; /* Increased for larger screens */
+    text-align: center;
+    margin: 40px 0;
+}
+
+.about .content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.about .content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
 .about .empowered-by p {
-    font-size: 1rem; /* Adjusted font size */
+    font-size: 1rem;
     color: #ddd;
+}
+
+/* Footer */
+.footer {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+.social-media {
+    margin-bottom: 10px;
+}
+
+.social-media .social-link {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1rem;
+}
+
+.social-media .social-link:hover {
+    text-decoration: underline;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1rem;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-note {
+    margin-top: 10px;
 }
 
 /* Responsive Adjustments */
@@ -173,6 +265,15 @@ body {
     .party-images img {
         width: 120px;
         height: 120px;
+    }
+
+    .featured-parties img {
+        width: 200px;
+        height: 120px;
+    }
+
+    .testimonials p {
+        font-size: 1rem;
     }
 
     .about {
