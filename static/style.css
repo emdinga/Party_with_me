@@ -31,18 +31,24 @@ body {
     font-family: 'Pacifico', cursive;
     font-size: 2rem;
     margin: 0;
+    animation: blink 1.5s infinite;
+}
+
+.auth-links {
+    display: flex;
+    gap: 15px;
 }
 
 .auth-links a {
     color: white;
     text-decoration: none;
-    margin-left: 20px;
     font-weight: bold;
 }
 
 .auth-links a:hover {
     text-decoration: underline;
 }
+
 /* Animation for blinking effect */
 @keyframes blink {
     0% { opacity: 1; }
@@ -66,6 +72,8 @@ body {
     padding: 20px 40px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
 }
 
 .card header p {
@@ -73,16 +81,16 @@ body {
     margin-bottom: 20px;
 }
 
-.card .party-images {
+.party-images {
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
     justify-content: center;
 }
 
-.card .party-images img {
+.party-images img {
     width: 100px;
     height: 100px;
-    margin: 10px;
     border-radius: 10px;
 }
 
