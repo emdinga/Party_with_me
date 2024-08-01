@@ -48,7 +48,6 @@
             <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Featured Party 2">
             <p>Winter Wonderland - December 2024</p>
         </div>
-        <!-- Add more featured parties here -->
     </section>
 
     <!-- Testimonials Section -->
@@ -60,7 +59,6 @@
         <div class="testimonial">
             <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
         </div>
-        <!-- Add more testimonials here -->
     </section>
 
     <!-- About Section -->
@@ -81,16 +79,72 @@
             <a href="https://facebook.com/emdinga" target="_blank" class="social-link">Facebook</a>
             <a href="https://twitter.com/emdinga" target="_blank" class="social-link">Twitter</a>
             <a href="https://instagram.com/emdinga" target="_blank" class="social-link">Instagram</a>
-            <!-- Add more social media links here -->
         </div>
         <div class="footer-links">
-            <a href="{{ url_for('terms_of_service') }}">Terms of Service</a>
-            <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>
+            <a href="#terms-modal" class="footer-link" data-modal="terms">Terms of Service</a>
+            <a href="#privacy-modal" class="footer-link" data-modal="privacy">Privacy Policy</a>
         </div>
         <div class="footer-note">
             <p>&copy; 2024 Party with Me. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Modal Structure -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-close="terms">&times;</span>
+            <h2>Terms of Service</h2>
+            <p><strong>1. Acceptance of Terms</strong><br>
+            By using our application, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you should not use our service.</p>
+            <p><strong>2. Changes to Terms</strong><br>
+            We reserve the right to modify these terms at any time. Any changes will be posted on this page, and it is your responsibility to review these terms regularly.</p>
+            <p><strong>3. User Responsibilities</strong><br>
+            - You agree to use the application only for lawful purposes.<br>
+            - You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account.<br>
+            - You agree not to use the application to harass, abuse, or harm other users.</p>
+            <p><strong>4. Intellectual Property</strong><br>
+            All content, including text, images, and software, on this application is the property of Party With Me or its licensors and is protected by intellectual property laws.</p>
+            <p><strong>5. Limitation of Liability</strong><br>
+            Our application is provided on an "as is" and "as available" basis. We are not responsible for any damages resulting from your use or inability to use the application.</p>
+            <p><strong>6. Termination</strong><br>
+            We may terminate or suspend your access to the application at our sole discretion, without notice, for conduct that we believe violates these terms.</p>
+            <p><strong>7. Governing Law</strong><br>
+            These Terms of Service are governed by the laws of South Africa. Any disputes arising from these terms will be handled in the courts of [Your State/Country].</p>
+            <p><strong>8. Contact Us</strong><br>
+            If you have any questions about these Terms of Service, please contact us at emdinga@gmail.com.</p>
+        </div>
+    </div>
+
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-close="privacy">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p><strong>1. Introduction</strong><br>
+            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. By using our application, you consent to our collection and use of your information as described in this policy.</p>
+            <p><strong>2. Information We Collect</strong><br>
+            - <strong>Personal Information</strong>: We may collect personal information such as your name, email address, and contact details.<br>
+            - <strong>Usage Data</strong>: We collect information about your use of the application, including IP addresses, browser types, and access times.<br>
+            - <strong>Cookies and Tracking Technologies</strong>: We use cookies and similar technologies to enhance your experience and gather usage data.</p>
+            <p><strong>3. How We Use Your Information</strong><br>
+            - To provide and maintain our application.<br>
+            - To communicate with you, including sending updates and promotional materials.<br>
+            - To improve our application and services.</p>
+            <p><strong>4. Sharing Your Information</strong><br>
+            We do not sell, trade, or otherwise transfer your personal information to outside parties except as described in this policy. We may share your information with:<br>
+            - <strong>Service Providers</strong>: Third parties who assist us in operating our application and services.<br>
+            - <strong>Legal Requirements</strong>: When required by law or to protect our rights.</p>
+            <p><strong>5. Security</strong><br>
+            We implement reasonable security measures to protect your information from unauthorized access and disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.</p>
+            <p><strong>6. Your Choices</strong><br>
+            You can opt out of receiving promotional communications from us by following the instructions in those communications. You may also request access to, correction of, or deletion of your personal information.</p>
+            <p><strong>7. Changes to This Privacy Policy</strong><br>
+            We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.</p>
+            <p><strong>8. Contact Us</strong><br>
+            If you have any questions or concerns about this Privacy Policy, please contact us at emdinga@gmail.com.</p>
+        </div>
+    </div>
+    
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
