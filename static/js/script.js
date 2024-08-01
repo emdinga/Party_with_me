@@ -1,24 +1,37 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Open modals
-    document.querySelectorAll('.footer-link').forEach(link => {
-        link.addEventListener('click', (event) => {
-            const modalId = event.target.getAttribute('data-modal') + '-modal';
-            document.getElementById(modalId).style.display = 'flex';
+// static/js/scripts.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to open a modal
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Function to close a modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Open Terms of Service modal
+    document.querySelector('[data-open="terms"]').addEventListener('click', function() {
+        openModal('terms-modal');
+    });
+
+    // Open Privacy Policy modal
+    document.querySelector('[data-open="privacy"]').addEventListener('click', function() {
+        openModal('privacy-modal');
+    });
+
+    // Close modals when clicking on the close button
+    document.querySelectorAll('.close-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            closeModal(button.getAttribute('data-close'));
         });
     });
 
-    // Close modals
-    document.querySelectorAll('.close-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const modal = button.closest('.modal');
-            modal.style.display = 'none';
-        });
-    });
-
-    // Close modals when clicking outside of the modal
-    window.addEventListener('click', (event) => {
+    // Close modals when clicking outside of the modal content
+    window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
+            closeModal(event.target.id);
         }
     });
 });
+

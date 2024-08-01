@@ -1,257 +1,118 @@
-/* General Styles */
+/* style.css */
 body {
-    margin: 0;
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red), black;
-    background-blend-mode: overlay;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, black, #1a1a1a);
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Ensures full viewport height */
-    overflow-x: hidden; /* Prevents horizontal scroll */
-    padding: 0 20px; /* Adds some padding on the sides */
 }
 
-/* Header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 15px 30px;
-    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
+    width: 100%;
     top: 0;
-    left: 0;
     z-index: 1000;
-    box-sizing: border-box;
-}
-
-.logo {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
 }
 
 .logo h1 {
     font-family: 'Pacifico', cursive;
-    font-size: 2.5rem; /* Larger font size */
-    margin: 0;
+    font-size: 2em;
+    color: white;
     animation: blink 1.5s infinite;
 }
 
-.auth-links {
-    display: flex;
-    gap: 15px;
-}
-
 .auth-links a {
+    margin-left: 15px;
     color: white;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
 }
 
 .auth-links a:hover {
     text-decoration: underline;
 }
 
-/* Animation for blinking effect */
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-/* Main Content */
 .main-content {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%; /* Utilizes full width */
-    min-height: calc(100vh - 60px); /* Adjust height considering the fixed header */
-    text-align: center;
-    margin-top: 60px; /* Avoid content hiding under the fixed header */
+    align-items: center;
+    height: 100vh;
+    padding-top: 60px; /* Adjust for header height */
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.8);
     border-radius: 15px;
     padding: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 1000px; /* Increased for larger screens */
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
 }
 
-.card header p {
-    font-size: 1.5rem; /* Larger text for better visibility */
-    margin-bottom: 20px;
-}
-
-.party-images {
+.image-slider {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    animation: slide 20s linear infinite;
-}
-
-.party-images img {
-    width: 250px; /* Larger images */
-    height: 250px;
-    border-radius: 10px;
-    object-fit: cover;
-}
-
-/* Image sliding animation */
-@keyframes slide {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-/* Featured Parties Section */
-.featured-parties {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 1000px; /* Increased for larger screens */
-    text-align: center;
-    margin: 40px 0;
-}
-
-.featured-parties h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.featured-party {
-    margin-bottom: 20px;
-}
-
-.featured-party img {
-    width: 300px; /* Larger images */
-    height: 200px;
-    border-radius: 10px;
-}
-
-.featured-party p {
-    font-size: 1.2rem;
-}
-
-/* Testimonials Section */
-.testimonials {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 1000px; /* Increased for larger screens */
-    text-align: center;
-    margin: 40px 0;
-}
-
-.testimonials h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.testimonial {
-    margin-bottom: 20px;
-}
-
-.testimonial p {
-    font-size: 1.2rem;
-    font-style: italic;
-}
-
-/* About Section */
-.about {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 1000px; /* Increased for larger screens */
-    text-align: center;
-    margin: 40px 0;
-}
-
-.about .content h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.about .content p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-}
-
-.about .empowered-by p {
-    font-size: 1rem;
-    color: #ddd;
-}
-
-/* Footer */
-.footer {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
+    overflow: hidden;
     width: 100%;
+    animation: scroll 20s linear infinite;
+}
+
+.image-slider img {
+    width: 100%;
+    flex-shrink: 0;
+    border-radius: 15px;
+}
+
+.about .content {
+    margin-top: 30px;
+    padding: 20px;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    box-sizing: border-box;
 }
 
-.social-media {
-    margin-bottom: 10px;
+.about h2 {
+    font-family: 'Pacifico', cursive;
 }
 
-.social-media .social-link {
+.about p {
+    font-size: 1.2em;
+}
+
+.empowered-by {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer-links,
+.social-links {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.footer-links a,
+.social-links a {
+    margin: 0 10px;
     color: white;
     text-decoration: none;
-    margin: 0 10px;
-    font-size: 1rem;
 }
 
-.social-media .social-link:hover {
+.footer-links a:hover,
+.social-links a:hover {
     text-decoration: underline;
 }
 
-.footer-links {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 1rem;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-.footer-note {
-    margin-top: 10px;
-}
-
-/* Modal Styles */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Sit on top */
+    z-index: 1001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.8); /* Black with opacity */
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -260,8 +121,9 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 600px;
+    max-width: 500px;
     border-radius: 10px;
+    color: black;
 }
 
 .close-button {
@@ -278,58 +140,20 @@ body {
     cursor: pointer;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 20px;
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
     }
-
-    .logo h1 {
-        font-size: 2rem;
+    50% {
+        opacity: 0;
     }
+}
 
-    .auth-links {
-        margin-top: 10px;
-        gap: 10px;
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
     }
-
-    .auth-links a {
-        font-size: 0.9rem;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    .party-images img {
-        width: 120px;
-        height: 120px;
-    }
-
-    .featured-parties img {
-        width: 200px;
-        height: 120px;
-    }
-
-    .testimonials p {
-        font-size: 1rem;
-    }
-
-    .about {
-        padding: 15px;
-    }
-
-    .about .content h2 {
-        font-size: 1.5rem;
-    }
-
-    .about .content p {
-        font-size: 1rem;
-    }
-
-    .about .empowered-by p {
-        font-size: 0.9rem;
+    100% {
+        transform: translateX(-100%);
     }
 }
