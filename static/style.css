@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red), black;
     background-blend-mode: overlay;
     color: white;
@@ -23,8 +23,10 @@ body {
     background: rgba(0, 0, 0, 0.7);
 }
 
-.logo img {
-    width: 100px;
+.logo h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    margin: 0;
 }
 
 .auth-links a {
@@ -56,27 +58,22 @@ body {
 }
 
 .card header h1 {
+    font-family: 'Pacifico', cursive;
     font-size: 3rem;
     margin-bottom: 10px;
+    animation: fadeInOut 3s infinite;
 }
 
 .card header p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-bottom: 20px;
 }
 
-.card .btn {
-    background-color: #ff4081;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 1.2rem;
-}
-
-.card .btn:hover {
-    background-color: #e91e63;
+.card .party-images img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border-radius: 10px;
 }
 
 /* About Section */
@@ -91,16 +88,22 @@ body {
 }
 
 .about .content h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
 .about .content p {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .about .empowered-by p {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-top: 20px;
     color: #ddd;
+}
+
+/* Animation */
+@keyframes fadeInOut {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }

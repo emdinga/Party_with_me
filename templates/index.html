@@ -6,13 +6,14 @@
     <base href="/">
     <title>Party with Me - Connect, Create, Celebrate</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- Top Navigation -->
     <nav class="top-nav">
         <div class="logo">
-            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Party with Me Logo">
+            <h1>Party with Me</h1>
         </div>
         <div class="auth-links">
             <a href="{{ url_for('login') }}">Login</a>
@@ -25,10 +26,15 @@
     <section class="main-content">
         <div class="card">
             <header>
-                <h1>PARTY WITH ME</h1>
+                <h1 class="animated-text">PARTY WITH ME</h1>
                 <p>Connect with friends, create memorable events, and celebrate together!</p>
-                <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
             </header>
+            <div class="party-images">
+                <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
+                <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
+                <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
+                <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+            </div>
         </div>
     </section>
 
