@@ -4,6 +4,8 @@
     --secondary-color: #ffd700;
     --background-color: #000;
     --text-color: #fff;
+    --card-bg-color: rgba(255, 255, 255, 0.1);
+    --card-border-color: rgba(255, 255, 255, 0.2);
 }
 
 body {
@@ -11,15 +13,11 @@ body {
     font-family: 'Roboto', sans-serif;
     background: var(--background-color);
     color: var(--text-color);
-}
-
-.header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 10px 20px;
-    background: #333;
-    color: var(--text-color);
+    height: 100vh;
+    padding: 20px;
 }
 
 .header .logo h1 {
@@ -36,33 +34,58 @@ body {
     100% { color: red; }
 }
 
-nav a {
-    margin-left: 20px;
-    color: var(--text-color);
+.card {
+    background: var(--card-bg-color);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid var(--card-border-color);
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-message h1 {
+    font-family: 'Pacifico', cursive;
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    font-size: 1.2em;
+    color: var(--secondary-color);
+}
+
+.testimonials {
+    margin-top: 20px;
+}
+
+.testimonials h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.testimonial {
+    background: var(--background-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.see-more-link {
+    display: block;
+    margin-top: 20px;
+    color: var(--primary-color);
     text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
     transition: color 0.3s;
 }
 
-nav a:hover {
-    color: var(--primary-color);
-}
-
-.main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 800px;
-    margin: 20px 0;
+.see-more-link:hover {
+    color: var(--secondary-color);
 }
 
 .image-slider {
@@ -87,26 +110,12 @@ nav a:hover {
     }
 }
 
-.see-more-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.see-more-btn:hover {
-    background-color: var(--secondary-color);
-}
-
 .footer {
     background: #333;
     color: var(--text-color);
     text-align: center;
     padding: 20px;
+    margin-top: 20px;
 }
 
 .social-media a, .footer-links a {

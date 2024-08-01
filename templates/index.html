@@ -11,33 +11,23 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <h1 class="flashing-logo">Party with Me</h1>
-        </div>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/login">Login</a>
-        </nav>
-    </header>
-
     <!-- Main Content -->
     <main class="main-content">
         <section class="card">
-            <header>
+            <div class="welcome-message">
+                <h1>Welcome to Party with Me</h1>
                 <p>Connect with friends, create memorable events, and celebrate together!</p>
-            </header>
-            <div class="party-images">
-                <div class="image-slider">
-                    <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-                    <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-                    <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-                    <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+            </div>
+            <div class="testimonials">
+                <h2>What Our Users Are Saying</h2>
+                <div class="testimonial">
+                    <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+                </div>
+                <div class="testimonial">
+                    <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
                 </div>
             </div>
-            <button class="see-more-btn" onclick="toggleSeeMore()">See More</button>
+            <a href="#" class="see-more-link" onclick="toggleSeeMore()">See More</a>
             <div class="see-more" style="display: none;">
                 <section class="future-events">
                     <h2>Future Events</h2>
@@ -50,15 +40,14 @@
                         <p>Winter Wonderland - December 2024</p>
                     </div>
                 </section>
-                <section class="testimonials">
-                    <h2>What Our Users Are Saying</h2>
-                    <div class="testimonial">
-                        <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+                <div class="party-images">
+                    <div class="image-slider">
+                        <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
+                        <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
+                        <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
+                        <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
                     </div>
-                    <div class="testimonial">
-                        <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
-                    </div>
-                </section>
+                </div>
             </div>
         </section>
     </main>
@@ -76,13 +65,13 @@
     <script>
         function toggleSeeMore() {
             const seeMoreSection = document.querySelector('.see-more');
-            const button = document.querySelector('.see-more-btn');
+            const link = document.querySelector('.see-more-link');
             if (seeMoreSection.style.display === 'block') {
                 seeMoreSection.style.display = 'none';
-                button.textContent = 'See More';
+                link.textContent = 'See More';
             } else {
                 seeMoreSection.style.display = 'block';
-                button.textContent = 'See Less';
+                link.textContent = 'See Less';
             }
         }
     </script>
