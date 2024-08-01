@@ -17,6 +17,7 @@ body {
 .header .logo h1 {
     font-family: 'Pacifico', cursive;
     margin: 0;
+    animation: blink 1s infinite;
 }
 
 .auth-links a {
@@ -54,7 +55,7 @@ body {
 }
 
 .image-slider img {
-    width: 100%;
+    width: 80%;
     height: auto;
     display: inline-block;
 }
@@ -87,13 +88,19 @@ body {
     margin: 10px 0;
 }
 
+.featured-party img {
+    width: 70%;
+    height: auto;
+    display: inline-block;
+}
+
 .about {
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
 
 .about .content {
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 .footer {

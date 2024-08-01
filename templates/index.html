@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <style>
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .logo h1 {
+            animation: blink 1s infinite;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,7 +28,6 @@
         <div class="auth-links">
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('signup') }}">Sign Up</a>
-            <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
         </div>
     </header>
 
@@ -73,10 +81,8 @@
         <div class="content">
             <h2>About the Party with Me Project</h2>
             <p class="small-text">The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
-        </div>
-        <div class="empowered-by">
-            <p>Since 2023, empowered by Emdinga Mbhamali</p>
-            <p>Disclaimer: This is a demo application for educational purposes.</p>
+            <p class="small-text">Since 2023, empowered by Emdinga Mbhamali</p>
+            <p class="small-text">Disclaimer: This is a demo application for educational purposes.</p>
         </div>
     </section>
 
@@ -88,8 +94,8 @@
             <a href="https://instagram.com/emdinga" target="_blank" class="social-link">Instagram</a>
         </div>
         <div class="footer-links">
-            <a href="#" class="footer-link" data-modal="terms">Terms of Service</a>
-            <a href="#" class="footer-link" data-modal="privacy">Privacy Policy</a>
+            <a href="terms-modal" class="footer-link" data-modal="terms">Terms of Service</a>
+            <a href="privacy-modal" class="footer-link" data-modal="privacy">Privacy Policy</a>
         </div>
         <div class="footer-note">
             <p>&copy; 2024 Party with Me. All rights reserved.</p>
@@ -137,8 +143,8 @@
             - To communicate with you, including sending updates and promotional materials.<br>
             - To improve our application and services.</p>
             <p><strong>4. Sharing Your Information</strong><br>
-            We do not sell, trade, or otherwise transfer your personal information to outside parties except as described in this policy. We may share your information with:<br>
-            - <strong>Service Providers</strong>: Third parties who assist us in operating our application and services.<br>
+            We do not sell, trade, or otherwise transfer your personal information to outside parties, except as described below:<br>
+            - <strong>Service Providers</strong>: We may share your information with third-party service providers who assist us in operating our application.<br>
             - <strong>Legal Requirements</strong>: When required by law or to protect our rights.</p>
             <p><strong>5. Security</strong><br>
             We implement reasonable security measures to protect your information from unauthorized access and disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.</p>
