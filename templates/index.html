@@ -8,48 +8,41 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Introduction Section -->
-    <section class="intro">
-        <div class="header">
-            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image" class="header-image">
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Party with Me Logo">
         </div>
-        <header>
-            <h1>PARTY WITH ME</h1>
-            <p>Connect with friends, create memorable events, and celebrate together!</p>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('signup') }}" class="btn">Sign Up</a></li>
-                    <li><a href="{{ url_for('login') }}" class="btn">Login</a></li>
-                    <li><a href="{{ url_for('forgot_password') }}" class="btn">Forgot Password</a></li>
-                </ul>
-            </nav>
-        </header>
-        <div class="moving-images">
-            <!-- Add your moving party images here -->
-            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-            <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-            <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+        <div class="auth-links">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+            <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="card">
+            <header>
+                <h1>PARTY WITH ME</h1>
+                <p>Connect with friends, create memorable events, and celebrate together!</p>
+                <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
+            </header>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="section2" class="about">
-        <div>
+    <section id="about" class="about">
+        <div class="content">
             <h2>About the Party with Me Project</h2>
             <p>The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
-        </div>
-        <div class="team-members">
-            <!-- Include LinkedIn, GitHub, and Twitter links for each team member -->
-            <div class="member">
-                <h3>Emdinga Mbhamali</h3>
-                <a href="https://linkedin.com/emdinga" target="_blank">LinkedIn</a>
-            </div>
         </div>
         <div class="empowered-by">
             <p>Since 2023, empowered by Emdinga Mbhamali</p>
             <p>Disclaimer: This is a demo application for educational purposes.</p>
         </div>
     </section>
+
 </body>
 </html>
