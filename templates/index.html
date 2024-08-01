@@ -3,159 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
     <title>Party with Me - Connect, Create, Celebrate</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <link rel="stylesheet" href="style.css">
     <style>
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .card {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        .logo h1 {
-            animation: blink 1s infinite;
+        .see-more {
+            display: none;
+        }
+        .see-more-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .see-more-btn:hover {
+            background-color: #0056b3;
+        }
+        .flashing-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { color: red; }
+            25% { color: blue; }
+            50% { color: green; }
+            75% { color: yellow; }
+            100% { color: red; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
         <div class="logo">
-            <h1>Party with Me</h1>
+            <h1 class="flashing-logo">Party with Me</h1>
         </div>
-        <div class="auth-links">
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('signup') }}">Sign Up</a>
-        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <section class="main-content">
-        <div class="card">
+    <main>
+        <section class="card">
             <header>
                 <p>Connect with friends, create memorable events, and celebrate together!</p>
             </header>
             <div class="party-images">
                 <div class="image-slider">
-                    <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-                    <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-                    <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-                    <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
-                    <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-                    <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-                    <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-                    <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+                    <img src="images/party1.jpg" alt="Party Image 1">
+                    <img src="images/party2.jpg" alt="Party Image 2">
+                    <img src="images/party3.jpg" alt="Party Image 3">
+                    <img src="images/party4.jpg" alt="Party Image 4">
                 </div>
             </div>
-        </div>
-    </section>
+            <button class="see-more-btn" onclick="toggleSeeMore()">See More</button>
+            <div class="see-more">
+                <section class="future-events">
+                    <h2>Future Events</h2>
+                    <div class="event">
+                        <img src="images/event1.jpg" alt="Event 1">
+                        <p>Summer Fiesta - August 2024</p>
+                    </div>
+                    <div class="event">
+                        <img src="images/event2.jpg" alt="Event 2">
+                        <p>Winter Wonderland - December 2024</p>
+                    </div>
+                </section>
+                <section class="testimonials">
+                    <h2>What Our Users Are Saying</h2>
+                    <div class="testimonial">
+                        <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+                    </div>
+                    <div class="testimonial">
+                        <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
 
-    <!-- Featured Parties and Testimonials Section -->
-    <section id="featured-testimonials" class="featured-testimonials">
-        <div class="featured-parties">
-            <h2>Featured Parties</h2>
-            <div class="featured-party">
-                <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Featured Party 1">
-                <p>Summer Fiesta - August 2024</p>
-            </div>
-            <div class="featured-party">
-                <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Featured Party 2">
-                <p>Winter Wonderland - December 2024</p>
-            </div>
-        </div>
-        <div class="testimonials">
-            <h2>What Our Users Are Saying</h2>
-            <div class="testimonial">
-                <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
-            </div>
-            <div class="testimonial">
-                <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="content">
-            <h2>About the Party with Me Project</h2>
-            <p class="small-text">The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
-            <p class="small-text">Since 2023, empowered by Emdinga Mbhamali</p>
-            <p class="small-text">Disclaimer: This is a demo application for educational purposes.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="social-media">
-            <a href="https://facebook.com/emdinga" target="_blank" class="social-link">Facebook</a>
-            <a href="https://twitter.com/emdinga" target="_blank" class="social-link">Twitter</a>
-            <a href="https://instagram.com/emdinga" target="_blank" class="social-link">Instagram</a>
-        </div>
-        <div class="footer-links">
-            <a href="terms-modal" class="footer-link" data-modal="terms">Terms of Service</a>
-            <a href="privacy-modal" class="footer-link" data-modal="privacy">Privacy Policy</a>
-        </div>
-        <div class="footer-note">
-            <p>&copy; 2024 Party with Me. All rights reserved.</p>
-        </div>
+    <footer>
+        <p>&copy; 2024 Party with Me. All rights reserved.</p>
     </footer>
 
-    <!-- Modal Structure -->
-    <div id="terms-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" data-close="terms">&times;</span>
-            <h2>Terms of Service</h2>
-            <p><strong>1. Acceptance of Terms</strong><br>
-            By using our application, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you should not use our service.</p>
-            <p><strong>2. Changes to Terms</strong><br>
-            We reserve the right to modify these terms at any time. Any changes will be posted on this page, and it is your responsibility to review these terms regularly.</p>
-            <p><strong>3. User Responsibilities</strong><br>
-            - You agree to use the application only for lawful purposes.<br>
-            - You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account.<br>
-            - You agree not to use the application to harass, abuse, or harm other users.</p>
-            <p><strong>4. Intellectual Property</strong><br>
-            All content, including text, images, and software, on this application is the property of Party With Me or its licensors and is protected by intellectual property laws.</p>
-            <p><strong>5. Limitation of Liability</strong><br>
-            Our application is provided on an "as is" and "as available" basis. We are not responsible for any damages resulting from your use or inability to use the application.</p>
-            <p><strong>6. Termination</strong><br>
-            We may terminate or suspend your access to the application at our sole discretion, without notice, for conduct that we believe violates these terms.</p>
-            <p><strong>7. Governing Law</strong><br>
-            These Terms of Service are governed by the laws of South Africa. Any disputes arising from these terms will be handled in the courts of [Your State/Country].</p>
-            <p><strong>8. Contact Us</strong><br>
-            If you have any questions about these Terms of Service, please contact us at emdinga@gmail.com.</p>
-        </div>
-    </div>
-
-    <div id="privacy-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" data-close="privacy">&times;</span>
-            <h2>Privacy Policy</h2>
-            <p><strong>1. Introduction</strong><br>
-            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. By using our application, you consent to our collection and use of your information as described in this policy.</p>
-            <p><strong>2. Information We Collect</strong><br>
-            - <strong>Personal Information</strong>: We may collect personal information such as your name, email address, and contact details.<br>
-            - <strong>Usage Data</strong>: We collect information about your use of the application, including IP addresses, browser types, and access times.<br>
-            - <strong>Cookies and Tracking Technologies</strong>: We use cookies and similar technologies to enhance your experience and gather usage data.</p>
-            <p><strong>3. How We Use Your Information</strong><br>
-            - To provide and maintain our application.<br>
-            - To communicate with you, including sending updates and promotional materials.<br>
-            - To improve our application and services.</p>
-            <p><strong>4. Sharing Your Information</strong><br>
-            We do not sell, trade, or otherwise transfer your personal information to outside parties, except as described below:<br>
-            - <strong>Service Providers</strong>: We may share your information with third-party service providers who assist us in operating our application.<br>
-            - <strong>Legal Requirements</strong>: When required by law or to protect our rights.</p>
-            <p><strong>5. Security</strong><br>
-            We implement reasonable security measures to protect your information from unauthorized access and disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.</p>
-            <p><strong>6. Your Choices</strong><br>
-            You can opt out of receiving promotional communications from us by following the instructions in those communications. You may also request access to, correction of, or deletion of your personal information.</p>
-            <p><strong>7. Changes to This Privacy Policy</strong><br>
-            We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.</p>
-            <p><strong>8. Contact Us</strong><br>
-            If you have any questions or concerns about this Privacy Policy, please contact us at emdinga@gmail.com.</p>
-        </div>
-    </div>
-
+    <script>
+        function toggleSeeMore() {
+            const seeMoreSection = document.querySelector('.see-more');
+            const button = document.querySelector('.see-more-btn');
+            if (seeMoreSection.style.display === 'block') {
+                seeMoreSection.style.display = 'none';
+                button.textContent = 'See More';
+            } else {
+                seeMoreSection.style.display = 'block';
+                button.textContent = 'See Less';
+            }
+        }
+    </script>
 </body>
 </html>
