@@ -1,37 +1,26 @@
-// static/js/scripts.js
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to open a modal
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const modalLinks = document.querySelectorAll('[data-modal]');
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close-button');
 
-    // Function to close a modal
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Open Terms of Service modal
-    document.querySelector('[data-open="terms"]').addEventListener('click', function() {
-        openModal('terms-modal');
-    });
-
-    // Open Privacy Policy modal
-    document.querySelector('[data-open="privacy"]').addEventListener('click', function() {
-        openModal('privacy-modal');
-    });
-
-    // Close modals when clicking on the close button
-    document.querySelectorAll('.close-button').forEach(function(button) {
-        button.addEventListener('click', function() {
-            closeModal(button.getAttribute('data-close'));
+    modalLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const modalId = link.getAttribute('data-modal') + '-modal';
+            document.getElementById(modalId).style.display = 'flex';
         });
     });
 
-    // Close modals when clicking outside of the modal content
-    window.addEventListener('click', function(event) {
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.closest('.modal').style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', (event) => {
         if (event.target.classList.contains('modal')) {
-            closeModal(event.target.id);
+            event.target.style.display = 'none';
         }
     });
-});
+})
 

@@ -19,6 +19,7 @@
         <div class="auth-links">
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('signup') }}">Sign Up</a>
+            <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
         </div>
     </header>
 
@@ -43,27 +44,27 @@
         </div>
     </section>
 
-    <!-- Featured Parties Section -->
-    <section id="featured-parties" class="featured-parties">
-        <h2>Featured Parties</h2>
-        <div class="featured-party">
-            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Featured Party 1">
-            <p>Summer Fiesta - August 2024</p>
+    <!-- Featured Parties and Testimonials Section -->
+    <section id="featured-testimonials" class="featured-testimonials">
+        <div class="featured-parties">
+            <h2>Featured Parties</h2>
+            <div class="featured-party">
+                <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Featured Party 1">
+                <p>Summer Fiesta - August 2024</p>
+            </div>
+            <div class="featured-party">
+                <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Featured Party 2">
+                <p>Winter Wonderland - December 2024</p>
+            </div>
         </div>
-        <div class="featured-party">
-            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Featured Party 2">
-            <p>Winter Wonderland - December 2024</p>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <h2>What Our Users Are Saying</h2>
-        <div class="testimonial">
-            <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
-        </div>
-        <div class="testimonial">
-            <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+        <div class="testimonials">
+            <h2>What Our Users Are Saying</h2>
+            <div class="testimonial">
+                <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+            </div>
+            <div class="testimonial">
+                <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+            </div>
         </div>
     </section>
 
@@ -71,7 +72,7 @@
     <section id="about" class="about">
         <div class="content">
             <h2>About the Party with Me Project</h2>
-            <p>The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
+            <p class="small-text">The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
         </div>
         <div class="empowered-by">
             <p>Since 2023, empowered by Emdinga Mbhamali</p>
@@ -149,5 +150,6 @@
             If you have any questions or concerns about this Privacy Policy, please contact us at emdinga@gmail.com.</p>
         </div>
     </div>
+
 </body>
 </html>
