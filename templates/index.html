@@ -24,7 +24,7 @@
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main class="main-content">
         <section class="card">
             <header>
                 <p>Connect with friends, create memorable events, and celebrate together!</p>
@@ -64,8 +64,13 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Party with Me. All rights reserved.</p>
+    <footer class="footer">
+        <div class="social-media">
+            <a href="#"><img src="{{ url_for('static', filename='images/facebook-icon.png') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/twitter-icon.png') }}" alt="Twitter"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/instagram-icon.png') }}" alt="Instagram"></a>
+        </div>
+        <p class="footer-note">&copy; 2024 Party with Me. All rights reserved.</p>
     </footer>
 
     <script>
