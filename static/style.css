@@ -10,17 +10,21 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    overflow: hidden;
 }
 
-/* Top Navigation */
-.top-nav {
-    position: fixed;
-    width: 100%;
+/* Header */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    width: 100%;
+    padding: 15px 30px;
     background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 .logo h1 {
@@ -30,9 +34,9 @@ body {
 }
 
 .auth-links a {
-    margin-left: 15px;
     color: white;
     text-decoration: none;
+    margin-left: 20px;
     font-weight: bold;
 }
 
@@ -45,8 +49,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
+    height: calc(100vh - 60px); /* Adjust height considering the fixed header */
     text-align: center;
+    margin-top: 60px; /* Avoid content hiding under the fixed header */
 }
 
 .card {
@@ -57,16 +62,15 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card header h1 {
-    font-family: 'Pacifico', cursive;
-    font-size: 3rem;
-    margin-bottom: 10px;
-    animation: fadeInOut 3s infinite;
-}
-
 .card header p {
     font-size: 1.2rem;
     margin-bottom: 20px;
+}
+
+.card .party-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card .party-images img {
@@ -100,10 +104,4 @@ body {
     font-size: 0.9rem;
     margin-top: 20px;
     color: #ddd;
-}
-
-/* Animation */
-@keyframes fadeInOut {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
 }
