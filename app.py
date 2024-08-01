@@ -12,20 +12,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-@app.route('/singup')
-def singup():
-    """defining singup page"""
-    return render_template('singup.html')
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    """defining singup"""
+    return render_template('signup.html')
 
-@app.route('/Login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    """defining a login page"""
+    """defining login"""
     return render_template('login.html')
 
-@app.route('/forget_password')
-def forget_password():
-    """defining forget_password"""
-    return render_template('forget_password.html')
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    """defining login"""
+    return render_template('forgot_password.html')
 
 @app.before_request
 def before_request():
