@@ -8,30 +8,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
     <!-- Introduction Section -->
     <section class="intro">
         <div class="header">
-            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image">
+            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image" class="header-image">
         </div>
         <header>
             <h1>PARTY WITH ME</h1>
             <p>Connect with friends, create memorable events, and celebrate together!</p>
             <nav>
                 <ul>
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{ url_for('create_event') }}">Create an Event</a></li>
-                    <li><a href="{{ url_for('event_created') }}">Future Events</a></li>
-                    {% for event in events %}
-                    <li>
-                        <p>{{ event.title }} - {{ event.date }} - {{ event.location }}</p>
-                        <a href="{{ url_for('rsvp', event_id=event.id) }}" class="btn">RSVP</a>
-                    </li>
-                    {% endfor %}
+                    <li><a href="{{ url_for('signup') }}" class="btn">Sign Up</a></li>
+                    <li><a href="{{ url_for('login') }}" class="btn">Login</a></li>
+                    <li><a href="{{ url_for('forgot_password') }}" class="btn">Forgot Password</a></li>
                 </ul>
             </nav>
-            <a href="{{ url_for('home') }}" class="btn">Visit Project</a>
         </header>
+        <div class="moving-images">
+            <!-- Add your moving party images here -->
+            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
+            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
+            <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
+            <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+        </div>
     </section>
 
     <!-- About Section -->
@@ -45,13 +44,12 @@
             <div class="member">
                 <h3>Emdinga Mbhamali</h3>
                 <a href="https://linkedin.com/emdinga" target="_blank">LinkedIn</a>
-                <a href="https://github.com/emdinga" target="_blank">GitHub</a>
             </div>
         </div>
-        <div class="github-link">
-            <p>Explore the code on GitHub: <a href="https://github.com/emdinga/Party_with_me" target="_blank">GitHub Repository</a></p>
+        <div class="empowered-by">
+            <p>Since 2023, empowered by Emdinga Mbhamali</p>
+            <p>Disclaimer: This is a demo application for educational purposes.</p>
         </div>
     </section>
-
 </body>
 </html>

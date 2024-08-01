@@ -1,39 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party with Me</title>
+    <base href="/">
+    <title>Party with Me - Connect, Create, Celebrate</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-  <header class="header">
-    <h1>PARTY WITH ME</h1>
-    <div class="cover-image">
-      <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header image">
+    <!-- Introduction Section -->
+    <section class="intro">
+        <div class="header">
+            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image" class="header-image">
+            <h1>PARTY WITH ME</h1>
+            <p>Connect with friends, create memorable events, and celebrate together!</p>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('signup') }}" class="btn">Sign Up</a></li>
+                    <li><a href="{{ url_for('login') }}" class="btn">Login</a></li>
+                    <li><a href="{{ url_for('forgot_password') }}" class="btn">Forgot Password</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="moving-images">
+            <!-- Add your moving party images here -->
+            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
+            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
+            <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
+            <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="section2" class="about">
+        <div>
+            <h2>About the Party with Me Project</h2>
+            <p>The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
+        </div>
+        <div class="team-members">
+            <!-- Include LinkedIn, GitHub, and Twitter links for each team member -->
+            <div class="member">
+                <h3>Emdinga Mbhamali</h3>
+                <a href="https://linkedin.com/emdinga" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+        <div class="empowered-by">
+          <p>Since 2023, empowered by Emdinga Mbhamali</p>
+          <p>Disclaimer: This is a demo application for educational purposes.</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <div class="container">
+        {% block content %}{% endblock %}
     </div>
-  </header>
-
-  <nav class="nav-container">
-    <ul>
-      <li><a href="{{ url_for('home') }}" class="btn">Home</a></li>
-      <li><a href="{{ url_for('create_event') }}" class="btn">Create Event</a></li>
-      <li><a href="{{ url_for('event_created') }}" class="btn">Event Created</a></li>
-      {% if title %}
-      <li><a href="{{ url_for('rsvp', title=title) }}" class="btn">RSVP</a></li>
-      {% else %}
-      <li><a href="#" class="btn" aria-disabled="true">RSVP</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-
-  <div class="container">
-    {% block content %}{% endblock %}
-  </div>
 
 </body>
-
 </html>
