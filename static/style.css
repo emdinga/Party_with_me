@@ -11,6 +11,7 @@ body {
     justify-content: center;
     min-height: 100vh; /* Ensures full viewport height */
     overflow-x: hidden; /* Prevents horizontal scroll */
+    padding: 0 20px; /* Adds some padding on the sides */
 }
 
 /* Header */
@@ -28,9 +29,15 @@ body {
     box-sizing: border-box;
 }
 
+.logo {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
 .logo h1 {
     font-family: 'Pacifico', cursive;
-    font-size: 2rem; /* Adjusted for better fit */
+    font-size: 2.5rem; /* Larger font size */
     margin: 0;
     animation: blink 1.5s infinite;
 }
@@ -44,7 +51,7 @@ body {
     color: white;
     text-decoration: none;
     font-weight: bold;
-    font-size: 1rem; /* Adjust font size as needed */
+    font-size: 1rem;
 }
 
 .auth-links a:hover {
@@ -72,29 +79,37 @@ body {
 .card {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 20px 30px; /* Adjusted padding */
+    padding: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 800px; /* Adjusted for better fit on larger screens */
+    max-width: 1000px; /* Increased for larger screens */
 }
 
 .card header p {
-    font-size: 1.2rem;
+    font-size: 1.5rem; /* Larger text for better visibility */
     margin-bottom: 20px;
 }
 
 .party-images {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
+    animation: slide 20s linear infinite;
 }
 
 .party-images img {
-    width: 120px; /* Adjusted size for better fit */
-    height: 120px;
+    width: 180px; /* Larger images */
+    height: 180px;
     border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Image sliding animation */
+@keyframes slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
 /* About Section */
@@ -104,22 +119,29 @@ body {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     width: 90%;
-    max-width: 800px; /* Adjusted for better fit on larger screens */
+    max-width: 1000px; /* Increased for larger screens */
     text-align: center;
 }
 
+.about .content {
+    margin-bottom: 20px;
+}
+
 .about .content h2 {
-    font-size: 1.5rem;
+    font-size: 1.8rem; /* Increased font size */
     margin-bottom: 10px;
 }
 
 .about .content p {
-    font-size: 1rem;
+    font-size: 1.1rem; /* Slightly larger text */
+}
+
+.about .empowered-by {
+    margin-top: 10px;
 }
 
 .about .empowered-by p {
-    font-size: 0.9rem;
-    margin-top: 20px;
+    font-size: 1rem; /* Adjusted font size */
     color: #ddd;
 }
 
@@ -132,7 +154,7 @@ body {
     }
 
     .logo h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     .auth-links {
@@ -149,8 +171,8 @@ body {
     }
 
     .party-images img {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
     }
 
     .about {
@@ -158,20 +180,14 @@ body {
     }
 
     .about .content h2 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
 
     .about .content p {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .about .empowered-by p {
-        font-size: 0.8rem;
-    }
-}
-
-@media (min-width: 769px) {
-    .card {
-        width: 80%;
+        font-size: 0.9rem;
     }
 }
