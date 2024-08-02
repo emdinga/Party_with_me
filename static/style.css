@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Baloo 2', cursive, 'Roboto', sans-serif;
-    background: linear-gradient(180deg, #ff7f50 50%, #1e90ff 50%);
+    background: linear-gradient(135deg, #ff7f50 0%, #ff7f50 50%, #1e90ff 50%, #1e90ff 100%); /* Adjust gradient for triangle effect */
     color: white;
     overflow-x: hidden;
 }
@@ -23,6 +23,7 @@ body {
 }
 
 .header nav a {
+    font-family: 'Baloo 2', cursive; /* Fun font for navigation links */
     color: white;
     text-decoration: none;
     margin-left: 15px;
@@ -46,6 +47,7 @@ body {
 .see-more-link {
     display: block;
     margin-top: 20px;
+    margin-left: -10px; /* Move link slightly to the left */
     color: #ff7f50;
     text-decoration: none;
     font-weight: bold;
