@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="signup-form">
+            <h2>Sign Up</h2>
+            <form action="/signup" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="password">Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" required>
+                    <span class="toggle-password" onclick="togglePassword()">
+                        👁️
+                    </span>
+                </div>
+
+                <label for="confirm-password">Confirm Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <span class="toggle-password" onclick="toggleConfirmPassword()">
+                        👁️
+                    </span>
+                </div>
+                
+                <button type="submit">Sign Up</button>
+            </form>
+        </section>
+    </main>
+{% endblock %}
+
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('password');
+        const toggleIcon = passwordField.nextElementSibling;
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.textContent = '👁️'; // Eye icon for password visible
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.textContent = '👁️'; // Eye icon for password hidden
+        }
+    }
+
+    function toggleConfirmPassword() {
+        const passwordField = document.getElementById('confirm-password');
+        const toggleIcon = passwordField.nextElementSibling;
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.textContent = '👁️'; // Eye icon for password visible
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.textContent = '👁️'; // Eye icon for password hidden
+        }
+    }
+</script>

@@ -3,24 +3,56 @@
 
 
 from flask import Flask, render_template, request, redirect, url_for, g
+from flask_sqlalchemy import SQLAlchemy
 from models import Event, RSVP, db
+from werkzeug.security import generate_password_hash, check_password_hash
 
-
-app = Flask(__name__, static_folder='static', template_folder='templates')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/party.db'
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'  # SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False, unique=True)
+    email = db.Column(db.String(150), nullable=False, unique=True)
+    password = db.Column(db.String(150), nullable=False)
+
+@app.route('about')
+def about():
+    """ defining the about page"""
+    return render_template("about.html")
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    """defining singup"""
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+
+        if password == confirm_password:
+            hashed_password = generate_password_hash(password, method='sha256')
+            new_user = User(username=username, email=email, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('login'))
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """defining login"""
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password_hash(user.password, password):
+            return redirect(url_for('home'))  # or wherever you want to redirect on successful login
+        else:
+            return 'Invalid credentials'
     return render_template('login.html')
+
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():

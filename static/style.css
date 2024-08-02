@@ -137,3 +137,24 @@ footer {
     50% { color: #1e90ff; }
     75% { color: #32cd32; }
 }
+/* Add styles for the password field and eye icon */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+    padding-right: 2.5em; /* Space for the eye icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2em; /* Adjust size as needed */
+    padding: 0 0.5em;
+}
