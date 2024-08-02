@@ -16,22 +16,17 @@
         <div class="logo">
             <h1 class="flashing-logo">Party with Me</h1>
         </div>
-        <nav class="nav-links">
+        <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/login">Login</a>
-            <a href="/signup">Sign Up</a>
         </nav>
     </header>
 
     <!-- Main Content -->
-    <main class="main-content">
-        <div class="background-layer"></div>
+    <main>
         <section class="card">
-            <div class="welcome-message">
-                <h1>Welcome to Party with Me</h1>
-                <p>Connect with friends, create memorable events, and celebrate together!</p>
-            </div>
+            <p>Welcome to Party with Me, where you can connect with friends, create memorable events, and celebrate together!</p>
             <div class="testimonials">
                 <h2>What Our Users Are Saying</h2>
                 <div class="testimonial">
@@ -41,40 +36,36 @@
                     <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
                 </div>
             </div>
-            <a href="#" class="see-more-link" onclick="toggleSeeMore()">See More</a>
-            <div class="see-more" style="display: none;">
-                <section class="future-events">
-                    <h2>Future Events</h2>
-                    <div class="event">
-                        <img src="{{ url_for('static', filename='images/event1.jpg') }}" alt="Event 1">
-                        <p>Summer Fiesta - August 2024</p>
-                    </div>
-                    <div class="event">
-                        <img src="{{ url_for('static', filename='images/event2.jpg') }}" alt="Event 2">
-                        <p>Winter Wonderland - December 2024</p>
-                    </div>
-                </section>
-                <div class="party-images">
-                    <div class="image-slider">
-                        <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-                        <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-                        <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-                        <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
-                    </div>
-                </div>
-            </div>
+            <a class="see-more-link" href="#" onclick="toggleSeeMore()">See More</a>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="social-media">
-            <a href="#"><img src="{{ url_for('static', filename='images/facebook-icon.png') }}" alt="Facebook"></a>
-            <a href="#"><img src="{{ url_for('static', filename='images/twitter-icon.png') }}" alt="Twitter"></a>
-            <a href="#"><img src="{{ url_for('static', filename='images/instagram-icon.png') }}" alt="Instagram"></a>
+    <footer>
+        <div class="footer-links">
+            <a href="#" onclick="showModal('termsModal')">Terms of Use</a>
+            <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a>
         </div>
-        <p class="footer-note">&copy; 2024 Party with Me. All rights reserved.</p>
+        <p>&copy; 2024 Party with Me. All rights reserved.</p>
     </footer>
+
+    <!-- Terms of Use Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('termsModal')">&times;</span>
+            <h2>Terms of Use</h2>
+            <p>Terms of use content goes here...</p>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('privacyModal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p>Privacy policy content goes here...</p>
+        </div>
+    </div>
 
     <script>
         function toggleSeeMore() {
@@ -87,6 +78,14 @@
                 seeMoreSection.style.display = 'block';
                 link.textContent = 'See Less';
             }
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
     </script>
 </body>
