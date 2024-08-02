@@ -158,3 +158,66 @@ footer {
     font-size: 1.2em; /* Adjust size as needed */
     padding: 0 0.5em;
 }
+/* Login Form Styling */
+.login {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.login h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.login input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.login button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login button:hover {
+    background-color: #0056b3;
+}
+
+.flashes {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    color: red;
+    text-align: center;
+}
+

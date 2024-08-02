@@ -23,3 +23,9 @@ class RSVP(db.Model):
 	guests = db.Column(db.Integer, nullable=False)
 	event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
 	event = db.relationship('Event', backref=db.backref('rsvps', lazy=True))
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False, unique=True)
+    email = db.Column(db.String(150), nullable=False, unique=True)
+    password = db.Column(db.String(150), nullable=False)
