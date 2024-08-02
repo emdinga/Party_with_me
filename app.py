@@ -141,6 +141,15 @@ def members_home():
     user_name = session.get('username', 'Guest')
     return render_template('members_home.html', user_name=user_name)
 
+@app.route('/about_members')
+def about_members():
+    return render_template("about_members.html")
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # Remove the username from the session
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     with app.app_context():

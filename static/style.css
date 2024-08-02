@@ -205,3 +205,15 @@ footer {
 .login a:hover {
     text-decoration: underline;
 }
+.login p, .signup p {
+    color: black;
+}
+
+.login a, .signup a {
+    color: blue; /* Change to the color you prefer */
+    text-decoration: underline;
+}
+
+.flashes {
+    color: red; /* Or any other style you prefer for flash messages */
+}
