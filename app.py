@@ -2,7 +2,7 @@
 """ Start Flask application """
 
 
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, flash
 from flask_sqlalchemy import SQLAlchemy
 from models import Event, RSVP, db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -59,15 +59,28 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        """Debugging: Print the form data to see what's being received"""
+        print("Form data received:", request.form)
+
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        """Debugging: Ensure both email and password are present"""
+        if not email or not password:
+            print("Email or password not provided")
+            flash('Please provide both email and password')
+            return redirect(url_for('login'))
+
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
             return redirect(url_for('Members_home'))
         else:
-            return 'Invalid credentials'
+            flash('Invalid credentials')
+            return redirect(url_for('login'))
+
     return render_template('login.html')
+
 
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
