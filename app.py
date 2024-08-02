@@ -57,7 +57,8 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
-            return redirect(url_for('Members_home'))
+            session['username'] = user.username  # Store the username in the session
+            return redirect(url_for('members_home'))
         else:
             flash('Invalid credentials')
             return redirect(url_for('login'))
