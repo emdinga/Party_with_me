@@ -3,38 +3,19 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <main>
-        <section class="login-form">
-            <h2>Login</h2>
-            <form action="/login" method="post">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                
-                <label for="password">Password:</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" name="password" required>
-                    <span class="toggle-password" onclick="togglePassword()">
-                        👁️
-                    </span>
-                </div>
-                
-                <button type="submit">Login</button>
-            </form>
-        </section>
-    </main>
+<main>
+    <section class="login">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+</main>
 {% endblock %}
-
-<script>
-    function togglePassword() {
-        const passwordField = document.getElementById('password');
-        const toggleIcon = document.querySelector('.toggle-password');
-
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            toggleIcon.textContent = '👁️'; // Eye icon for password visible
-        } else {
-            passwordField.type = 'password';
-            toggleIcon.textContent = '👁️'; // Eye icon for password hidden
-        }
-    }
-</script>
