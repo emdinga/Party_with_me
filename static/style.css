@@ -137,76 +137,45 @@ footer {
     50% { color: #1e90ff; }
     75% { color: #32cd32; }
 }
-/* Add styles for the password field and eye icon */
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-wrapper input[type="password"],
-.password-wrapper input[type="text"] {
-    padding-right: 2.5em; /* Space for the eye icon */
-}
-
-.toggle-password {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 1.2em; /* Adjust size as needed */
-    padding: 0 0.5em;
-}
-/* Login Form Styling */
 .login {
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ddd;
+    max-width: 400px;
+    margin: auto;
+    padding: 1em;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    margin: 0 auto;
-    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
 }
 
 .login h2 {
-    margin-top: 0;
-    font-size: 24px;
+    text-align: center;
+    color: #333;
 }
 
 .login form {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .login label {
     margin-top: 10px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    text-align: left;
-    width: 100%;
+    color: #555;
 }
 
 .login input {
     padding: 10px;
+    margin-top: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    width: 100%;
 }
 
 .login button {
+    margin-top: 20px;
     padding: 10px;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
     cursor: pointer;
-    width: 100%;
 }
 
 .login button:hover {
@@ -214,10 +183,25 @@ footer {
 }
 
 .flashes {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
     color: red;
-    text-align: center;
+    list-style-type: none;
+    padding: 0;
 }
 
+.flashes li {
+    margin-bottom: 10px;
+}
+
+.login p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}
