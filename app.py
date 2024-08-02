@@ -19,7 +19,7 @@ class User(db.Model):
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
 
-@app.route('about')
+@app.route('/about')
 def about():
     """ defining the about page"""
     return render_template("about.html")
@@ -48,7 +48,7 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
-            return redirect(url_for('home'))  # or wherever you want to redirect on successful login
+            return redirect(url_for('Members_home'))
         else:
             return 'Invalid credentials'
     return render_template('login.html')
