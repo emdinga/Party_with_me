@@ -1,23 +1,24 @@
 #!/usr/bin/python3
 """ Start Flask application """
 
-
 from flask import Flask, render_template, request, redirect, url_for, g, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from models import Event, RSVP, db, User
 from flask_migrate import Migrate
-from werkzeug.security import generate_password_hash, check_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from models import Event, RSVP, db, User
 
 app = Flask(__name__)
 app.secret_key = '123456789'
 
-"""SQLIte DB"""
+# SQLite DB configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize the database
 db.init_app(app)
 migrate = Migrate(app, db)
-db = SQLAlchemy(app)
 
+# Create tables if they don't exist
 @app.before_first_request
 def create_tables():
     db.create_all()
@@ -46,15 +47,10 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        """Debugging: Print the form data to see what's being received"""
-        print("Form data received:", request.form)
-
         email = request.form.get('email')
         password = request.form.get('password')
 
-        """Debugging: Ensure both email and password are present"""
         if not email or not password:
-            print("Email or password not provided")
             flash('Please provide both email and password')
             return redirect(url_for('login'))
 
@@ -68,16 +64,12 @@ def login():
 
     return render_template('login.html')
 
-
-
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
-    """defining login"""
     return render_template('forgot_password.html')
 
 @app.before_request
 def before_request():
-    """ generating rsvp counts """
     g.rsvps_count = {}
     events = Event.query.all()
     for event in events:
@@ -85,13 +77,11 @@ def before_request():
 
 @app.route('/')
 def home():
-    """ return home page for the application """
     events = Event.query.all()
     return render_template('index.html')
 
 @app.route('/create-event', methods=['GET', 'POST'])
 def create_event():
-    """ return create event form """
     if request.method == 'POST':
         event_data = {
             'title': request.form.get('title'),
@@ -112,13 +102,11 @@ def create_event():
 def event_created():
     events = Event.query.all()
     rsvps_count = {event.id: RSVP.query.filter_by(event_id=event.id).count() for event in events}
-    return render_template('event_created.html', events=events, rsvps_count=rsvps_count, title=g.get('title'))
+    return render_template('event_created.html', events=events, rsvps_count=rsvps_count)
 
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
 def rsvp(title):
-    """ allows rsvp """
     if request.method == 'POST':
-        """ Process RSVP form data for the specified event """
         rsvp_data = {
             'name': request.form.get('name'),
             'email': request.form.get('email'),
@@ -136,7 +124,6 @@ def rsvp(title):
     return render_template('rsvp.html', title=title)
 
 def get_event_and_rsvps(event_id):
-    """ get events and counts"""
     event = Event.query.get(event_id)
     if event:
         rsvps = RSVP.query.filter_by(event_id=event.id).all()
@@ -145,10 +132,8 @@ def get_event_and_rsvps(event_id):
 
 @app.route('/event_details/<int:event_id>')
 def event_details(event_id):
-    """ get event details"""
     event, rsvps = get_event_and_rsvps(event_id)
     return render_template('event_details.html', event=event, rsvps=rsvps)
-
 
 if __name__ == '__main__':
     with app.app_context():
