@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Baloo 2', cursive, 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #ff7f50 0%, #ff7f50 50%, #1e90ff 50%, #1e90ff 100%); /* Adjust gradient for triangle effect */
+    background: linear-gradient(135deg, #ff7f50 25%, #1e90ff 75%); /* Adjust gradient for a softer effect */
     color: white;
     overflow-x: hidden;
 }
