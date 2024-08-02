@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About the Party with Me Project</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="header">
-        <div class="logo">
-            <h1>Party with Me</h1>
-        </div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html" class="active">About</a>
-        </nav>
-    </header>
+{% extends "layout.html" %}
 
+{% block title %}About the Party with Me Project{% endblock %}
+
+{% block content %}
     <main>
         <section class="about">
             <h2>About the Party with Me Project</h2>
@@ -25,9 +11,4 @@
             <p>Disclaimer: This is a demo application for educational purposes.</p>
         </section>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Party with Me. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

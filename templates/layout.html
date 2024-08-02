@@ -4,57 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/">
-    <title>Party with Me - Connect, Create, Celebrate</title>
+    <title>{% block title %}Party with Me - Connect, Create, Celebrate{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&family=Baloo+2:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Include any additional inline CSS here */
+    </style>
 </head>
 <body>
 
-    <!-- Introduction Section -->
-    <section class="intro">
-        <div class="header">
-            <img src="{{ url_for('static', filename='images/party-with-me.png') }}" alt="Header Image" class="header-image">
-            <h1>PARTY WITH ME</h1>
-            <p>Connect with friends, create memorable events, and celebrate together!</p>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('signup') }}" class="btn">Sign Up</a></li>
-                    <li><a href="{{ url_for('login') }}" class="btn">Login</a></li>
-                    <li><a href="{{ url_for('forgot_password') }}" class="btn">Forgot Password</a></li>
-                </ul>
-            </nav>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h1 class="flashing-logo">Party with Me</h1>
         </div>
-        <div class="moving-images">
-            <!-- Add your moving party images here -->
-            <img src="{{ url_for('static', filename='images/party1.jpg') }}" alt="Party Image 1">
-            <img src="{{ url_for('static', filename='images/party2.jpg') }}" alt="Party Image 2">
-            <img src="{{ url_for('static', filename='images/party3.jpg') }}" alt="Party Image 3">
-            <img src="{{ url_for('static', filename='images/party4.jpg') }}" alt="Party Image 4">
-        </div>
-    </section>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
+            <a href="/sign_up">Sign Up</a>
+        </nav>
+    </header>
 
-    <!-- About Section -->
-    <section id="section2" class="about">
-        <div>
-            <h2>About the Party with Me Project</h2>
-            <p>The Party with Me project was inspired by the way the world has changed. Everyone uses ridesharing apps to get to their destination, inviting strangers into their lives. Why not invite them to party with you instead?</p>
-        </div>
-        <div class="team-members">
-            <!-- Include LinkedIn, GitHub, and Twitter links for each team member -->
-            <div class="member">
-                <h3>Emdinga Mbhamali</h3>
-                <a href="https://linkedin.com/emdinga" target="_blank">LinkedIn</a>
-            </div>
-        </div>
-        <div class="empowered-by">
-          <p>Since 2023, empowered by Emdinga Mbhamali</p>
-          <p>Disclaimer: This is a demo application for educational purposes.</p>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        <!-- Page-specific content will be injected here -->
+        {% endblock %}
+    </main>
 
-    <!-- Content Section -->
-    <div class="container">
-        {% block content %}{% endblock %}
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#" onclick="showModal('termsModal')">Terms of Use</a>
+            <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a>
+        </div>
+        <p>&copy; 2024 Party with Me. All rights reserved.</p>
+    </footer>
+
+    <!-- Terms of Use Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('termsModal')">&times;</span>
+            <h2>Terms of Use</h2>
+            <p>By using our application, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you should not use our service.</p>
+            <p><strong>2. Changes to Terms</strong><br>
+            We reserve the right to modify these terms at any time. Any changes will be posted on this page, and it is your responsibility to review these terms regularly.</p>
+            <p><strong>3. User Responsibilities</strong><br>
+            - You agree to use the application only for lawful purposes.<br>
+            - You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account.<br>
+            - You agree not to use the application to harass, abuse, or harm other users.</p>
+            <p><strong>4. Intellectual Property</strong><br>
+            All content, including text, images, and software, on this application is the property of Party With Me or its licensors and is protected by intellectual property laws.</p>
+            <p><strong>5. Limitation of Liability</strong><br>
+            Our application is provided on an "as is" and "as available" basis. We are not responsible for any damages resulting from your use or inability to use the application.</p>
+            <p><strong>6. Termination</strong><br>
+            We may terminate or suspend your access to the application at our sole discretion, without notice, for conduct that we believe violates these terms.</p>
+            <p><strong>7. Governing Law</strong><br>
+            These Terms of Service are governed by the laws of South Africa. Any disputes arising from these terms will be handled in the courts of [Your State/Country].</p>
+            <p><strong>8. Contact Us</strong><br>
+            If you have any questions about these Terms of Service, please contact us at emdinga@gmail.com.</p>
+        </div>
     </div>
 
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('privacyModal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p>This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. By using our application, you consent to our collection and use of your information as described in this policy.</p>
+            <p><strong>2. Information We Collect</strong><br>
+            - <strong>Personal Information</strong>: We may collect personal information such as your name, email address, and contact details.<br>
+            - <strong>Usage Data</strong>: We collect information about how you use our application, including your IP address, browser type, and usage patterns.</p>
+            <p><strong>3. How We Use Your Information</strong><br>
+            We use the information we collect to:<br>
+            - Provide and maintain our application.<br>
+            - Improve our application and user experience.<br>
+            - Communicate with you, including sending promotional materials.<br>
+            - Monitor and analyze usage and trends.</p>
+            <p><strong>4. Disclosure of Your Information</strong><br>
+            We do not sell, trade, or otherwise transfer your personal information to outside parties, except as described below:<br>
+            - <strong>Service Providers</strong>: We may share your information with third-party service providers who assist us in operating our application.<br>
+            - <strong>Legal Requirements</strong>: When required by law or to protect our rights.</p>
+            <p><strong>5. Security</strong><br>
+            We implement reasonable security measures to protect your information from unauthorized access and disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.</p>
+            <p><strong>6. Your Choices</strong><br>
+            You can opt out of receiving promotional communications from us by following the instructions in those communications. You may also request access to, correction of, or deletion of your personal information.</p>
+            <p><strong>7. Changes to This Privacy Policy</strong><br>
+            We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.</p>
+            <p><strong>8. Contact Us</strong><br>
+            If you have any questions or concerns about this Privacy Policy, please contact us at emdinga@gmail.com.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleSeeMore(event) {
+            event.preventDefault(); // Prevent default link behavior
+            const seeMoreSection = document.querySelector('.see-more');
+            const button = document.querySelector('.see-more-link');
+            if (seeMoreSection.style.display === 'block') {
+                seeMoreSection.style.display = 'none';
+                button.textContent = 'See More';
+            } else {
+                seeMoreSection.style.display = 'block';
+                button.textContent = 'See Less';
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+            }
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
