@@ -19,6 +19,22 @@ class User(db.Model):
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    organizer = db.Column(db.String(100), nullable=False)
+
+class RSVP(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 @app.route('/about')
 def about():
     """ defining the about page"""
