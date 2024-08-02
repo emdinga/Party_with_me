@@ -1,17 +1,19 @@
+/* General Styles */
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background: #1a1a1a;
-    color: #f0f0f0;
+    font-family: 'Baloo 2', cursive, 'Roboto', sans-serif;
+    background: linear-gradient(180deg, #ff7f50 50%, #1e90ff 50%);
+    color: white;
+    overflow-x: hidden;
 }
 
+/* Header Styles */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     background: #333;
-    color: white;
 }
 
 .header .logo h1 {
@@ -20,52 +22,61 @@ body {
     animation: blink 1.5s infinite;
 }
 
-@keyframes blink {
-    0% { color: red; }
-    25% { color: blue; }
-    50% { color: green; }
-    75% { color: yellow; }
-    100% { color: red; }
-}
-
-nav a {
-    margin: 0 10px;
+.header nav a {
     color: white;
     text-decoration: none;
+    margin-left: 15px;
 }
 
-.card {
-    background: #282c34;
-    border-radius: 15px;
-    padding: 30px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
+.header nav a:hover {
+    text-decoration: underline;
 }
 
-.testimonials {
-    margin-top: 20px;
-}
-
-.testimonial {
+/* Intro Card Styles */
+.intro-card {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
 }
 
 .see-more-link {
     display: block;
     margin-top: 20px;
-    color: #007bff;
+    color: #ff7f50;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .see-more-link:hover {
-    text-decoration: underline;
+    color: #1e90ff;
 }
 
+/* See More Section */
+.see-more {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.future-events, .testimonials {
+    margin-top: 20px;
+}
+
+.future-events .event, .testimonials .testimonial {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Footer Styles */
 footer {
     background: #333;
     color: white;
@@ -73,10 +84,14 @@ footer {
     padding: 20px;
 }
 
+.footer-links {
+    margin-bottom: 10px;
+}
+
 .footer-links a {
-    margin: 0 10px;
     color: white;
     text-decoration: none;
+    margin: 0 10px;
 }
 
 .footer-links a:hover {
@@ -111,4 +126,12 @@ footer {
     top: 10px;
     right: 10px;
     cursor: pointer;
+}
+
+/* Blinking Animation for Logo */
+@keyframes blink {
+    0%, 100% { color: #ff7f50; }
+    25% { color: #ff6347; }
+    50% { color: #1e90ff; }
+    75% { color: #32cd32; }
 }
