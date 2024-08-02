@@ -135,6 +135,12 @@ def event_details(event_id):
     event, rsvps = get_event_and_rsvps(event_id)
     return render_template('event_details.html', event=event, rsvps=rsvps)
 
+@app.route('/members_home')
+def members_home():
+    user_name = session.get('username', 'Guest')
+    return render_template('members_home.html', user_name=user_name)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
