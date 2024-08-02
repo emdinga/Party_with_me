@@ -5,6 +5,8 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from models import Event, RSVP, db, User
+from flask_migrate import Migrate
+from app import routes
 from werkzeug.security import generate_password_hash, check_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -12,6 +14,8 @@ app.secret_key = '123456789'
 """SQLIte DB"""
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+migrate = Migrate(app, db)
 
 db = SQLAlchemy(app)
 
