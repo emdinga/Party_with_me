@@ -2,13 +2,15 @@
 """ Start Flask application """
 
 
-from flask import Flask, render_template, request, redirect, url_for, g, flash
+from flask import Flask, render_template, request, redirect, url_for, g, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from models import Event, RSVP, db
-from werkzeug.security import generate_password_hash, check_password_hash
+from models import Event, RSVP, db, User
+from werkzeug.security import generate_password_hash, check_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'  # SQLite database
+app.secret_key = '123456789'
+"""SQLIte DB"""
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
