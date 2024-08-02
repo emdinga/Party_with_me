@@ -7,7 +7,9 @@
     <title>Party with Me - Connect, Create, Celebrate</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&family=Baloo+2:wght@400;500&display=swap" rel="stylesheet">
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <style>
+        /* Include any additional inline CSS here */
+    </style>
 </head>
 <body>
 
@@ -20,6 +22,7 @@
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/login">Login</a>
+            <a href="/Sign_up">Sign Up</a>
         </nav>
     </header>
 
@@ -27,7 +30,7 @@
     <main>
         <section class="intro-card">
             <p>Welcome to Party with Me, where you can connect with friends, create memorable events, and celebrate together!</p>
-            <p>This application helps you find the best parties nearby, whether you're looking to host or just join the fun. Available to anyone looking to unwind and make new connections every day!</p>
+            <p>This application helps you find the best parties nearby, whether you're looking to host or just join the fun. Available to anyone looking to unwind and make new connections everyday!</p>
             <a class="see-more-link" href="#" onclick="toggleSeeMore(event)">See More</a>
         </section>
         <div class="see-more" style="display: none;">
@@ -81,5 +84,28 @@
         </div>
     </div>
 
+    <script>
+        function toggleSeeMore(event) {
+            event.preventDefault(); // Prevent default link behavior
+            const seeMoreSection = document.querySelector('.see-more');
+            const button = document.querySelector('.see-more-link');
+            if (seeMoreSection.style.display === 'block') {
+                seeMoreSection.style.display = 'none';
+                button.textContent = 'See More';
+            } else {
+                seeMoreSection.style.display = 'block';
+                button.textContent = 'See Less';
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+            }
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
