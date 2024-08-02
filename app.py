@@ -6,7 +6,6 @@ from flask import Flask, render_template, request, redirect, url_for, g, flash, 
 from flask_sqlalchemy import SQLAlchemy
 from models import Event, RSVP, db, User
 from flask_migrate import Migrate
-from app import routes
 from werkzeug.security import generate_password_hash, check_password_hash, check_password_hash
 
 app = Flask(__name__)
