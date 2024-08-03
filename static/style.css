@@ -208,3 +208,10 @@ footer {
 .login p, .signup p {
     color: black;
 }
+.create-event, .event {
+    margin-bottom: 20px;
+}
+.event img {
+    max-width: 100%;
+    height: auto;
+}

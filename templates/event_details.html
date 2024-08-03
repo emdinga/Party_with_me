@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party with Me</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  {% extends "layout2.html" %}
-  {% block content %}
-<h2>{{ title }} RSVPs</h2>
-<a href="{{ url_for('home') }}" class="home-btn">Home</a>
-<button id="showGuestListBtn">Show Guest List</button>
-
-<div id="guestList" style="display: none;">
-  {% if rsvps %}
-    <ul>
-      {% for rsvp in rsvps %}
-        <li>{{ rsvp.name }} - {{ rsvp.email }} ({{ rsvp.guests }} guests)</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No RSVPs yet.</p>
-  {% endif %}
-</div>
-
-<script>
-  document.getElementById('showGuestListBtn').addEventListener('click', function() {
-    document.getElementById('guestList').style.display = 'block';
-  });
-</script>
+{% block content %}
+<main>
+    <section class="event-details">
+        <h2>{{ event.title }}</h2>
+        <p>Date: {{ event.date }}</p>
+        <p>Location: {{ event.location }}</p>
+        <p>Organizer: {{ event.organizer }}</p>
+        {% if event.poster_image %}
+            <img src="{{ url_for('static', filename=event.poster_image) }}" alt="Event Poster">
+        {% else %}
+            <p>No poster available for this event.</p>
+        {% endif %}
+        <h3>RSVPs</h3>
+        <ul>
+            {% for rsvp in rsvps %}
+                <li>{{ rsvp.name }} ({{ rsvp.email }}) - Guests: {{ rsvp.guests }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
 {% endblock %}
-</body>
-</html>
