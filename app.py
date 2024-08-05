@@ -148,30 +148,45 @@ def home():
     events = Event.query.all()
     return render_template('index.html')
 
-@app.route('/create-event', methods=['GET', 'POST'])
+@app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
-    """defining create event"""
     if request.method == 'POST':
         title = request.form['title']
         date = request.form['date']
         location = request.form['location']
-        organizer = 'John Doe'  # Example organizer name
-
-        """Handle file upload"""
-        poster = request.files.get('poster')
-        if poster and poster.filename != '':
+        poster = request.files['poster']
+        
+        errors = []
+        
+        """ Validate form inputs """
+        if not title:
+            errors.append("Title is required.")
+        if not date:
+            errors.append("Date is required.")
+        if not location:
+            errors.append("Location is required.")
+        
+        if errors:
+            return render_template('create_event.html', errors=errors)
+        
+        """Ensure the upload directory exists"""
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        
+        if poster:
             filename = secure_filename(poster.filename)
-            poster.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             poster_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            poster.save(poster_path)
         else:
-            poster_path = None
-
-        new_event = Event(title=title, date=date, location=location, organizer=organizer, poster_image=poster_path)
+            filename = None
+        
+        """Save the event to the database"""
+        new_event = Event(title=title, date=date, location=location, poster=filename)
         db.session.add(new_event)
         db.session.commit()
-
-        return redirect(url_for('event_created'))
-
+        
+        return render_template('create_event.html', success=True)
+    
     return render_template('create_event.html')
 
 @app.route('/event-created')

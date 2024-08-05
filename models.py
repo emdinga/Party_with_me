@@ -5,14 +5,14 @@ db = SQLAlchemy()
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(150), nullable=False)
     date = db.Column(db.Date, nullable=False)
-    location = db.Column(db.String(200), nullable=False)
-    organizer = db.Column(db.String(100), nullable=False)
-    poster_image = db.Column(db.String(200))  # Path to the poster image
+    location = db.Column(db.String(150), nullable=False)
+    poster = db.Column(db.String(150), nullable=True)  # Optional poster field
 
     def __repr__(self):
         return f'<Event {self.title}>'
+
 
 
 class RSVP(db.Model):
