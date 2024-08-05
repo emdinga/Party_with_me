@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Event, RSVP, db, User, PasswordResetToken
 from flask_mail import Mail, Message
-import datetime
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.your-email-provider.com'
@@ -152,16 +152,16 @@ def home():
 def create_event():
     if request.method == 'POST':
         title = request.form['title']
-        date = request.form['date']
+        date_str = request.form['date']
         location = request.form['location']
         poster = request.files['poster']
         
         errors = []
         
-        """ Validate form inputs """
+        """Validate form inputs"""
         if not title:
             errors.append("Title is required.")
-        if not date:
+        if not date_str:
             errors.append("Date is required.")
         if not location:
             errors.append("Location is required.")
@@ -180,15 +180,21 @@ def create_event():
         else:
             filename = None
         
+        """Convert date string to date object"""
+        try:
+            date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            errors.append("Invalid date format.")
+            return render_template('create_event.html', errors=errors)
+        
         """Save the event to the database"""
         new_event = Event(title=title, date=date, location=location, poster=filename)
         db.session.add(new_event)
         db.session.commit()
         
-        return render_template('create_event.html', success=True)
+        return redirect(url_for('members_home'))
     
     return render_template('create_event.html')
-
 @app.route('/event-created')
 def event_created():
     events = Event.query.all()
