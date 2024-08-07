@@ -312,6 +312,13 @@ def logout():
     session.pop('username', None) 
     return redirect(url_for('login'))
 
+@app.route('/members_home')
+def members_home():
+    """ home for members only"""
+    events = Event.query.all()
+    future_events = [event for event in events if event.date >= datetime.now().date()]
+    return render_template('members_home.html', events=future_events)
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """ Handle file uploads """
