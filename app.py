@@ -48,21 +48,32 @@ def about():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    """ defining signup page"""
+    """ Define signup page """
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm-password']
 
-        if password == confirm_password:
-            hashed_password = generate_password_hash(password, method='sha256')
-            new_user = User(username=username, email=email, password=hashed_password)
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('login'))
-    return render_template('signup.html')
+        """Check if passwords match"""
+        if password != confirm_password:
+            flash('Passwords do not match')
+            return redirect(url_for('signup'))
 
+        """Check if email already exists"""
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email already registered. Please use a different email.')
+            return redirect(url_for('signup'))
+
+        """Proceed with creating the new user"""
+        hashed_password = generate_password_hash(password, method='sha256')
+        new_user = User(username=username, email=email, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """ defining login page"""
@@ -77,7 +88,8 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
-            session['username'] = user.username  # Store the username in the session
+            """Store the username in the session"""
+            session['username'] = user.username  
             return redirect(url_for('members_home'))
         else:
             flash('Invalid credentials')
@@ -156,7 +168,7 @@ def create_event():
         date_str = request.form['date']
         location = request.form['location']
         poster = request.files['poster']
-        privacy = request.form['privacy']  # New field
+        privacy = request.form['privacy']
         
         errors = []
         
@@ -168,7 +180,7 @@ def create_event():
         if not location:
             errors.append("Location is required.")
         if not privacy:
-            errors.append("Privacy setting is required.")  # Check for privacy field
+            errors.append("Privacy setting is required.")
         
         if errors:
             return render_template('create_event.html', errors=errors)
@@ -192,7 +204,7 @@ def create_event():
             return render_template('create_event.html', errors=errors)
         
         """Save the event to the database"""
-        new_event = Event(title=title, date=date, location=location, poster=filename, privacy=privacy)  # Include privacy
+        new_event = Event(title=title, date=date, location=location, poster=filename, privacy=privacy)
         db.session.add(new_event)
         db.session.commit()
         
@@ -297,7 +309,7 @@ def about_members():
 @app.route('/logout')
 def logout():
     """ Logout the user """
-    session.pop('username', None)  # Remove the username from the session
+    session.pop('username', None) 
     return redirect(url_for('login'))
 
 @app.route('/uploads/<filename>')
