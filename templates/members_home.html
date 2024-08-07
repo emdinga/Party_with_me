@@ -55,9 +55,9 @@
                     {% endif %}
                     <p><strong>Privacy:</strong> {{ event.privacy }}</p>
                     {% if event.privacy == 'private' %}
-                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', title=event.title) }}">RSVP Here</a></p>
+                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', event_id=event.id) }}">RSVP Here</a></p>
                     {% endif %}
-                    <a href="{{ url_for('event_details', title=event.title) }}">See Details</a>
+                    <a href="{{ url_for('event_details_view', event_id=event.id) }}">See Details</a>
                 </div>
             {% endfor %}
         {% else %}

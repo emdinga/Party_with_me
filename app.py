@@ -238,8 +238,8 @@ def event_created():
     rsvps_count = {event.id: RSVP.query.filter_by(event_id=event.id).count() for event in events}
     return render_template('event_created.html', events=events, rsvps_count=rsvps_count)
 
-@app.route('/rsvp/<title>', methods=['GET', 'POST'])
-def rsvp(title):
+@app.route('/rsvp/<int:event_id>', methods=['GET', 'POST'])
+def rsvp(event_id):
     if request.method == 'POST':
         """Collect data from the form"""
         rsvp_data = {
@@ -248,8 +248,8 @@ def rsvp(title):
             'guests': request.form.get('guests')
         }
 
-        """Retrieve the event based on the title """
-        event = Event.query.filter_by(title=title).first()
+        """Retrieve the event based on the event_id"""
+        event = Event.query.get(event_id)
         if event:
             """Create a new RSVP and save to the database"""
             new_rsvp = RSVP(event_id=event.id, **rsvp_data)
@@ -260,7 +260,7 @@ def rsvp(title):
         return redirect(url_for('event_created'))
 
     """Render the RSVP form template"""
-    return render_template('rsvp.html', title=title)
+    return render_template('rsvp.html', event_id=event_id)
 
 @app.route('/event_details/<int:event_id>')
 @login_required
@@ -268,7 +268,7 @@ def event_details_view(event_id):
     """ View details of the event """
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     rsvps = RSVP.query.filter_by(event_id=event.id).all()
     return render_template('event_details.html', event=event, rsvps=rsvps)
 
