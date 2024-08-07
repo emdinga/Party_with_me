@@ -158,20 +158,21 @@ def before_request():
 
 @app.route('/')
 def home():
-    events = Event.query.all()
-    return render_template('index.html')
+    """ Landing page: Show only public events """
+    events = Event.query.filter_by(privacy='public').all()
+    return render_template('index.html', events=events)
 
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
     if request.method == 'POST':
-        title = request.form['title']
-        date_str = request.form['date']
-        location = request.form['location']
-        poster = request.files['poster']
-        privacy = request.form['privacy']
-        
+        title = request.form.get('title')
+        date_str = request.form.get('date')
+        location = request.form.get('location')
+        poster = request.files.get('poster')
+        privacy = request.form.get('privacy') 
+
         errors = []
-        
+
         """Validate form inputs"""
         if not title:
             errors.append("Title is required.")
@@ -181,35 +182,34 @@ def create_event():
             errors.append("Location is required.")
         if not privacy:
             errors.append("Privacy setting is required.")
-        
+
         if errors:
             return render_template('create_event.html', errors=errors)
-        
+
         """Ensure the upload directory exists"""
         if not os.path.exists(app.config['UPLOAD_FOLDER']):
             os.makedirs(app.config['UPLOAD_FOLDER'])
-        
+
+        filename = None
         if poster:
             filename = secure_filename(poster.filename)
             poster_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             poster.save(poster_path)
-        else:
-            filename = None
-        
+
         """Convert date string to date object"""
         try:
             date = datetime.strptime(date_str, '%Y-%m-%d').date()
         except ValueError:
             errors.append("Invalid date format.")
             return render_template('create_event.html', errors=errors)
-        
+
         """Save the event to the database"""
         new_event = Event(title=title, date=date, location=location, poster=filename, privacy=privacy)
         db.session.add(new_event)
         db.session.commit()
-        
+
         return redirect(url_for('members_home'))
-    
+
     return render_template('create_event.html')
 
 @app.route('/event-created')
@@ -314,8 +314,8 @@ def logout():
 
 @app.route('/members_home')
 def members_home():
-    """ home for members only"""
-    events = Event.query.all()
+    """ Members home page: Show only public events """
+    events = Event.query.filter_by(privacy='public').all()
     future_events = [event for event in events if event.date >= datetime.now().date()]
     return render_template('members_home.html', events=future_events)
 
