@@ -41,7 +41,7 @@
         </form>
 
         <!-- Share Link -->
-        <button id="shareEventButton" data-url="{{ url_for('event_details', event_id=event.id) | tojson | safe }}">Share Event</button>
+        <button id="shareEventButton" data-url="{{ url_for('event_details_view', event_id=event.id) | tojson | safe }}">Share Event</button>
     {% endif %}
 
     <!-- RSVPs Section -->
@@ -90,4 +90,3 @@
     }
 </script>
 {% endblock %}
-
