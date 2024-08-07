@@ -48,7 +48,7 @@ def about():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    """defining signup page"""
+    """ defining signup page"""
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -209,25 +209,25 @@ def event_created():
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
 def rsvp(title):
     if request.method == 'POST':
-        # Collect data from the form
+        """Collect data from the form"""
         rsvp_data = {
             'name': request.form.get('name'),
             'email': request.form.get('email'),
             'guests': request.form.get('guests')
         }
 
-        # Retrieve the event based on the title
+        """Retrieve the event based on the title """
         event = Event.query.filter_by(title=title).first()
         if event:
-            # Create a new RSVP and save to the database
+            """Create a new RSVP and save to the database"""
             new_rsvp = RSVP(event_id=event.id, **rsvp_data)
             db.session.add(new_rsvp)
             db.session.commit()
 
-        # Redirect to a different page after processing
+        """Redirect to a different page after processing"""
         return redirect(url_for('event_created'))
 
-    # Render the RSVP form template
+    """Render the RSVP form template"""
     return render_template('rsvp.html', title=title)
 
 def get_event_and_rsvps(event_id):
@@ -238,64 +238,38 @@ def get_event_and_rsvps(event_id):
     return None, None
 
 @app.route('/event_details/<int:event_id>')
-def event_details(event_id):
-    event = Event.query.get(event_id)
-    if event:
-        rsvps = RSVP.query.filter_by(event_id=event.id).all()
-        return render_template('event_details.html', event=event, rsvps=rsvps)
-    else:
-        flash("Event not found.")
-        return redirect(url_for('members_home'))
-
-@app.route('/members_home')
-def members_home():
-    events = Event.query.all()
-    future_events = [event for event in events if event.date >= datetime.now().date()]
-    return render_template('members_home.html', events=future_events)
-
-@app.route('/about_members')
-def about_members():
-    return render_template("about_members.html")
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)  # Remove the username from the session
-    return redirect(url_for('login'))
-
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    """static file handle"""
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-@app.route('/event/<int:event_id>')
 @login_required
-def event_details(event_id):
+def event_details_view(event_id):
+    """ View details of the event """
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
         return redirect(url_for('index'))
-    return render_template('event_details.html', event=event)
+    rsvps = RSVP.query.filter_by(event_id=event.id).all()
+    return render_template('event_details.html', event=event, rsvps=rsvps)
 
 @app.route('/event/<int:event_id>/update', methods=['POST'])
 @login_required
 def update_event(event_id):
+    """ Update event details """
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
         return redirect(url_for('index'))
 
-    # Update event details from form
+    """Update event details from form"""
     event.title = request.form.get('title')
     event.date = request.form.get('date')
     event.location = request.form.get('location')
     event.rsvp_limit = request.form.get('rsvp_limit')
     event.announcements = request.form.get('announcements')
-    # Handle file upload for poster image
+    """Handle file upload for poster image if needed"""
     db.session.commit()
 
-    return redirect(url_for('event_details', event_id=event_id))
+    return redirect(url_for('event_details_view', event_id=event_id))
 
 @app.route('/event/<int:event_id>/delete', methods=['POST'])
 @login_required
 def delete_event(event_id):
+    """ Delete an event """
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
         return redirect(url_for('index'))
@@ -307,12 +281,29 @@ def delete_event(event_id):
 @app.route('/event/<int:event_id>/rsvps')
 @login_required
 def view_rsvps(event_id):
+    """ View RSVPs for an event """
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
         return redirect(url_for('index'))
 
     rsvps = RSVP.query.filter_by(event_id=event_id).all()
     return render_template('rsvps.html', event=event, rsvps=rsvps)
+
+@app.route('/about_members')
+def about_members():
+    """ About members page """
+    return render_template("about_members.html")
+
+@app.route('/logout')
+def logout():
+    """ Logout the user """
+    session.pop('username', None)  # Remove the username from the session
+    return redirect(url_for('login'))
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    """ Handle file uploads """
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     with app.app_context():
