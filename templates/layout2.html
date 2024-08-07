@@ -7,9 +7,6 @@
     <title>{% block title %}Party with Me - Connect, Create, Celebrate{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&family=Baloo+2:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Include any additional inline CSS here */
-    </style>
 </head>
 <body>
 
@@ -28,20 +25,22 @@
     </header>
 
     <!-- Main Content -->
-    <main>
-        {% block content %}
-        <!-- Page-specific content will be injected here -->
-        {% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-links">
-            <a href="#" onclick="showModal('termsModal')">Terms of Use</a>
-            <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a>
-        </div>
-        <p>&copy; 2024 Party with Me. All rights reserved.</p>
-    </footer>
+    <div class="content">
+        <main class="main-content">
+            {% block content %}
+            <!-- Page-specific content will be injected here -->
+            {% endblock %}
+        </main>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-links">
+                <a href="#" onclick="showModal('termsModal')">Terms of Use</a>
+                <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a>
+            </div>
+            <p>&copy; 2024 Party with Me. All rights reserved.</p>
+        </footer>
+    </div>
 
     <!-- Terms of Use Modal -->
     <div id="termsModal" class="modal">

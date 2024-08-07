@@ -1,10 +1,16 @@
 /* General Styles */
-body {
+html, body {
+    height: 100%;
     margin: 0;
     font-family: 'Baloo 2', cursive, 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #ff7f50 25%, #1e90ff 75%); /* Adjust gradient for a softer effect */
+    background: linear-gradient(135deg, #ff7f50 25%, #1e90ff 75%);
     color: white;
     overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header Styles */
@@ -23,7 +29,7 @@ body {
 }
 
 .header nav a {
-    font-family: 'Baloo 2', cursive; /* Fun font for navigation links */
+    font-family: 'Baloo 2', cursive;
     color: white;
     text-decoration: none;
     margin-left: 15px;
@@ -31,6 +37,19 @@ body {
 
 .header nav a:hover {
     text-decoration: underline;
+}
+
+/* Main Content and Footer Wrapper */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
 }
 
 /* Intro Card Styles */
@@ -47,7 +66,7 @@ body {
 .see-more-link {
     display: block;
     margin-top: 20px;
-    margin-left: -10px; /* Move link slightly to the left */
+    margin-left: -10px;
     color: #ff7f50;
     text-decoration: none;
     font-weight: bold;
@@ -137,6 +156,8 @@ footer {
     50% { color: #1e90ff; }
     75% { color: #32cd32; }
 }
+
+/* Login Form Styles */
 .login {
     max-width: 400px;
     margin: auto;
@@ -205,12 +226,15 @@ footer {
 .login a:hover {
     text-decoration: underline;
 }
+
 .login p, .signup p {
     color: black;
 }
+
 .create-event, .event {
     margin-bottom: 20px;
 }
+
 .event img {
     max-width: 100%;
     height: auto;
