@@ -326,16 +326,17 @@ def uploaded_file(filename):
     """ Handle file uploads """
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-from flask import request, redirect, url_for, flash
-
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
-    """ handle feedback"""
     event_attended = request.form.get('event_attended')
     feedback = request.form.get('feedback')
-    user_name = request.form.get('user_name')
     
-    """Store feedback in the database"""
+    user_name = session.get('username')
+    
+    if not user_name:
+        flash('You need to be logged in to submit feedback.', 'danger')
+        return redirect(url_for('login'))
+
     new_feedback = Feedback(event_attended=event_attended, feedback=feedback, user_name=user_name)
     db.session.add(new_feedback)
     db.session.commit()
