@@ -41,7 +41,14 @@
         </form>
 
         <!-- Share Link -->
-        <button id="shareEventButton" data-url="{{ url_for('event_details_view', event_id=event.id) | tojson | safe }}">Share Event</button>
+        <button id="shareEventButton" data-url="{{ url_for('event_details', event_id=event.id) | tojson | safe }}">Share Event</button>
+    {% else %}
+        <!-- RSVP Form for Guests -->
+        <form action="{{ url_for('rsvp', event_id=event.id) }}" method="POST">
+            <label for="guests">Number of Guests:</label>
+            <input type="number" name="guests" id="guests" value="1" min="1" required>
+            <button type="submit">RSVP</button>
+        </form>
     {% endif %}
 
     <!-- RSVPs Section -->

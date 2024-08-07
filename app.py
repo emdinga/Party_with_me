@@ -238,29 +238,30 @@ def event_created():
     rsvps_count = {event.id: RSVP.query.filter_by(event_id=event.id).count() for event in events}
     return render_template('event_created.html', events=events, rsvps_count=rsvps_count)
 
-@app.route('/rsvp/<int:event_id>', methods=['GET', 'POST'])
+@app.route('/rsvp/<int:event_id>', methods=['POST'])
+@login_required
 def rsvp(event_id):
-    if request.method == 'POST':
-        """Collect data from the form"""
-        rsvp_data = {
-            'name': request.form.get('name'),
-            'email': request.form.get('email'),
-            'guests': request.form.get('guests')
-        }
+    event = Event.query.get_or_404(event_id)
+    guests = request.form.get('guests')
 
-        """Retrieve the event based on the event_id"""
-        event = Event.query.get(event_id)
-        if event:
-            """Create a new RSVP and save to the database"""
-            new_rsvp = RSVP(event_id=event.id, **rsvp_data)
-            db.session.add(new_rsvp)
-            db.session.commit()
+    """Check if the user has already RSVPed"""
+    existing_rsvp = RSVP.query.filter_by(event_id=event_id, user_id=current_user.id).first()
+    if existing_rsvp:
+        flash('You have already RSVPed to this event.')
+        return redirect(url_for('event_details_view', event_id=event_id))
 
-        """Redirect to a different page after processing"""
-        return redirect(url_for('event_created'))
+    """Create a new RSVP record"""
+    new_rsvp = RSVP(
+        event_id=event_id,
+        user_id=current_user.id,
+        guests=guests
+    )
+    db.session.add(new_rsvp)
+    db.session.commit()
+    
+    flash('RSVP successful!')
+    return redirect(url_for('event_details_view', event_id=event_id))
 
-    """Render the RSVP form template"""
-    return render_template('rsvp.html', event_id=event_id)
 
 @app.route('/event_details/<int:event_id>')
 @login_required
@@ -272,24 +273,46 @@ def event_details_view(event_id):
     rsvps = RSVP.query.filter_by(event_id=event.id).all()
     return render_template('event_details.html', event=event, rsvps=rsvps)
 
-@app.route('/event/<int:event_id>/update', methods=['POST'])
+@app.route('/update_event/<int:event_id>', methods=['POST'])
 @login_required
 def update_event(event_id):
-    """ Update event details """
+    """update existing event"""
     event = Event.query.get_or_404(event_id)
     if event.owner_id != current_user.id:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
-    """Update event details from form"""
-    event.title = request.form.get('title')
-    event.date = request.form.get('date')
-    event.location = request.form.get('location')
-    event.rsvp_limit = request.form.get('rsvp_limit')
-    event.announcements = request.form.get('announcements')
-    """Handle file upload for poster image if needed"""
+    """Fetch form data"""
+    title = request.form['title']
+    date_str = request.form['date']
+    location = request.form['location']
+    rsvp_limit = request.form['rsvp_limit']
+    announcements = request.form['announcements']
+
+    """Convert date string to datetime.date object"""
+    try:
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    except ValueError:
+        flash('Invalid date format. Please use YYYY-MM-DD.')
+        return redirect(url_for('event_details_view', event_id=event_id))
+
+    event.title = title
+    event.date = date
+    event.location = location
+    event.rsvp_limit = rsvp_limit
+    event.announcements = announcements
+
+    """Handle file upload for poster_image if a file was uploaded"""
+    if 'poster_image' in request.files:
+        poster_image = request.files['poster_image']
+        if poster_image.filename != '':
+            """Save the file to the static directory and update the event object"""
+            poster_image_filename = secure_filename(poster_image.filename)
+            poster_image.save(os.path.join(app.config['UPLOAD_FOLDER'], poster_image_filename))
+            event.poster_image = os.path.join('uploads', poster_image_filename)
+
     db.session.commit()
-
-    return redirect(url_for('event_details_view', event_id=event_id))
+    flash('Event updated successfully.')
+    return redirect(url_for('event_details_view', event_id=event.id))
 
 @app.route('/event/<int:event_id>/delete', methods=['POST'])
 @login_required
