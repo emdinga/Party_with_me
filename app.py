@@ -93,7 +93,7 @@ def forgot_password():
         if user:
             s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
             token = s.dumps(email, salt='password-reset-salt')
-            expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+            expiration = datetime.utcnow() + datetime.timedelta(hours=1)
             
             reset_token = PasswordResetToken(email=email, token=token, expiration=expiration)
             db.session.add(reset_token)
@@ -155,6 +155,7 @@ def create_event():
         date_str = request.form['date']
         location = request.form['location']
         poster = request.files['poster']
+        privacy = request.form['privacy']  # New field
         
         errors = []
         
@@ -165,6 +166,8 @@ def create_event():
             errors.append("Date is required.")
         if not location:
             errors.append("Location is required.")
+        if not privacy:
+            errors.append("Privacy setting is required.")  # Check for privacy field
         
         if errors:
             return render_template('create_event.html', errors=errors)
@@ -188,13 +191,14 @@ def create_event():
             return render_template('create_event.html', errors=errors)
         
         """Save the event to the database"""
-        new_event = Event(title=title, date=date, location=location, poster=filename)
+        new_event = Event(title=title, date=date, location=location, poster=filename, privacy=privacy)  # Include privacy
         db.session.add(new_event)
         db.session.commit()
         
         return redirect(url_for('members_home'))
     
     return render_template('create_event.html')
+
 @app.route('/event-created')
 def event_created():
     events = Event.query.all()
@@ -207,6 +211,7 @@ def rsvp(title):
         rsvp_data = {
             'name': request.form.get('name'),
             'email': request.form.get('email'),
+            'guests': request.form```python
             'guests': request.form.get('guests')
         }
 
@@ -237,12 +242,11 @@ def event_details(event_id):
         flash("Event not found.")
         return redirect(url_for('members_home'))
 
-
 @app.route('/members_home')
 def members_home():
     events = Event.query.all()
-    return render_template('members_home.html', events=events)
-
+    future_events = [event for event in events if event.date >= datetime.now().date()]
+    return render_template('members_home.html', events=future_events)
 
 @app.route('/about_members')
 def about_members():

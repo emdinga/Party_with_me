@@ -52,6 +52,41 @@ body {
     padding: 20px;
 }
 
+/* Form Styles */
+.create-event form, .signup form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.create-event label, .signup label {
+    margin-top: 10px;
+}
+
+.create-event input, .signup input, .create-event button, .signup button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.create-event button, .signup button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.create-event button:hover, .signup button:hover {
+    background-color: #0056b3;
+}
+
 /* Intro Card Styles */
 .intro-card {
     background: rgba(255, 255, 255, 0.1);

@@ -19,7 +19,13 @@
             
             <label for="poster">Poster Image (optional):</label>
             <input type="file" id="poster" name="poster" accept="image/*">
-            
+
+            <label for="privacy">Event Privacy:</label>
+            <select id="privacy" name="privacy" required>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+            </select>
+
             <button type="submit">Create Event</button>
         </form>
     </section>
@@ -30,17 +36,25 @@
     <!-- Events Section -->
     <section id="events-section">
         <h2>Upcoming Events</h2>
-        {% for event in events %}
-            <div class="event">
-                <h3>{{ event.title }}</h3>
-                <p><strong>Date:</strong> {{ event.date }}</p>
-                <p><strong>Location:</strong> {{ event.location }}</p>
-                {% if event.poster_image %}
-                    <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
-                {% endif %}
-                <a href="{{ url_for('event_details', event_id=event.id) }}">See Details</a>
-            </div>
-        {% endfor %}
+        {% if events %}
+            {% for event in events %}
+                <div class="event">
+                    <h3>{{ event.title }}</h3>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    {% if event.poster_image %}
+                        <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
+                    {% endif %}
+                    <p><strong>Privacy:</strong> {{ event.privacy }}</p>
+                    {% if event.privacy == 'private' %}
+                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', event_id=event.id) }}">RSVP Here</a></p>
+                    {% endif %}
+                    <a href="{{ url_for('event_details', event_id=event.id) }}">See Details</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No upcoming events created.</p>
+        {% endif %}
     </section>
 </main>
 {% endblock %}
