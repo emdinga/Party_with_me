@@ -2,27 +2,31 @@
 """ Start Flask application """
 
 import os
+from datetime import datetime, timedelta
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, url_for, g, flash, session, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Event, RSVP, db, User, PasswordResetToken, Feedback
-from flask_login import login_required, current_user
+from flask_login import LoginManager, login_required, current_user, login_user, logout_user
 from flask_mail import Mail, Message
-from datetime import datetime
+from models import Event, RSVP, db, User, PasswordResetToken, Feedback
 
 app = Flask(__name__)
-app.config['MAIL_SERVER'] = 'smtp.your-email-provider.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'your-email@example.com'
-app.config['MAIL_PASSWORD'] = 'your-email-password'
+app.config['MAIL_USERNAME'] = 'emdinga@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Mbhamalih123'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.secret_key = '123456789'
 
 mail = Mail(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 """SQLite DB configuration"""
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_with_me.db'
@@ -35,6 +39,11 @@ migrate = Migrate(app, db)
 """Define the upload folder"""
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@login_manager.user_loader
+def load_user(user_id):
+    """This should return a user object given the user_id"""
+    return User.query.get(int(user_id))
 
 """Create tables if they don't exist"""
 @app.before_first_request
@@ -71,9 +80,11 @@ def signup():
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Account created successfully! Please log in.')
         return redirect(url_for('login'))
 
     return render_template('signup.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """ defining login page"""
@@ -89,6 +100,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
             """Store the username in the session"""
+            login_user(user)
             session['username'] = user.username  
             return redirect(url_for('members_home'))
         else:
@@ -106,7 +118,7 @@ def forgot_password():
         if user:
             s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
             token = s.dumps(email, salt='password-reset-salt')
-            expiration = datetime.utcnow() + datetime.timedelta(hours=1)
+            expiration = datetime.utcnow() + timedelta(hours=1)
             
             reset_token = PasswordResetToken(email=email, token=token, expiration=expiration)
             db.session.add(reset_token)
@@ -163,6 +175,7 @@ def home():
     return render_template('index.html', events=events)
 
 @app.route('/create_event', methods=['GET', 'POST'])
+@login_required
 def create_event():
     if request.method == 'POST':
         title = request.form.get('title')
@@ -204,10 +217,6 @@ def create_event():
             return render_template('create_event.html', errors=errors)
 
         """Save the event to the database"""
-        if not current_user.is_authenticated:
-            errors.append("User must be logged in to create an event.")
-            return render_template('create_event.html', errors=errors)
-
         new_event = Event(
             title=title,
             date=date,
@@ -222,7 +231,6 @@ def create_event():
         return redirect(url_for('members_home'))
 
     return render_template('create_event.html')
-
 
 @app.route('/event-created')
 def event_created():
@@ -253,13 +261,6 @@ def rsvp(title):
 
     """Render the RSVP form template"""
     return render_template('rsvp.html', title=title)
-
-def get_event_and_rsvps(event_id):
-    event = Event.query.get(event_id)
-    if event:
-        rsvps = RSVP.query.filter_by(event_id=event.id).all()
-        return event, rsvps
-    return None, None
 
 @app.route('/event_details/<int:event_id>')
 @login_required
@@ -319,12 +320,15 @@ def about_members():
     return render_template("about_members.html")
 
 @app.route('/logout')
+@login_required
 def logout():
     """ Logout the user """
+    logout_user()
     session.pop('username', None) 
     return redirect(url_for('login'))
 
 @app.route('/members_home')
+@login_required
 def members_home():
     """ Members home page: Show only public events and user testimonials """
     events = Event.query.filter_by(privacy='public').all()
@@ -332,13 +336,13 @@ def members_home():
     testimonials = Feedback.query.all()
     return render_template('members_home.html', events=future_events, testimonials=testimonials)
 
-
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """ Handle file uploads """
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/submit_feedback', methods=['POST'])
+@login_required
 def submit_feedback():
     event_attended = request.form.get('event_attended')
     feedback = request.form.get('feedback')
@@ -355,7 +359,6 @@ def submit_feedback():
     
     flash('Thank you for your feedback!', 'success')
     return redirect(url_for('members_home'))
-
 
 if __name__ == '__main__':
     with app.app_context():

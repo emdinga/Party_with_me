@@ -6,3 +6,4 @@ SQLAlchemy==1.4.22
 Flask-Migrate
 Flask-Mail
 Flask_login
+itsdangerous
