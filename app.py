@@ -208,21 +208,25 @@ def event_created():
 @app.route('/rsvp/<title>', methods=['GET', 'POST'])
 def rsvp(title):
     if request.method == 'POST':
+        # Collect data from the form
         rsvp_data = {
             'name': request.form.get('name'),
             'email': request.form.get('email'),
-            'guests': request.form```python
             'guests': request.form.get('guests')
         }
 
+        # Retrieve the event based on the title
         event = Event.query.filter_by(title=title).first()
         if event:
+            # Create a new RSVP and save to the database
             new_rsvp = RSVP(event_id=event.id, **rsvp_data)
             db.session.add(new_rsvp)
             db.session.commit()
 
+        # Redirect to a different page after processing
         return redirect(url_for('event_created'))
 
+    # Render the RSVP form template
     return render_template('rsvp.html', title=title)
 
 def get_event_and_rsvps(event_id):
