@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Event, RSVP, db, User, PasswordResetToken
+from flask_login import login_required, current_user
 from flask_mail import Mail, Message
 from datetime import datetime
 
@@ -265,6 +266,53 @@ def logout():
 def uploaded_file(filename):
     """static file handle"""
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/event/<int:event_id>')
+@login_required
+def event_details(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.owner_id != current_user.id:
+        return redirect(url_for('index'))
+    return render_template('event_details.html', event=event)
+
+@app.route('/event/<int:event_id>/update', methods=['POST'])
+@login_required
+def update_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.owner_id != current_user.id:
+        return redirect(url_for('index'))
+
+    # Update event details from form
+    event.title = request.form.get('title')
+    event.date = request.form.get('date')
+    event.location = request.form.get('location')
+    event.rsvp_limit = request.form.get('rsvp_limit')
+    event.announcements = request.form.get('announcements')
+    # Handle file upload for poster image
+    db.session.commit()
+
+    return redirect(url_for('event_details', event_id=event_id))
+
+@app.route('/event/<int:event_id>/delete', methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.owner_id != current_user.id:
+        return redirect(url_for('index'))
+
+    db.session.delete(event)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/event/<int:event_id>/rsvps')
+@login_required
+def view_rsvps(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.owner_id != current_user.id:
+        return redirect(url_for('index'))
+
+    rsvps = RSVP.query.filter_by(event_id=event_id).all()
+    return render_template('rsvps.html', event=event, rsvps=rsvps)
 
 if __name__ == '__main__':
     with app.app_context():

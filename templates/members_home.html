@@ -1,39 +1,28 @@
-{% extends "layout.html" %}
-
-{% block title %}Members Home{% endblock %}
+{% extends "layout2.html" %}
 
 {% block content %}
 <main>
-    <!-- Create Event Form -->
-    <section class="create-event">
-        <h2>Create a New Event</h2>
-        <form action="{{ url_for('create_event') }}" method="POST" enctype="multipart/form-data">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-            
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
-            
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
-            
-            <label for="poster">Poster Image (optional):</label>
-            <input type="file" id="poster" name="poster" accept="image/*">
-
-            <label for="privacy">Event Privacy:</label>
-            <select id="privacy" name="privacy" required>
-                <option value="public">Public</option>
-                <option value="private">Private</option>
-            </select>
-
-            <button type="submit">Create Event</button>
-        </form>
+    <!-- Introduction Section -->
+    <section class="intro-card">
+        <p>Welcome to Party with Me, where you can connect with friends, create memorable events, and celebrate together!</p>
+        <p>This application helps you find the best parties nearby, whether you're looking to host or just join the fun. Available to anyone looking to unwind and make new connections every day!</p>
+        <a class="see-more-link" href="#" onclick="toggleSeeMore(event)">See More</a>
     </section>
+    
+    <!-- Additional Information Section -->
+    <div class="see-more" style="display: none;">
+        <section class="testimonials">
+            <h2>What Our Users Are Saying</h2>
+            <div class="testimonial">
+                <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+            </div>
+            <div class="testimonial">
+                <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+            </div>
+        </section>
+    </div>
 
-    <!-- See Upcoming Events Link -->
-    <p><a href="#events-section" onclick="scrollToSection()">See Upcoming Events</a></p>
-
-    <!-- Events Section -->
+    <!-- Upcoming Events Section -->
     <section id="events-section">
         <h2>Upcoming Events</h2>
         {% if events %}
@@ -47,9 +36,9 @@
                     {% endif %}
                     <p><strong>Privacy:</strong> {{ event.privacy }}</p>
                     {% if event.privacy == 'private' %}
-                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', event_id=event.id) }}">RSVP Here</a></p>
+                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', title=event.title) }}">RSVP Here</a></p>
                     {% endif %}
-                    <a href="{{ url_for('event_details', event_id=event.id) }}">See Details</a>
+                    <a href="{{ url_for('event_details', title=event.title) }}">See Details</a>
                 </div>
             {% endfor %}
         {% else %}
@@ -59,8 +48,33 @@
 </main>
 {% endblock %}
 
+{% block scripts %}
 <script>
+    function toggleSeeMore(event) {
+        event.preventDefault(); // Prevent default link behavior
+        const seeMoreSection = document.querySelector('.see-more');
+        const button = document.querySelector('.see-more-link');
+        if (seeMoreSection.style.display === 'block') {
+            seeMoreSection.style.display = 'none';
+            button.textContent = 'See More';
+        } else {
+            seeMoreSection.style.display = 'block';
+            button.textContent = 'See Less';
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+        }
+    }
+
     function scrollToSection() {
         document.getElementById('events-section').scrollIntoView({ behavior: 'smooth' });
     }
+
+    function showModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+        document.getElementById(modalId).scrollTop = 0; // Ensure the modal starts at the top
+    }
+
+    function hideModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
 </script>
+{% endblock %}

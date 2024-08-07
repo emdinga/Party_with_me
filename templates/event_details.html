@@ -1,23 +1,93 @@
-{% extends "layout.html" %}
+{% extends "layout2.html" %}
 
 {% block content %}
 <main>
-    <section class="event-details">
-        <h2>{{ event.title }}</h2>
-        <p>Date: {{ event.date }}</p>
-        <p>Location: {{ event.location }}</p>
-        <p>Organizer: {{ event.organizer }}</p>
-        {% if event.poster_image %}
-            <img src="{{ url_for('static', filename=event.poster_image) }}" alt="Event Poster">
-        {% else %}
-            <p>No poster available for this event.</p>
-        {% endif %}
-        <h3>RSVPs</h3>
-        <ul>
+    <h1>{{ event.title }}</h1>
+    <p><strong>Date:</strong> {{ event.date }}</p>
+    <p><strong>Location:</strong> {{ event.location }}</p>
+    {% if event.poster_image %}
+        <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
+    {% endif %}
+    <p><strong>Privacy:</strong> {{ event.privacy }}</p>
+    <p><strong>Announcements:</strong> {{ event.announcements }}</p>
+
+    {% if event.owner_id == current_user.id %}
+        <!-- Event Management Form -->
+        <form action="{{ url_for('update_event', event_id=event.id) }}" method="POST" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" value="{{ event.title }}" required>
+            
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" value="{{ event.date }}" required>
+            
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" value="{{ event.location }}" required>
+            
+            <label for="rsvp_limit">RSVP Limit:</label>
+            <input type="number" name="rsvp_limit" id="rsvp_limit" value="{{ event.rsvp_limit }}" min="1" required>
+            
+            <label for="announcements">Announcements:</label>
+            <textarea name="announcements" id="announcements">{{ event.announcements }}</textarea>
+            
+            <label for="poster_image">Change Poster Image:</label>
+            <input type="file" name="poster_image" id="poster_image">
+            
+            <button type="submit">Update Event</button>
+        </form>
+
+        <!-- Delete Event Form -->
+        <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST" style="margin-top: 20px;">
+            <button type="submit">Delete Event</button>
+        </form>
+
+        <!-- Share Link -->
+        <button id="shareEventButton" data-url="{{ url_for('event_details', event_id=event.id) | tojson | safe }}">Share Event</button>
+    {% endif %}
+
+    <!-- RSVPs Section -->
+    <section>
+        <h2>RSVPs</h2>
+        {% if rsvps %}
             {% for rsvp in rsvps %}
-                <li>{{ rsvp.name }} ({{ rsvp.email }}) - Guests: {{ rsvp.guests }}</li>
+                <div>
+                    <p><strong>Name:</strong> {{ rsvp.name }}</p>
+                    <p><strong>Email:</strong> {{ rsvp.email }}</p>
+                    <p><strong>Guests:</strong> {{ rsvp.guests }}</p>
+                </div>
             {% endfor %}
-        </ul>
+        {% else %}
+            <p>No RSVPs yet.</p>
+        {% endif %}
     </section>
 </main>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('shareEventButton');
+        const url = button.getAttribute('data-url');
+        
+        button.addEventListener('click', function() {
+            shareEvent(url);
+        });
+    });
+
+    function shareEvent(url) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Check out this event!',
+                url: url
+            }).then(() => {
+                console.log('Thanks for sharing!');
+            }).catch((error) => {
+                console.log('Error sharing:', error);
+            });
+        } else {
+            // Fallback for browsers that do not support the Share API
+            prompt('Copy this link to share:', url);
+        }
+    }
+</script>
+{% endblock %}
+
