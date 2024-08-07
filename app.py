@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for, g, flash, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Event, RSVP, db, User, PasswordResetToken
+from models import Event, RSVP, db, User, PasswordResetToken, Feedback
 from flask_login import login_required, current_user
 from flask_mail import Mail, Message
 from datetime import datetime
@@ -314,15 +314,35 @@ def logout():
 
 @app.route('/members_home')
 def members_home():
-    """ Members home page: Show only public events """
+    """ Members home page: Show only public events and user testimonials """
     events = Event.query.filter_by(privacy='public').all()
     future_events = [event for event in events if event.date >= datetime.now().date()]
-    return render_template('members_home.html', events=future_events)
+    testimonials = Feedback.query.all()
+    return render_template('members_home.html', events=future_events, testimonials=testimonials)
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """ Handle file uploads """
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+from flask import request, redirect, url_for, flash
+
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    """ handle feedback"""
+    event_attended = request.form.get('event_attended')
+    feedback = request.form.get('feedback')
+    user_name = request.form.get('user_name')
+    
+    """Store feedback in the database"""
+    new_feedback = Feedback(event_attended=event_attended, feedback=feedback, user_name=user_name)
+    db.session.add(new_feedback)
+    db.session.commit()
+    
+    flash('Thank you for your feedback!', 'success')
+    return redirect(url_for('members_home'))
+
 
 if __name__ == '__main__':
     with app.app_context():

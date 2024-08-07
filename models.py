@@ -35,3 +35,12 @@ class PasswordResetToken(db.Model):
     email = db.Column(db.String(150), nullable=False)
     token = db.Column(db.String(200), nullable=False)
     expiration = db.Column(db.DateTime, nullable=False)
+
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    event_attended = db.Column(db.String(50), nullable=False)
+    feedback = db.Column(db.Text, nullable=False)
+    user_name = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<Feedback {self.id}>'

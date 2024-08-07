@@ -2,27 +2,7 @@
 
 {% block content %}
 <main>
-    <!-- Introduction Section -->
-    <section class="intro-card">
-        <p>Welcome to Party with Me, where you can connect with friends, create memorable events, and celebrate together!</p>
-        <p>This application helps you find the best parties nearby, whether you're looking to host or just join the fun. Available to anyone looking to unwind and make new connections every day!</p>
-        <a class="see-more-link" href="#" onclick="toggleSeeMore(event)">See More</a>
-    </section>
-
-    <!-- Additional Information Section -->
-    <div class="see-more" style="display: none;">
-        <section class="testimonials">
-            <h2>What Our Users Are Saying</h2>
-            <div class="testimonial">
-                <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
-            </div>
-            <div class="testimonial">
-                <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
-            </div>
-        </section>
-    </div>
-
-    <!-- Upcoming Events Section -->
+    <!-- Existing Content -->
     <section id="events-section">
         <h2>Upcoming Events</h2>
         {% if events %}
@@ -43,6 +23,39 @@
             {% endfor %}
         {% else %}
             <p>No upcoming events created.</p>
+        {% endif %}
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback-section">
+        <h2>We Value Your Feedback!</h2>
+        <form action="{{ url_for('submit_feedback') }}" method="POST">
+            <label for="event_attended">Have you ever attended or hosted a party with us?</label>
+            <select id="event_attended" name="event_attended" required>
+                <option value="attended">Attended</option>
+                <option value="hosted">Hosted</option>
+                <option value="both">Both</option>
+                <option value="none">None</option>
+            </select>
+            
+            <label for="feedback">Your Feedback (up to 200 words):</label>
+            <textarea id="feedback" name="feedback" rows="4" maxlength="1000" required></textarea>
+            
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials-section">
+        <h2>What Our Users Are Saying</h2>
+        {% if testimonials %}
+            {% for testimonial in testimonials %}
+                <div class="testimonial">
+                    <p>"{{ testimonial.feedback }}" - {{ testimonial.user_name }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No testimonials yet. Be the first to share your experience!</p>
         {% endif %}
     </section>
 </main>
