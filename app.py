@@ -196,7 +196,7 @@ def create_event():
             poster_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             poster.save(poster_path)
 
-        """convert date string to date object"""
+        """Convert date string to date object"""
         try:
             date = datetime.strptime(date_str, '%Y-%m-%d').date()
         except ValueError:
@@ -204,7 +204,18 @@ def create_event():
             return render_template('create_event.html', errors=errors)
 
         """Save the event to the database"""
-        new_event = Event(title=title, date=date, location=location, poster=filename, privacy=privacy)
+        if not current_user.is_authenticated:
+            errors.append("User must be logged in to create an event.")
+            return render_template('create_event.html', errors=errors)
+
+        new_event = Event(
+            title=title,
+            date=date,
+            location=location,
+            poster=filename,
+            privacy=privacy,
+            owner_id=current_user.id
+        )
         db.session.add(new_event)
         db.session.commit()
 
