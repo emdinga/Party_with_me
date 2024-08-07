@@ -196,7 +196,7 @@ def create_event():
             poster_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             poster.save(poster_path)
 
-        """Convert date string to date object"""
+        """convert date string to date object"""
         try:
             date = datetime.strptime(date_str, '%Y-%m-%d').date()
         except ValueError:
@@ -211,6 +211,7 @@ def create_event():
         return redirect(url_for('members_home'))
 
     return render_template('create_event.html')
+
 
 @app.route('/event-created')
 def event_created():

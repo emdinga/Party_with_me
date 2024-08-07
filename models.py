@@ -16,11 +16,12 @@ class Event(db.Model):
     date = db.Column(db.Date, nullable=False)
     location = db.Column(db.String(255), nullable=False)
     privacy = db.Column(db.String(50), nullable=False)
-    poster_image = db.Column(db.String(255), nullable=True)
+    poster = db.Column(db.String(255), nullable=True) 
     announcements = db.Column(db.Text, nullable=True)
     rsvp_limit = db.Column(db.Integer, nullable=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     owner = db.relationship('User', backref=db.backref('events', lazy=True))
+
 
 class RSVP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
