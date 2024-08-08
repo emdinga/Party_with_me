@@ -47,6 +47,7 @@ class Feedback(db.Model):
     event_attended = db.Column(db.String(50), nullable=False)
     feedback = db.Column(db.Text, nullable=False)
     user_name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<Feedback {self.id}>'
