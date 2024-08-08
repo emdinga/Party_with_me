@@ -383,6 +383,33 @@ def submit_feedback():
     flash('Thank you for your feedback!', 'success')
     return redirect(url_for('members_home'))
 
+@app.route('/profile')
+@login_required
+def profile():
+    """ template to show user profiles"""
+    return render_template('profile.html', user=current_user)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    """ update user profiles"""
+    if request.method == 'POST':
+        current_user.bio = request.form['bio']
+        current_user.contact_info = request.form['contact_info']
+
+        if 'profile_picture' in request.files:
+            profile_picture = request.files['profile_picture']
+            if profile_picture.filename != '':
+                filename = secure_filename(profile_picture.filename)
+                profile_picture.save(os.path.join('static/profile_pictures', filename))
+                current_user.profile_picture = filename
+
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('profile'))
+
+    return render_template('edit_profile.html', user=current_user)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

@@ -51,11 +51,17 @@
             <h1 class="flashing-logo">Party with Me</h1>
         </div>
         <nav>
-            <span>{{ user_name }}</span> <!-- Display the user's name here -->
-            <a href="/members_home">Home</a>
-            <a href="/about_members">About</a>
-            <a href="{{ url_for('create_event') }}">Create Event</a>
-            <a href="/logout">Logout</a>
+            {% if current_user.is_autheticated %}
+                <span>{{ current_user.username }}</span> 
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('about_members') }}">About</a>
+                <a href="{{ url_for('create_event') }}">Create Event</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
         </nav>
     </header>
 

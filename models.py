@@ -4,11 +4,16 @@ from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    bio = db.Column(db.String(500))
+    profile_picture = db.Column(db.String(150))
+    contact_info = db.Column(db.String(150))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,3 +50,11 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return f'<Feedback {self.id}>'
+    
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    bio = db.Column(db.String(500))
+    profile_picture = db.Column(db.String(150))
+    contact_info = db.Column(db.String(150))
+    user = db.relationship('User', backref=db.backref('profile', uselist=False))
