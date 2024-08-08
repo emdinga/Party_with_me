@@ -174,7 +174,7 @@ def home():
     """Retrieve upcoming public events"""
     future_events = Event.query.filter(Event.date >= datetime.utcnow(), Event.privacy == 'public').all()
     
-    """Retrieve testimonials""""
+    """Retrieve testimonials"""
     testimonials = Feedback.query.order_by(Feedback.date.desc()).all()
     
     return render_template('index.html', future_events=future_events, testimonials=testimonials)
