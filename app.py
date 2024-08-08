@@ -171,8 +171,13 @@ def before_request():
 @app.route('/')
 def home():
     """ Landing page: Show only public events """
-    events = Event.query.filter_by(privacy='public').all()
-    return render_template('index.html', events=events)
+    """Retrieve upcoming public events"""
+    future_events = Event.query.filter(Event.date >= datetime.utcnow(), Event.privacy == 'public').all()
+    
+    """Retrieve testimonials""""
+    testimonials = Feedback.query.order_by(Feedback.date.desc()).all()
+    
+    return render_template('index.html', future_events=future_events, testimonials=testimonials)
 
 @app.route('/create_event', methods=['GET', 'POST'])
 @login_required
