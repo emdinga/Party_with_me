@@ -409,13 +409,14 @@ def edit_profile():
                 file_path = os.path.join('static/profile_pictures', filename)
                 profile_picture.save(file_path)
                 current_user.profile_picture = filename
-                print(f'File saved to: {file_path}')
+                print(f'File saved to: {file_path}')  # Debugging line
 
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('profile'))
 
     return render_template('edit_profile.html', user=current_user)
+
 
 
 if __name__ == '__main__':
