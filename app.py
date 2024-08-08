@@ -397,23 +397,26 @@ def profile():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    """ update user profiles"""
+    """ Update user profiles """
     if request.method == 'POST':
-        current_user.bio = request.form['bio']
-        current_user.contact_info = request.form['contact_info']
+        current_user.bio = request.form.get('bio', '')
+        current_user.contact_info = request.form.get('contact_info', '')
 
         if 'profile_picture' in request.files:
             profile_picture = request.files['profile_picture']
-            if profile_picture.filename != '':
+            if profile_picture and profile_picture.filename != '':
                 filename = secure_filename(profile_picture.filename)
-                profile_picture.save(os.path.join('static/profile_pictures', filename))
+                file_path = os.path.join('static/profile_pictures', filename)
+                profile_picture.save(file_path)
                 current_user.profile_picture = filename
+                print(f'File saved to: {file_path}')
 
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('profile'))
 
     return render_template('edit_profile.html', user=current_user)
+
 
 if __name__ == '__main__':
     with app.app_context():
