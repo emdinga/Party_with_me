@@ -5,12 +5,15 @@
     <h1>{{ event.title }}</h1>
     <p><strong>Date:</strong> {{ event.date }}</p>
     <p><strong>Location:</strong> {{ event.location }}</p>
+    
     {% if event.poster_image %}
         <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
     {% endif %}
+    
     <p><strong>Privacy:</strong> {{ event.privacy }}</p>
     <p><strong>Announcements:</strong> {{ event.announcements }}</p>
 
+    <!-- Owner's Event Management Section -->
     {% if event.owner_id == current_user.id %}
         <!-- Event Management Form -->
         <form action="{{ url_for('update_event', event_id=event.id) }}" method="POST" enctype="multipart/form-data">
@@ -42,6 +45,8 @@
 
         <!-- Share Link -->
         <button id="shareEventButton" data-url="{{ url_for('event_details_view', event_id=event.id) | tojson | safe }}">Share Event</button>
+    
+    <!-- Guest's RSVP Section -->
     {% else %}
         <!-- RSVP Form for Guests -->
         <form action="{{ url_for('rsvp', event_id=event.id) }}" method="POST">
@@ -57,8 +62,8 @@
         {% if rsvps %}
             {% for rsvp in rsvps %}
                 <div>
-                    <p><strong>Name:</strong> {{ rsvp.name }}</p>
-                    <p><strong>Email:</strong> {{ rsvp.email }}</p>
+                    <p><strong>Name:</strong> {{ rsvp.user.username }}</p>
+                    <p><strong>Email:</strong> {{ rsvp.user.email }}</p>
                     <p><strong>Guests:</strong> {{ rsvp.guests }}</p>
                 </div>
             {% endfor %}

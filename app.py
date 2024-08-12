@@ -2,6 +2,7 @@
 """ Start Flask application """
 
 import os
+from PIL import Image
 from datetime import datetime, timedelta
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.utils import secure_filename
@@ -268,56 +269,72 @@ def rsvp(event_id):
     return redirect(url_for('event_details_view', event_id=event_id))
 
 
-@app.route('/event_details/<int:event_id>')
+@app.route('/event/<int:event_id>', methods=['GET', 'POST'])
 @login_required
 def event_details_view(event_id):
-    """ View details of the event """
     event = Event.query.get_or_404(event_id)
-    if event.owner_id != current_user.id:
-        return redirect(url_for('home'))
-    rsvps = RSVP.query.filter_by(event_id=event.id).all()
+    rsvps = RSVP.query.filter_by(event_id=event_id).all()
+
+    if request.method == 'POST':
+        """Handle RSVP for guests"""
+        if 'guests' in request.form:
+            guests_count = int(request.form['guests'])
+            new_rsvp = RSVP(
+                user_id=current_user.id,
+                event_id=event_id,
+                guests=guests_count
+            )
+            db.session.add(new_rsvp)
+            db.session.commit()
+            flash('You have successfully RSVP\'d!', 'success')
+            return redirect(url_for('event_details_view', event_id=event_id))
+
     return render_template('event_details.html', event=event, rsvps=rsvps)
 
 @app.route('/update_event/<int:event_id>', methods=['POST'])
 @login_required
 def update_event(event_id):
-    """update existing event"""
     event = Event.query.get_or_404(event_id)
+
     if event.owner_id != current_user.id:
+        flash('You do not have permission to edit this event.', 'danger')
         return redirect(url_for('home'))
 
-    """Fetch form data"""
-    title = request.form['title']
-    date_str = request.form['date']
-    location = request.form['location']
-    rsvp_limit = request.form['rsvp_limit']
-    announcements = request.form['announcements']
+    event.title = request.form['title']
+    event.location = request.form['location']
+    event.rsvp_limit = request.form['rsvp_limit']
+    event.announcements = request.form['announcements']
 
     """Convert date string to datetime.date object"""
+    date_str = request.form['date']
     try:
-        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        event.date = datetime.strptime(date_str, '%Y-%m-%d').date()
     except ValueError:
-        flash('Invalid date format. Please use YYYY-MM-DD.')
-        return redirect(url_for('event_details_view', event_id=event_id))
+        flash('Invalid date format. Please use YYYY-MM-DD.', 'danger')
+        return redirect(url_for('update_event', event_id=event.id))
 
-    event.title = title
-    event.date = date
-    event.location = location
-    event.rsvp_limit = rsvp_limit
-    event.announcements = announcements
-
-    """Handle file upload for poster_image if a file was uploaded"""
     if 'poster_image' in request.files:
         poster_image = request.files['poster_image']
-        if poster_image.filename != '':
-            """Save the file to the static directory and update the event object"""
-            poster_image_filename = secure_filename(poster_image.filename)
-            poster_image.save(os.path.join(app.config['UPLOAD_FOLDER'], poster_image_filename))
-            event.poster_image = os.path.join('uploads', poster_image_filename)
+        if poster_image and poster_image.filename != '':
+            filename = secure_filename(poster_image.filename)
+            upload_folder = os.path.join(app.root_path, 'static/poster_images')
+            
+            """Ensure directory exists"""
+            os.makedirs(upload_folder, exist_ok=True)
+            
+            file_path = os.path.join(upload_folder, filename)
+            
+            """Resize the poster image if necessary"""
+            image = Image.open(poster_image)
+            image = image.resize((600, 800))
+            image.save(file_path)
+            
+            event.poster_image = f'poster_images/{filename}'
 
     db.session.commit()
-    flash('Event updated successfully.')
+    flash('Event updated successfully!', 'success')
     return redirect(url_for('event_details_view', event_id=event.id))
+
 
 @app.route('/event/<int:event_id>/delete', methods=['POST'])
 @login_required
@@ -394,8 +411,6 @@ def profile():
     """ template to show user profiles"""
     return render_template('profile.html', user=current_user)
 
-import os
-
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -410,15 +425,16 @@ def edit_profile():
                 filename = secure_filename(profile_picture.filename)
                 upload_folder = os.path.join(app.root_path, 'static/profile_pictures')
                 
-                # Print path for debugging
-                print(f"Upload folder: {upload_folder}")
-                print(f"File path: {os.path.join(upload_folder, filename)}")
-                
-                # Ensure directory exists
+                """Ensure directory exists"""
                 os.makedirs(upload_folder, exist_ok=True)
                 
                 file_path = os.path.join(upload_folder, filename)
-                profile_picture.save(file_path)
+                
+                """Resize image"""
+                image = Image.open(profile_picture)
+                image = image.resize((150, 150))
+                image.save(file_path)
+                
                 current_user.profile_picture = filename
 
         db.session.commit()

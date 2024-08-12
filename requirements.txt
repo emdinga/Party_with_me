@@ -7,3 +7,4 @@ Flask-Migrate
 Flask-Mail
 Flask_login
 itsdangerous
+Pillow-10.4.0

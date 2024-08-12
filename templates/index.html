@@ -57,6 +57,7 @@
 <script>
     function toggleSeeMore(event) {
         event.preventDefault(); // Prevent default link behavior
+        console.log('toggleSeeMore function called'); // Debugging line
         const seeMoreSection = document.querySelector('.see-more');
         const button = document.querySelector('.see-more-link');
         if (seeMoreSection.style.display === 'block') {
@@ -67,15 +68,6 @@
             button.textContent = 'See Less';
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
         }
-    }
-
-    function showModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-        document.getElementById(modalId).scrollTop = 0; // Ensure the modal starts at the top
-    }
-
-    function hideModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
     }
 </script>
 {% endblock %}
