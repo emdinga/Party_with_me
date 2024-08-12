@@ -394,6 +394,8 @@ def profile():
     """ template to show user profiles"""
     return render_template('profile.html', user=current_user)
 
+import os
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -406,16 +408,25 @@ def edit_profile():
             profile_picture = request.files['profile_picture']
             if profile_picture and profile_picture.filename != '':
                 filename = secure_filename(profile_picture.filename)
-                file_path = os.path.join('static/profile_pictures', filename)
+                upload_folder = os.path.join(app.root_path, 'static/profile_pictures')
+                
+                # Print path for debugging
+                print(f"Upload folder: {upload_folder}")
+                print(f"File path: {os.path.join(upload_folder, filename)}")
+                
+                # Ensure directory exists
+                os.makedirs(upload_folder, exist_ok=True)
+                
+                file_path = os.path.join(upload_folder, filename)
                 profile_picture.save(file_path)
                 current_user.profile_picture = filename
-                print(f'File saved to: {file_path}')  # Debugging line
 
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('profile'))
 
     return render_template('edit_profile.html', user=current_user)
+
 
 
 
