@@ -31,9 +31,9 @@ class Event(db.Model):
 class RSVP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    name = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(150), nullable=False)
-    guests = db.Column(db.Integer, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    guests = db.Column(db.Integer, nullable=False)
+    user = db.relationship('User', backref=db.backref('rsvps', lazy=True))
     event = db.relationship('Event', backref=db.backref('rsvps', lazy=True))
 
 class PasswordResetToken(db.Model):
