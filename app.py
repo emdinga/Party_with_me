@@ -188,7 +188,7 @@ def create_event():
         title = request.form.get('title')
         date_str = request.form.get('date')
         location = request.form.get('location')
-        poster = request.files.get('poster')
+        poster_image = request.files.get('poster')
         privacy = request.form.get('privacy') 
 
         errors = []
@@ -211,12 +211,12 @@ def create_event():
         os.makedirs(upload_folder, exist_ok=True)
 
         filename = None
-        if poster:
-            filename = secure_filename(poster.filename)
+        if  poster_image:
+            filename = secure_filename(poster_image.filename)
             poster_path = os.path.join(upload_folder, filename)
             
             """Resize and save the poster image"""
-            image = Image.open(poster)
+            image = Image.open(poster_image)
             image = image.resize((600, 800))
             image.save(poster_path)
 
