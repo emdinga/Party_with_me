@@ -183,6 +183,7 @@ def home():
 @app.route('/create_event', methods=['GET', 'POST'])
 @login_required
 def create_event():
+    """defines the create event route"""
     if request.method == 'POST':
         title = request.form.get('title')
         date_str = request.form.get('date')
@@ -206,14 +207,18 @@ def create_event():
             return render_template('create_event.html', errors=errors)
 
         """Ensure the upload directory exists"""
-        if not os.path.exists(app.config['UPLOAD_FOLDER']):
-            os.makedirs(app.config['UPLOAD_FOLDER'])
+        upload_folder = os.path.join(app.root_path, 'static/poster_images')
+        os.makedirs(upload_folder, exist_ok=True)
 
         filename = None
         if poster:
             filename = secure_filename(poster.filename)
-            poster_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            poster.save(poster_path)
+            poster_path = os.path.join(upload_folder, filename)
+            
+            """Resize and save the poster image"""
+            image = Image.open(poster)
+            image = image.resize((600, 800))
+            image.save(poster_path)
 
         """Convert date string to date object"""
         try:
@@ -227,16 +232,18 @@ def create_event():
             title=title,
             date=date,
             location=location,
-            poster=filename,
+            poster_image=filename,
             privacy=privacy,
             owner_id=current_user.id
         )
         db.session.add(new_event)
         db.session.commit()
 
+        flash('Event created successfully!', 'success')
         return redirect(url_for('members_home'))
 
     return render_template('create_event.html')
+
 
 @app.route('/event-created')
 def event_created():
@@ -294,6 +301,7 @@ def event_details_view(event_id):
 @app.route('/update_event/<int:event_id>', methods=['POST'])
 @login_required
 def update_event(event_id):
+    """ define the update event route"""
     event = Event.query.get_or_404(event_id)
 
     if event.owner_id != current_user.id:
@@ -313,18 +321,19 @@ def update_event(event_id):
         flash('Invalid date format. Please use YYYY-MM-DD.', 'danger')
         return redirect(url_for('update_event', event_id=event.id))
 
+    """Handle poster image upload and resizing"""
     if 'poster_image' in request.files:
         poster_image = request.files['poster_image']
         if poster_image and poster_image.filename != '':
             filename = secure_filename(poster_image.filename)
             upload_folder = os.path.join(app.root_path, 'static/poster_images')
             
-            """Ensure directory exists"""
+            """Ensure the directory exists"""
             os.makedirs(upload_folder, exist_ok=True)
             
             file_path = os.path.join(upload_folder, filename)
             
-            """Resize the poster image if necessary"""
+            """Resize and save the poster image"""
             image = Image.open(poster_image)
             image = image.resize((600, 800))
             image.save(file_path)
@@ -334,6 +343,7 @@ def update_event(event_id):
     db.session.commit()
     flash('Event updated successfully!', 'success')
     return redirect(url_for('event_details_view', event_id=event.id))
+
 
 
 @app.route('/event/<int:event_id>/delete', methods=['POST'])
