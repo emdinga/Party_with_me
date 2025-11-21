@@ -3,10 +3,10 @@ name: Terraform
 on:
   push:
     branches:
-      - main         # Apply only on main
+      - main
   pull_request:
     branches:
-      - main         # Plan for PRs
+      - main
 
 jobs:
   terraform:
@@ -27,32 +27,42 @@ jobs:
         with:
           terraform_version: 1.6.0
 
+      # ------------------------------
+      # TERRAFORM INIT
+      # ------------------------------
       - name: Terraform Init
-        run: terraform init
-        working-directory: ./infra/terraform
+        run: terraform -chdir=infra/terraform init
 
+      # ------------------------------
+      # FORMATTING
+      # ------------------------------
       - name: Terraform Format Check
-        run: terraform fmt -check
-        working-directory: ./infra/terraform
+        run: terraform -chdir=infra/terraform fmt -check
 
+      # ------------------------------
+      # VALIDATE
+      # ------------------------------
       - name: Terraform Validate
-        run: terraform validate
-        working-directory: ./infra/terraform
+        run: terraform -chdir=infra/terraform validate
 
+      # ------------------------------
+      # PLAN + SAVE OUTPUT
+      # ------------------------------
       - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -out=tfplan
-          terraform show -json tfplan > tfplan.json
-        working-directory: ./infra/terraform
+          terraform -chdir=infra/terraform plan -out=tfplan
+          terraform -chdir=infra/terraform show -json tfplan > tfplan.json
 
       - name: Upload Terraform Plan Artifact
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
-          path: ./infra/terraform/tfplan.json
+          path: infra/terraform/tfplan.json
 
+      # ------------------------------
+      # APPLY ONLY ON MAIN
+      # ------------------------------
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'   # Only apply on main
-        run: terraform apply -auto-approve tfplan
-        working-directory: ./infra/terraform
+        if: github.ref == 'refs/heads/main'
+        run: terraform -chdir=infra/terraform apply -auto-approve tfplan

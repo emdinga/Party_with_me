@@ -1,0 +1,15 @@
+<!-- templates/profile.html -->
+
+{% extends "layout2.html" %}
+
+{% block content %}
+<main>
+    <h1>{{ user.username }}'s Profile</h1>
+    {% if user.profile_picture %}
+        <img src="{{ url_for('static', filename='profile_pictures/' ~ user.profile_picture) }}" alt="Profile Picture">
+    {% endif %}
+    <p><strong>Bio:</strong> {{ user.bio }}</p>
+    <p><strong>Contact Info:</strong> {{ user.contact_info }}</p>
+    <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+</main>
+{% endblock %}

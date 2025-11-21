@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>{% block title %}Party with Me - Connect, Create, Celebrate{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400&family=Baloo+2:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Include additional inline CSS here if needed */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 600px; /* Responsive width */
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h1 class="flashing-logo">Party with Me</h1>
+        </div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+        <main class="main-content">
+            {% block content %}
+            <!-- Page-specific content will be injected here -->
+            {% endblock %}
+        </main>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-links">
+                <a href="#" onclick="showModal('termsModal')">Terms of Use</a>
+                <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a>
+            </div>
+            <p>&copy; 2024 Party with Me. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Terms of Use Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('termsModal')">&times;</span>
+            <h2>Terms of Use</h2>
+            <p>By using our application, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree with any part of these terms, you should not use our service.</p>
+            <!-- Content omitted for brevity, ensure all text is included -->
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="hideModal('privacyModal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p>This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. By using our application, you consent to our collection and use of your information as described in this policy.</p>
+            <!-- Content omitted for brevity, ensure all text is included -->
+        </div>
+    </div>
+
+    <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+</body>
+</html>

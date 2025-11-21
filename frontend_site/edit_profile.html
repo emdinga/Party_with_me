@@ -1,0 +1,27 @@
+<!-- templates/edit_profile.html -->
+
+{% extends "layout2.html" %}
+
+{% block content %}
+<main>
+    <h1>Edit Profile</h1>
+    
+    <form action="{{ url_for('edit_profile') }}" method="POST" enctype="multipart/form-data">
+        <label for="bio">Bio:</label>
+        <textarea name="bio" id="bio">{{ user.bio }}</textarea>
+        
+        <label for="contact_info">Contact Info:</label>
+        <input type="text" name="contact_info" id="contact_info" value="{{ user.contact_info }}">
+        
+        <label for="profile_picture">Profile Picture:</label>
+        {% if user.profile_picture %}
+            <div>
+                <img src="{{ url_for('static', filename='profile_pictures/' + user.profile_picture) }}" alt="Profile Picture" style="max-width: 200px;">
+            </div>
+        {% endif %}
+        <input type="file" name="profile_picture" id="profile_picture">
+        
+        <button type="submit">Update Profile</button>
+    </form>
+</main>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "layout2.html" %}
+
+{% block content %}
+<main>
+    <!-- Introduction Section -->
+    <section class="intro-card">
+        <p>Welcome to Party with Me, where you can connect with friends, create memorable events, and celebrate together!</p>
+        <p>This application helps you find the best parties nearby, whether you're looking to host or just join the fun. Available to anyone looking to unwind and make new connections every day!</p>
+        <a class="see-more-link" href="javascript:void(0);" onclick="toggleSeeMore(event)">See More</a>
+    </section>
+    
+    <!-- Additional Information Section -->
+    <div class="see-more" style="display: none;">
+        <section class="testimonials">
+            <h2>What Our Users Are Saying</h2>
+            <div class="testimonial">
+                <p>"The best party app I've used! Easy to create and manage events." - Jane D.</p>
+            </div>
+            <div class="testimonial">
+                <p>"A fantastic way to stay connected with friends and plan amazing parties!" - John S.</p>
+            </div>
+        </section>
+        
+        <!-- Feedback Form for Members -->
+        <section class="feedback-form">
+            <h2>We Value Your Feedback!</h2>
+            <form action="{{ url_for('submit_feedback') }}" method="POST">
+                <label for="event_attended">Have you ever attended or hosted a party with us?</label>
+                <select id="event_attended" name="event_attended" required>
+                    <option value="attended">Attended</option>
+                    <option value="hosted">Hosted</option>
+                    <option value="both">Both</option>
+                    <option value="none">None</option>
+                </select>
+                
+                <label for="feedback">Your Feedback (up to 200 words):</label>
+                <textarea id="feedback" name="feedback" rows="4" maxlength="1000" required></textarea>
+                
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    <section id="events-section">
+        <h2>Upcoming Events</h2>
+        {% if events %}
+            {% for event in events %}
+                <div class="event">
+                    <h3>{{ event.title }}</h3>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    {% if event.poster_image %}
+                        <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
+                    {% endif %}
+                    <p><strong>Privacy:</strong> {{ event.privacy }}</p>
+                    {% if event.privacy == 'private' %}
+                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', event_id=event.id) }}">RSVP Here</a></p>
+                    {% endif %}
+                    <a href="{{ url_for('event_details_view', event_id=event.id) }}">See Details</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No upcoming events created.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleSeeMore(event) {
+        event.preventDefault(); // Prevent default link behavior
+        const seeMoreSection = document.querySelector('.see-more');
+        const button = document.querySelector('.see-more-link');
+        if (seeMoreSection.style.display === 'block') {
+            seeMoreSection.style.display = 'none';
+            button.textContent = 'See More';
+        } else {
+            seeMoreSection.style.display = 'block';
+            button.textContent = 'See Less';
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+        }
+    }
+
+    function scrollToSection() {
+        document.getElementById('events-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+        document.getElementById(modalId).scrollTop = 0; // Ensure the modal starts at the top
+    }
+
+    function hideModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+</script>
+{% endblock %}
