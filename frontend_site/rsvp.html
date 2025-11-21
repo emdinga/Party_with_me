@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party with Me</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% extends "layout2.html" %}
+  {% block content %}
+  <div class="container">
+	  <a href="{{ url_for('home') }}" class="home-btn">Home</a>
+    <h2>RSVP to the Event</h2>
+
+    <!-- RSVP Form -->
+    <form action="{{ url_for('rsvp', title=title) }}" method="post">
+      <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="guests">Number of Guests:</label>
+        <input type="number" id="guests" name="guests" min="1" required>
+      </div>
+
+      <button type="submit" class="btn">Submit RSVP</button>
+    </form>
+
+  </div>
+  {% endblock %}
+</body>
+</html>
+

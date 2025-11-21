@@ -1,0 +1,284 @@
+/* General Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Baloo 2', cursive, 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #ff7f50 25%, #1e90ff 75%);
+    color: white;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #333;
+}
+
+.header .logo h1 {
+    font-family: 'Pacifico', cursive;
+    margin: 0;
+    animation: blink 1.5s infinite;
+}
+
+.header nav a {
+    font-family: 'Baloo 2', cursive;
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content and Footer Wrapper */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Form Styles */
+.create-event form, .signup form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.create-event label, .signup label {
+    margin-top: 10px;
+}
+
+.create-event input, .signup input, .create-event button, .signup button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.create-event button, .signup button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.create-event button:hover, .signup button:hover {
+    background-color: #0056b3;
+}
+
+/* Intro Card Styles */
+.intro-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.see-more-link {
+    display: block;
+    margin-top: 20px;
+    margin-left: -10px;
+    color: #ff7f50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.see-more-link:hover {
+    color: #1e90ff;
+}
+
+/* See More Section */
+.see-more {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.future-events, .testimonials {
+    margin-top: 20px;
+}
+
+.future-events .event, .testimonials .testimonial {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Footer Styles */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    max-height: 80%;
+    overflow-y: auto; /* Allows scrolling if content is too tall */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Blinking Animation for Logo */
+@keyframes blink {
+    0%, 100% { color: #ff7f50; }
+    25% { color: #ff6347; }
+    50% { color: #1e90ff; }
+    75% { color: #32cd32; }
+}
+
+/* Login Form Styles */
+.login {
+    max-width: 400px;
+    margin: auto;
+    padding: 1em;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.login h2 {
+    text-align: center;
+    color: #333;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login label {
+    margin-top: 10px;
+    color: #555;
+}
+
+.login input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.login button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login button:hover {
+    background-color: #0056b3;
+}
+
+.flashes {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+}
+
+.flashes li {
+    margin-bottom: 10px;
+}
+
+.login p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}
+
+.login p, .signup p {
+    color: black;
+}
+
+.create-event, .event {
+    margin-bottom: 20px;
+}
+
+.event img {
+    max-width: 100%;
+    height: auto;
+}
