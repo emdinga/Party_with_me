@@ -3,9 +3,7 @@ name: Upload Frontend to S3
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'frontend_site/**'  # Only run when frontend files change
+      - main   # Trigger on any push to main
 
 jobs:
   s3_upload:
@@ -13,12 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # -------------------------------------------------------
-      # Configure AWS credentials
-      # -------------------------------------------------------
+      # 2️⃣ Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -26,12 +23,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # -------------------------------------------------------
-      # Sync frontend files to S3
-      # -------------------------------------------------------
-      - name: Sync frontend to S3 bucket
+      # 3️⃣ List files in frontend_site for logging
+      - name: List frontend files
         run: |
-          aws s3 sync frontend_site/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --delete \
+          echo "Files in frontend_site:"
+          ls -R frontend_site/
+
+      # 4️⃣ Sync frontend files to S3
+      - name: Sync frontend to S3 bucket (dry run first)
+        run: |
+          echo "Dry run to see what will be uploaded..."
+          aws s3 sync frontend_site/ s3://${{ secrets.S3_BUCKET_NAME }} --delete --dryrun
+
+      # 5️⃣ Sync frontend files to S3 (actual upload)
+      - name: Upload frontend to S3
+        run: |
+          echo "Uploading files..."
+          aws s3 sync frontend_site/ s3://${{ secrets.S3_BUCKET_NAME }} --delete \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate" \
             --metadata-directive REPLACE
