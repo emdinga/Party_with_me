@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'frontend_site/**'     # Only run when frontend files change
+      - 'frontend_site/**'  # Only run when frontend files change
 
 jobs:
   s3_upload:
@@ -27,7 +27,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       # -------------------------------------------------------
-      # Sync website files to S3
+      # Sync frontend files to S3
       # -------------------------------------------------------
       - name: Sync frontend to S3 bucket
         run: |
