@@ -3,10 +3,10 @@ name: Terraform
 on:
   push:
     branches:
-      - main         # Apply changes only on main
+      - main         # Apply only on main
   pull_request:
     branches:
-      - main         # Run plan on PRs to main
+      - main         # Plan for PRs
 
 jobs:
   terraform:
@@ -41,10 +41,18 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -out=tfplan
+        run: |
+          terraform plan -out=tfplan
+          terraform show -json tfplan > tfplan.json
         working-directory: ./infra/terraform
 
+      - name: Upload Terraform Plan Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan
+          path: ./infra/terraform/tfplan.json
+
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'   # Only apply on main branch
+        if: github.ref == 'refs/heads/main'   # Only apply on main
         run: terraform apply -auto-approve tfplan
         working-directory: ./infra/terraform
