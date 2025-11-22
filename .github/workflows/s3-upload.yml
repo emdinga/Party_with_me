@@ -3,7 +3,9 @@ name: Upload Frontend to S3
 on:
   push:
     branches:
-      - master   # Trigger on any push to main
+      - master           # Replace with your default branch if needed
+    paths:
+      - 'frontend_site/**'   # Only trigger when frontend files change
 
 jobs:
   s3_upload:
@@ -23,22 +25,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # 3️⃣ List files in frontend_site for logging
+      # 3️⃣ List frontend files (optional for debug)
       - name: List frontend files
         run: |
           echo "Files in frontend_site:"
           ls -R frontend_site/
 
       # 4️⃣ Sync frontend files to S3
-      - name: Sync frontend to S3 bucket (dry run first)
+      - name: Sync frontend to S3 bucket
         run: |
-          echo "Dry run to see what will be uploaded..."
-          aws s3 sync frontend_site/ s3://${{ secrets.S3_BUCKET_NAME }} --delete --dryrun
-
-      # 5️⃣ Sync frontend files to S3 (actual upload)
-      - name: Upload frontend to S3
-        run: |
-          echo "Uploading files..."
-          aws s3 sync frontend_site/ s3://${{ secrets.S3_BUCKET_NAME }} --delete \
+          aws s3 sync frontend_site/ s3://party-with-me-frontend --delete \
             --cache-control "max-age=0, no-cache, no-store, must-revalidate" \
             --metadata-directive REPLACE
