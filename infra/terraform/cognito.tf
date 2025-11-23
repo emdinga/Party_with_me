@@ -22,15 +22,15 @@ resource "aws_cognito_user_pool" "party_with_me_users" {
   }
 
   schema {
-    name     = "username"
+    name                = "username"
     attribute_data_type = "String"
-    required = true
+    required            = true
   }
 
   schema {
-    name     = "email"
+    name                = "email"
     attribute_data_type = "String"
-    required = true
+    required            = true
   }
 
   admin_create_user_config {
@@ -42,8 +42,8 @@ resource "aws_cognito_user_pool" "party_with_me_users" {
 # Cognito User Pool Client
 # -------------------------------
 resource "aws_cognito_user_pool_client" "party_with_me_client" {
-  name         = "party-with-me-client"
-  user_pool_id = aws_cognito_user_pool.party_with_me_users.id
+  name            = "party-with-me-client"
+  user_pool_id    = aws_cognito_user_pool.party_with_me_users.id
   generate_secret = false
 
   explicit_auth_flows = [
@@ -68,6 +68,6 @@ resource "aws_cognito_user_pool_client" "party_with_me_client" {
 # Optional: Cognito Domain
 # -------------------------------
 resource "aws_cognito_user_pool_domain" "party_with_me_domain" {
-  domain       = "party-with-me-auth"  # must be globally unique
+  domain       = "party-with-me-auth" # must be globally unique
   user_pool_id = aws_cognito_user_pool.party_with_me_users.id
 }
