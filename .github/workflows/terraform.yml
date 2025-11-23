@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'infra/**'    # only trigger when files in infra/ folder change
   pull_request:
     branches:
       - master
+    paths:
+      - 'infra/**'    # only trigger for PRs that change infra/ folder
 
 jobs:
   terraform:
@@ -61,8 +65,8 @@ jobs:
           path: infra/terraform/tfplan.json
 
       # ------------------------------
-      # APPLY ONLY ON MAIN
+      # APPLY ONLY ON MASTER
       # ------------------------------
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: terraform -chdir=infra/terraform apply -auto-approve tfplan
