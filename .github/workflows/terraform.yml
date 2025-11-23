@@ -5,12 +5,12 @@ on:
     branches:
       - master
     paths:
-      - 'infra/**'    # only trigger when files in infra/ folder change
+      - 'infra/**'
   pull_request:
     branches:
       - master
     paths:
-      - 'infra/**'    # only trigger for PRs that change infra/ folder
+      - 'infra/**'
 
 jobs:
   terraform:
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -59,7 +59,7 @@ jobs:
           terraform -chdir=infra/terraform show -json tfplan > tfplan.json
 
       - name: Upload Terraform Plan Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
           path: infra/terraform/tfplan.json
