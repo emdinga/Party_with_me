@@ -1,8 +1,3 @@
-provider "aws" {
-  region = "us-east-1"  # Replace with your AWS_REGION
-}
-
-# -------------------------------
 # Cognito User Pool
 # -------------------------------
 resource "aws_cognito_user_pool" "party_with_me_users" {
