@@ -49,7 +49,7 @@ resource "aws_cognito_user_pool_client" "party_with_me_client" {
 
   # MUST match exactly your actual frontend URL(s)
   callback_urls = [
-    ""https://${aws_cloudfront_distribution.frontend_cf.domain_name}/members_home.html",
+    "https://${aws_cloudfront_distribution.frontend_cf.domain_name}/members_home.html",
   ]
 
   logout_urls = [
