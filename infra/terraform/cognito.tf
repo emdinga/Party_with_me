@@ -18,9 +18,6 @@ resource "aws_cognito_user_pool" "party_with_me_users" {
     }
   }
 
-  # DO NOT DEFINE username schema!
-  # Cognito username is built-in. Do not create a custom attribute.
-
   schema {
     name                = "email"
     attribute_data_type = "String"
@@ -30,4 +27,34 @@ resource "aws_cognito_user_pool" "party_with_me_users" {
   admin_create_user_config {
     allow_admin_create_user_only = false
   }
+}
+
+# Cognito User Pool Client
+resource "aws_cognito_user_pool_client" "party_with_me_client" {
+  name         = "party-with-me-client"
+  user_pool_id = aws_cognito_user_pool.party_with_me_users.id
+
+  # Public clients (web, SPA) should NOT have secrets
+  generate_secret = false
+
+  # Allow common auth flows
+  explicit_auth_flows = [
+    "ALLOW_USER_SRP_AUTH",
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+  ]
+
+  # Prevent user enumeration vulnerabilities
+  prevent_user_existence_errors = "ENABLED"
+
+  # MUST match exactly your actual frontend URL(s)
+  callback_urls = [
+    "http://party-with-me-frontend.s3-website-us-east-1.amazonaws.com/members_home.html"
+  ]
+
+  logout_urls = [
+    "http://party-with-me-frontend.s3-website-us-east-1.amazonaws.com/index.html"
+  ]
+
+  supported_identity_providers = ["COGNITO"]
 }
