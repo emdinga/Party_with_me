@@ -1,64 +1,60 @@
-# -----------------------------
+# ----------------------------
 # VPC
-# -----------------------------
-resource "aws_vpc" "party_vpc" {
-  cidr_block = "10.0.0.0/16"
+# ----------------------------
+resource "aws_vpc" "party_with_me_vpc" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
   tags = {
     Name = "party-with-me-vpc"
   }
 }
 
-# -----------------------------
-# Private Subnet
-# -----------------------------
-resource "aws_subnet" "private_subnet" {
-  vpc_id                  = aws_vpc.party_vpc.id
+# ----------------------------
+# Public Subnet
+# ----------------------------
+resource "aws_subnet" "party_with_me_public_subnet" {
+  vpc_id                  = aws_vpc.party_with_me_vpc.id
   cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
   availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = false
+
   tags = {
-    Name = "party-with-me-private-subnet"
+    Name = "party-with-me-public-subnet"
   }
 }
 
-# -----------------------------
-# Security Group for Fargate Tasks
-# -----------------------------
-resource "aws_security_group" "ecs_sg" {
-  name   = "party-with-me-ecs-sg"
-  vpc_id = aws_vpc.party_vpc.id
+# ----------------------------
+# Security Group
+# ----------------------------
+resource "aws_security_group" "party_with_me_sg" {
+  name        = "party-with-me-sg"
+  description = "Allow HTTP/HTTPS access"
+  vpc_id      = aws_vpc.party_with_me_vpc.id
 
-  # Allow all outbound for pulling images and accessing CloudFront
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
 
-# -----------------------------
-# VPC Endpoint for ECR
-# -----------------------------
-resource "aws_vpc_endpoint" "ecr_dkr" {
-  vpc_id            = aws_vpc.party_vpc.id
-  service_name      = "com.amazonaws.us-east-1.ecr.dkr"
-  vpc_endpoint_type = "Interface"
-  subnet_ids        = [aws_subnet.private_subnet.id]
-  security_group_ids = [aws_security_group.ecs_sg.id]
-}
-
-resource "aws_vpc_endpoint" "ecr_api" {
-  vpc_id            = aws_vpc.party_vpc.id
-  service_name      = "com.amazonaws.us-east-1.ecr.api"
-  vpc_endpoint_type = "Interface"
-  subnet_ids        = [aws_subnet.private_subnet.id]
-  security_group_ids = [aws_security_group.ecs_sg.id]
-}
-
-resource "aws_vpc_endpoint" "s3" {
-  vpc_id            = aws_vpc.party_vpc.id
-  service_name      = "com.amazonaws.us-east-1.s3"
-  vpc_endpoint_type = "Gateway"
-  route_table_ids   = [aws_vpc.party_vpc.main_route_table_id]
+  tags = {
+    Name = "party-with-me-sg"
+  }
 }
