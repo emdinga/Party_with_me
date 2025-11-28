@@ -14,3 +14,9 @@ output "cloudfront_domain" {
   description = "CloudFront distribution domain"
   value       = aws_cloudfront_distribution.frontend_cf.domain_name
 }
+
+#ecr output
+#--------------------
+output "auth_service_ecr_uri" {
+  value = aws_ecr_repository.auth_service.repository_url
+}
