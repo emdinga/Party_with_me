@@ -20,3 +20,29 @@ output "cloudfront_domain" {
 output "auth_service_ecr_uri" {
   value = aws_ecr_repository.auth_service.repository_url
 }
+
+#vpc
+output "vpc_id" {
+  description = "The ID of the Party With Me VPC"
+  value       = aws_vpc.party_with_me_vpc.id
+}
+
+output "subnet_id" {
+  description = "The ID of the Party With Me Subnet"
+  value       = aws_subnet.party_with_me_public_subnet.id
+}
+
+output "subnet_cidr" {
+  description = "The CIDR block of the subnet"
+  value       = aws_subnet.party_with_me_public_subnet.cidr_block
+}
+
+output "security_group_id" {
+  description = "The ID of the Party With Me Security Group"
+  value       = aws_security_group.party_with_me_sg.id
+}
+
+output "security_group_name" {
+  description = "The name of the Party With Me Security Group"
+  value       = aws_security_group.party_with_me_sg.name
+}
