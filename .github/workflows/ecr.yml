@@ -35,6 +35,7 @@ jobs:
           docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - name: Build Docker image
+        working-directory: ./backend/auth-service
         run: docker build -t party-with-me-auth .
 
       - name: Tag Docker image for ECR
