@@ -6,7 +6,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
   default_root_object = "index.html"
 
   origin {
-    domain_name = aws_s3_bucket.frontend_bucket.website_endpoint
+    domain_name = "${aws_s3_bucket.frontend_bucket.bucket}.s3.amazonaws.com"
     origin_id   = "s3-party-with-me-frontend"
   }
 
