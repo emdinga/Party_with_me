@@ -24,6 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: backend/auth-service
 
       - name: Authenticate Docker to ECR
         env:
