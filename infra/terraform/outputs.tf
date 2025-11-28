@@ -29,12 +29,12 @@ output "vpc_id" {
 
 output "subnet_id" {
   description = "The ID of the Party With Me Subnet"
-  value       = aws_subnet.party_with_me_public_subnet.id
+  value       = aws_subnet.party_with_me_private_subnet.id
 }
 
 output "subnet_cidr" {
   description = "The CIDR block of the subnet"
-  value       = aws_subnet.party_with_me_public_subnet.cidr_block
+  value       = aws_subnet.party_with_me_private_subnet.cidr_block
 }
 
 output "security_group_id" {
