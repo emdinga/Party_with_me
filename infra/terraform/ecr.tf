@@ -1,5 +1,5 @@
 #------------------
-adding ECR 
+# adding ECR 
 #-----------------
 
 resource "aws_ecr_repository" "auth_service" {
