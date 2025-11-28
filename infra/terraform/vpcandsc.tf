@@ -15,9 +15,9 @@ resource "aws_vpc" "party_with_me_vpc" {
 #private subnet
 #---------------------
 resource "aws_subnet" "party_with_me_private_subnet" {
-  vpc_id                  = "vpc-074ca5a7fdf82fd16"  # use your VPC ID
+  vpc_id                  = "vpc-074ca5a7fdf82fd16" # use your VPC ID
   cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = false   # private subnet
+  map_public_ip_on_launch = false # private subnet
   availability_zone       = "us-east-1a"
 
   tags = {
