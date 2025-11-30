@@ -37,36 +37,7 @@
 
 <!-- Footer -->
 <div data-include="/footer.html"></div>
-
-<script>
-    const poolData = {
-        UserPoolId: 'us-east-1_gocWMYxA0',
-        ClientId: '793sstv1doa5e826vbvqbnqvg2'
-    };
-    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-    document.getElementById("signup-form").addEventListener("submit", function(event){
-        event.preventDefault();
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirm-password").value;
-
-        if(password !== confirmPassword){
-            alert("Passwords do not match!");
-            return;
-        }
-
-        userPool.signUp(username, password, [{ Name: "email", Value: email }], null, function(err, result){
-            if(err){
-                alert(err.message || JSON.stringify(err));
-                return;
-            }
-            alert('Signup successful! Check your email for verification.');
-            window.location.href = "/login.html";
-        });
-    });
-</script>
+<script src="/assets/js/signup.js"></script>
 
 </body>
 </html>

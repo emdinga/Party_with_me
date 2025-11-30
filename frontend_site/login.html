@@ -33,41 +33,7 @@
 <!-- Footer -->
 <div data-include="/footer.html"></div>
 
-<script>
-const poolData = {
-    UserPoolId: 'us-east-1_gocWMYxA0',
-    ClientId: '793sstv1doa5e826vbvqbnqvg2'
-};
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-document.getElementById("login-form").addEventListener("submit", function(event){
-    event.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({
-        Username: email,
-        Password: password
-    });
-
-    const userData = {
-        Username: email,
-        Pool: userPool
-    };
-
-    const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-    cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function(result) {
-            alert("Login successful!");
-            // Save tokens or redirect as needed
-            window.location.href = "/index.html";
-        },
-        onFailure: function(err) {
-            alert(err.message || JSON.stringify(err));
-        }
-    });
-});
-</script>
+<script src="/assets/js/login.js"></script>
 
 </body>
 </html>
