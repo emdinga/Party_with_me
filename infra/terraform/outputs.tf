@@ -46,3 +46,19 @@ output "security_group_name" {
   description = "The name of the Party With Me Security Group"
   value       = aws_security_group.party_with_me_sg.name
 }
+
+
+#-----------------
+# ECS outputs
+#-----------------
+output "ecs_cluster_name" {
+  value = aws_ecs_cluster.party_cluster.name
+}
+
+output "ecs_service_name" {
+  value = aws_ecs_service.party_service.name
+}
+
+output "task_definition_arn" {
+  value = aws_ecs_task_definition.party_task.arn
+}
