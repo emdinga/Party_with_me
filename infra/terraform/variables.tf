@@ -13,3 +13,17 @@ variable "frontend_bucket_name" {
   type        = string
   description = "S3 bucket name for hosting the frontend website"
 }
+
+
+#-------------------
+# ecs varaibles
+#-------------------
+variable "private_subnets" {
+  description = "Private subnets for ECS tasks"
+  type        = list(string)
+}
+
+variable "ecs_security_group_id" {
+  description = "Security group ID for ECS tasks"
+  type        = string
+}
