@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "party_task" {
   container_definitions = jsonencode([
     {
       name      = "party-app"
-      image     = "${aws_ecr_repository.party_app.repository_url}:latest"
+      image     = "${aws_ecr_repository.auth_service.repository_url}:latest"
       essential = true
 
       portMappings = [{
