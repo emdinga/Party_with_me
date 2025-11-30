@@ -5,7 +5,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("https://d3bpj9bucrhmjl.cloudfront.net/login.html", {
+        const response = await fetch("https://d3bpj9bucrhmjl.cloudfront.net/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
