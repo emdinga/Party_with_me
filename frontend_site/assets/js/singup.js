@@ -12,7 +12,7 @@ document.getElementById("signup-form").addEventListener("submit", async function
     }
 
     try {
-        const response = await fetch("https://d3bpj9bucrhmjl.cloudfront.net/signup.html", {
+        const response = await fetch("https://d3bpj9bucrhmjl.cloudfront.net/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password })
