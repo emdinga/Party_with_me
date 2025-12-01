@@ -13,16 +13,15 @@ resource "aws_vpc" "party_with_me_vpc" {
 
 #-----------------
 #VPC subnet
-#-----------------
 resource "aws_subnet" "party_with_me_private_subnet" {
-  vpc_id                  = aws_vpc.party_with_me_vpc.id
-  cidr_block              = "10.0.1.0/24" # use the subnet's CIDR
-  availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = false
+  vpc_id            = "vpc-074ca5a7fdf82fd16" # your VPC ID
+  cidr_block        = "10.0.1.0/24"           # subnet CIDR
+  availability_zone = "us-east-1a"            # AZ
+}
 
-  tags = {
-    Name = "party-with-me-private-subnet"
-  }
+resource "aws_route_table_association" "party_with_me_private_subnet_assoc" {
+  subnet_id      = aws_subnet.party_with_me_private_subnet.id
+  route_table_id = "rtb-07efde98cbefcebed" # main route table of your VPC
 }
 
 # ----------------------------
