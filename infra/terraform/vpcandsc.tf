@@ -3,10 +3,27 @@
 # ----------------------------
 resource "aws_vpc" "party_with_me_vpc" {
   cidr_block           = "10.0.0.0/16"
-  enable_dns_hostnames = true
   enable_dns_support   = true
-c
+  enable_dns_hostnames = true
 
+  tags = {
+    Name = "party-with-me-vpc"
+  }
+}
+
+#-----------------
+#VPC subnet
+#-----------------
+resource "aws_subnet" "party_with_me_private_subnet" {
+  vpc_id                  = aws_vpc.party_with_me_vpc.id
+  cidr_block              = "10.0.1.0/24" # use the subnet's CIDR
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "party-with-me-private-subnet"
+  }
+}
 
 # ----------------------------
 # Security Group
