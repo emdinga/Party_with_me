@@ -28,5 +28,24 @@ variable "ecs_security_group_id" {
   type        = string
 }
 
+# Private subnets for ECS tasks
+variable "private_subnets" {
+  description = "Private subnets for ECS tasks"
+  type        = list(string)
+}
+
+# Security group for ECS tasks
+variable "ecs_security_group_id" {
+  description = "Security group ID for ECS tasks"
+  type        = string
+}
+
+# Route tables for private subnets
+variable "private_route_table_ids" {
+  description = "Route tables associated with private subnets"
+  type        = list(string)
+}
+
+
 
 
