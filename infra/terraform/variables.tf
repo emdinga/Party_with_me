@@ -28,5 +28,12 @@ variable "ecs_security_group_id" {
   type        = string
 }
 
+# Route tables for private subnets
+variable "private_route_table_ids" {
+  description = "Route tables associated with private subnets"
+  type        = list(string)
+}
+
+
 
 
