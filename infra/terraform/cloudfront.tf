@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
 
   # API Gateway origin
   origin {
-    domain_name = "https://2og2qwei66.execute-api.us-east-1.amazonaws.com/prod/"
+    domain_name = "2og2qwei66.execute-api.us-east-1.amazonaws.com"
     origin_id   = "APIGatewayOrigin"
 
     custom_origin_config {
@@ -51,6 +51,9 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
 
     cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CACHING_DISABLED
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" # ALL_VIEWER
+
+    # Added the stage as a path prefix
+    origin_path              = "/prod"
   }
 
   restrictions {
