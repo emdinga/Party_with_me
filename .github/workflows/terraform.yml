@@ -35,7 +35,7 @@ jobs:
       # TERRAFORM INIT
       # ------------------------------
       - name: Terraform Init
-        run: terraform -chdir=infra/terraform init
+        run: terraform -chdir=infra/terraform init -reconfigure
 
       # ------------------------------
       # FORMATTING
