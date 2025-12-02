@@ -31,6 +31,32 @@ jobs:
         with:
           terraform_version: 1.6.0
 
+      # ---------------------------------------
+      # CLEANUP STALE TERRAFORM LOCK (SAFE)
+      # ---------------------------------------
+      - name: Cleanup Terraform Lock (Safe)
+        run: |
+          TABLE="party-terraform-state-711387123965"
+          STATE_KEY="party/terraform.tfstate"
+
+          echo "Checking for stale Terraform locks in DynamoDB..."
+
+          LOCK=$(aws dynamodb get-item \
+            --table-name "$TABLE" \
+            --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
+            --query "Item" \
+            --output json)
+
+          if [ "$LOCK" != "null" ]; then
+            echo "Stale lock detected — deleting..."
+            aws dynamodb delete-item \
+              --table-name "$TABLE" \
+              --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}"
+            echo "Stale lock removed."
+          else
+            echo "No lock found. Proceeding..."
+          fi
+
       # ------------------------------
       # TERRAFORM INIT
       # ------------------------------
