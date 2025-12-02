@@ -1,11 +1,16 @@
 document.getElementById("login-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
+    const email    = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+    if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+    }
+
     try {
-        const response = await fetch("https://2og2qwei66.execute-api.us-east-1.amazonaws.com/prod/", {
+        const response = await fetch("https://d3bpj9bucrhmjl.cloudfront.net/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -15,13 +20,13 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         if (!response.ok) throw new Error(result.error || "Login failed");
 
-        // Store tokens
-        localStorage.setItem("id_token", result.idToken);
-        localStorage.setItem("access_token", result.accessToken);
-        localStorage.setItem("refresh_token", result.refreshToken);
+        // Save tokens in localStorage (optional, depending on your frontend auth logic)
+        localStorage.setItem("accessToken", result.accessToken);
+        localStorage.setItem("idToken", result.idToken);
+        localStorage.setItem("refreshToken", result.refreshToken);
 
         alert("Login successful!");
-        window.location.href = "/members_home.html";
+        window.location.href = "/dashboard.html"; // redirect after login
 
     } catch (err) {
         alert(err.message);
