@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
 
   # API Gateway origin
   origin {
-    domain_name = "<api-gateway-id>.execute-api.us-east-1.amazonaws.com"
+    domain_name = "https://2og2qwei66.execute-api.us-east-1.amazonaws.com/prod/"
     origin_id   = "APIGatewayOrigin"
 
     custom_origin_config {

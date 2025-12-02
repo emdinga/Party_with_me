@@ -5,27 +5,38 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 
+// Allow only your CloudFront frontend domain
 app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"]
+    origin: "https://d3bpj9bucrhmjl.cloudfront.net",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Health check for ECS
-app.get('/', (req, res) => {
-    res.send("Auth service is running");
+// ------------------------------
+// Health check for ECS / NLB
+// ------------------------------
+app.get('/api/health', (req, res) => {
+    res.status(200).send("Auth service is running");
 });
 
+// ------------------------------
 // Configure Cognito
+// ------------------------------
 AWS.config.update({ region: 'us-east-1' });
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 const USER_POOL_ID = "us-east-1_gocWMYxA0";
 const CLIENT_ID = "793sstv1doa5e826vbvqbnqvg2";
 
-// ---- SIGNUP ----
-app.post('/signup', async (req, res) => {
+// ------------------------------
+// SIGNUP
+// ------------------------------
+app.post('/api/signup', async (req, res) => {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
 
     try {
         const params = {
@@ -42,14 +53,20 @@ app.post('/signup', async (req, res) => {
         res.status(200).json({ message: "Signup successful. Check email for verification." });
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({ error: err.message });
     }
 });
 
-// ---- LOGIN ----
-app.post('/login', async (req, res) => {
+// ------------------------------
+// LOGIN
+// ------------------------------
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Missing email or password" });
+    }
 
     const params = {
         AuthFlow: "USER_PASSWORD_AUTH",
@@ -68,9 +85,13 @@ app.post('/login', async (req, res) => {
             refreshToken: result.AuthenticationResult.RefreshToken
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({ error: err.message });
     }
 });
 
-app.listen(3000, () => console.log("Auth service running on port 3000"));
+// ------------------------------
+// Start server
+// ------------------------------
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Auth service running on port ${PORT}`));

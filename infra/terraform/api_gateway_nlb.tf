@@ -116,15 +116,23 @@ resource "aws_api_gateway_integration" "proxy_integration" {
   uri = "http://${aws_lb.internal_nlb.dns_name}/" # API Gateway will append the proxy path
 }
 
-# Deployment + Stage
+# Deployment (no stage_name)
 resource "aws_api_gateway_deployment" "party_api_deploy" {
-  depends_on  = [aws_api_gateway_integration.proxy_integration]
   rest_api_id = aws_api_gateway_rest_api.party_api.id
-  stage_name  = "prod"
+
+  triggers = {
+    redeploy = timestamp() # ensures new deployment each apply
+  }
 }
 
-# Optional: stage settings and outputs below
-output "api_invoke_url" {
-  value       = aws_api_gateway_deployment.party_api_deploy.invoke_url
-  description = "Invoke URL for API Gateway (prod stage)"
+# Stage
+resource "aws_api_gateway_stage" "prod" {
+  stage_name    = "prod"
+  deployment_id = aws_api_gateway_deployment.party_api_deploy.id
+  rest_api_id   = aws_api_gateway_rest_api.party_api.id
+}
+
+# Output invoke URL from stag
+output "api_gateway_invoke_url" {
+  value = aws_api_gateway_stage.prod.invoke_url
 }
