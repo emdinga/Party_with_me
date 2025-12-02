@@ -74,7 +74,3 @@ output "nlb_arn" {
 output "target_group_arn" {
   value = aws_lb_target_group.party_app_tg.arn
 }
-
-output "api_gateway_invoke_url" {
-  value = aws_api_gateway_deployment.party_api_deploy.invoke_url
-}
