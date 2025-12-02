@@ -6,16 +6,17 @@ const app = express();
 app.use(express.json());
 
 // ------------------------------
-// MANUAL CORS FIX (IMPORTANT)
-// This handles CloudFront + API Gateway preflight requests
+// CORS FIX FOR CLOUDFRONT + API GATEWAY
 // ------------------------------
+const allowedOrigin = "https://d3bpj9bucrhmjl.cloudfront.net";
+
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://d3bpj9bucrhmjl.cloudfront.net");
+    res.header("Access-Control-Allow-Origin", allowedOrigin);
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
 
-    // Return 200 for all OPTIONS requests (preflight)
+    // Respond OK to preflight OPTIONS requests
     if (req.method === "OPTIONS") {
         return res.sendStatus(200);
     }
@@ -23,15 +24,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Still apply cors() for safety (not required but harmless)
-app.use(cors({
-    origin: "https://d3bpj9bucrhmjl.cloudfront.net",
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
 // ------------------------------
-// Health check for ECS / NLB
+// Health check
 // ------------------------------
 app.get('/api/health', (req, res) => {
     res.status(200).send("Auth service is running");
@@ -51,7 +45,6 @@ const CLIENT_ID = "793sstv1doa5e826vbvqbnqvg2";
 // ------------------------------
 app.post('/api/signup', async (req, res) => {
     const { username, email, password } = req.body;
-
     if (!username || !email || !password) {
         return res.status(400).json({ error: "Missing required fields" });
     }
@@ -69,7 +62,6 @@ app.post('/api/signup', async (req, res) => {
 
         await cognito.signUp(params).promise();
         res.status(200).json({ message: "Signup successful. Check email for verification." });
-
     } catch (err) {
         console.error(err);
         res.status(400).json({ error: err.message });
@@ -81,7 +73,6 @@ app.post('/api/signup', async (req, res) => {
 // ------------------------------
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-
     if (!email || !password) {
         return res.status(400).json({ error: "Missing email or password" });
     }
