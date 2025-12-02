@@ -86,15 +86,3 @@ resource "aws_ecs_service" "party_service" {
     ignore_changes = [task_definition] # allows pushing new images without TF errors
   }
 }
-
-
-
-#-------------------
-#ECS load Balancer
-#-------------------
-
-load_balancer {
-  target_group_arn = aws_lb_target_group.party_app_tg.arn
-  container_name   = "party-app"
-  container_port   = 3000
- }
