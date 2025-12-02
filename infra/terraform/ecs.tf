@@ -98,5 +98,3 @@ load_balancer {
   container_name   = "party-app"
   container_port   = 3000
  }
-
- deployment_controller { type = "ECS" }
