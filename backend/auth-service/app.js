@@ -5,7 +5,25 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 
-// Allow only your CloudFront frontend domain
+// ------------------------------
+// MANUAL CORS FIX (IMPORTANT)
+// This handles CloudFront + API Gateway preflight requests
+// ------------------------------
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://d3bpj9bucrhmjl.cloudfront.net");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+    // Return 200 for all OPTIONS requests (preflight)
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+
+    next();
+});
+
+// Still apply cors() for safety (not required but harmless)
 app.use(cors({
     origin: "https://d3bpj9bucrhmjl.cloudfront.net",
     methods: ["GET", "POST", "OPTIONS"],
