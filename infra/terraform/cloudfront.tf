@@ -11,7 +11,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
     origin_id   = "s3-party-with-me-frontend"
   }
 
-  # New API Gateway origin
+  # API Gateway origin
   origin {
     domain_name = "<api-gateway-id>.execute-api.us-east-1.amazonaws.com"
     origin_id   = "APIGatewayOrigin"
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
     }
   }
 
-  # Default cache behavior for S3
+  # Default cache behavior for S3 frontend
   default_cache_behavior {
     target_origin_id       = "s3-party-with-me-frontend"
     viewer_protocol_policy = "redirect-to-https"
@@ -39,29 +39,16 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
     }
   }
 
-  # Ordered cache behavior for /login
+  # Ordered cache behavior for all backend API routes
   ordered_cache_behavior {
-    path_pattern           = "/login*"
+    path_pattern           = "/api/*"
     target_origin_id       = "APIGatewayOrigin"
     viewer_protocol_policy = "redirect-to-https"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods  = ["GET", "HEAD"]
 
-    cache_policy_id         = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CACHING_DISABLED
-    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" # ALL_VIEWER
-  }
-
-  # Ordered cache behavior for /signup
-  ordered_cache_behavior {
-    path_pattern           = "/signup*"
-    target_origin_id       = "APIGatewayOrigin"
-    viewer_protocol_policy = "redirect-to-https"
-
-    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods  = ["GET", "HEAD"]
-
-    cache_policy_id         = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CACHING_DISABLED
+    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6" # CACHING_DISABLED
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" # ALL_VIEWER
   }
 
