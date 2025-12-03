@@ -32,31 +32,6 @@ jobs:
           terraform_version: 1.6.0
 
       # ------------------------------
-      # CLEANUP STALE TERRAFORM LOCK (SAFE)
-      # ------------------------------
-      - name: Cleanup Terraform Lock (Safe)
-        run: |
-          TABLE="terraform-locks"
-          STATE_KEY="party/terraform.tfstate"
-
-          echo "Checking for stale Terraform locks in DynamoDB..."
-          LOCK=$(aws dynamodb get-item \
-            --table-name "$TABLE" \
-            --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
-            --query "Item" \
-            --output json)
-
-          if [ "$LOCK" != "null" ]; then
-            echo "Stale lock detected — deleting..."
-            aws dynamodb delete-item \
-              --table-name "$TABLE" \
-              --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}"
-            echo "Stale lock removed."
-          else
-            echo "No lock found. Proceeding..."
-          fi
-
-      # ------------------------------
       # TERRAFORM INIT
       # ------------------------------
       - name: Terraform Init
@@ -82,13 +57,33 @@ jobs:
         run: |
           MAX_RETRIES=5
           RETRY_COUNT=0
+
+          TABLE="terraform-locks"
+          STATE_KEY="party/terraform.tfstate"
+
           until terraform -chdir=infra/terraform plan -out=tfplan; do
             RETRY_COUNT=$((RETRY_COUNT+1))
+            echo "Terraform plan failed due to lock or error, retrying ($RETRY_COUNT/$MAX_RETRIES)..."
+
+            # Remove stale lock if it exists
+            LOCK=$(aws dynamodb get-item \
+              --table-name "$TABLE" \
+              --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
+              --query "Item" \
+              --output json)
+            if [ "$LOCK" != "null" ]; then
+              echo "Stale lock detected — deleting..."
+              aws dynamodb delete-item \
+                --table-name "$TABLE" \
+                --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}"
+              echo "Stale lock removed."
+            fi
+
             if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
               echo "Terraform plan failed after $MAX_RETRIES attempts"
               exit 1
             fi
-            echo "Terraform plan failed, retrying in 10s... ($RETRY_COUNT/$MAX_RETRIES)"
+
             sleep 10
           done
 
@@ -108,12 +103,31 @@ jobs:
         run: |
           MAX_RETRIES=5
           RETRY_COUNT=0
+          TABLE="terraform-locks"
+          STATE_KEY="party/terraform.tfstate"
+
           until terraform -chdir=infra/terraform apply -auto-approve tfplan; do
             RETRY_COUNT=$((RETRY_COUNT+1))
+            echo "Terraform apply failed, retrying ($RETRY_COUNT/$MAX_RETRIES)..."
+
+            # Remove stale lock if it exists
+            LOCK=$(aws dynamodb get-item \
+              --table-name "$TABLE" \
+              --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
+              --query "Item" \
+              --output json)
+            if [ "$LOCK" != "null" ]; then
+              echo "Stale lock detected — deleting..."
+              aws dynamodb delete-item \
+                --table-name "$TABLE" \
+                --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}"
+              echo "Stale lock removed."
+            fi
+
             if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
               echo "Terraform apply failed after $MAX_RETRIES attempts"
               exit 1
             fi
-            echo "Terraform apply failed, retrying in 10s... ($RETRY_COUNT/$MAX_RETRIES)"
+
             sleep 10
           done
