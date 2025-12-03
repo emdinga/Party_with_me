@@ -1,91 +1,85 @@
-# ------------------------------
+# ===============================
 # CloudFront Distribution
-# ------------------------------
+# ===============================
+
 resource "aws_cloudfront_distribution" "frontend_cf" {
   enabled             = true
   default_root_object = "index.html"
 
-  # ------------------------------
-  # S3 FRONTEND ORIGIN
-  # ------------------------------
+  # ----------------------------------------
+  # ORIGIN: Frontend S3 Bucket
+  # ----------------------------------------
   origin {
     domain_name = "${aws_s3_bucket.frontend_bucket.bucket}.s3.amazonaws.com"
-    origin_id   = "s3-party-with-me-frontend"
+    origin_id   = "S3FrontendOrigin"
 
     s3_origin_config {
-      origin_access_identity = "" # Add OAI if your bucket is private
+      origin_access_identity = ""
     }
   }
 
-  # ------------------------------
-  # NLB / ECS BACKEND ORIGIN
-  # ------------------------------
+  # ----------------------------------------
+  # ORIGIN: Backend API via NLB
+  # ----------------------------------------
   origin {
     domain_name = aws_lb.internal_nlb.dns_name
     origin_id   = "NLBOrigin"
 
-    # IMPORTANT FIX:
-    # NLB DOES NOT DO TLS TERMINATION — USE HTTP ONLY.
     custom_origin_config {
       http_port              = 80
       https_port             = 443
-      origin_protocol_policy = "http-only" # <<< FIXED
+      origin_protocol_policy = "https-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
-  # ------------------------------
-  # DEFAULT BEHAVIOR → S3 (Frontend)
-  # ------------------------------
+  # ----------------------------------------
+  # DEFAULT BEHAVIOR → S3
+  # ----------------------------------------
   default_cache_behavior {
-    target_origin_id       = "s3-party-with-me-frontend"
+    target_origin_id       = "S3FrontendOrigin"
     viewer_protocol_policy = "redirect-to-https"
 
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
   }
 
-  # ------------------------------
-  # API BEHAVIOR → NLB
-  # ------------------------------
+  # ----------------------------------------
+  # BEHAVIOR: API Traffic → NLB
+  # ----------------------------------------
   ordered_cache_behavior {
     path_pattern           = "/api/*"
     target_origin_id       = "NLBOrigin"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = [
-      "GET", "HEAD", "OPTIONS",
-      "PUT", "POST", "PATCH", "DELETE"
-    ]
-    cached_methods = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods  = ["GET", "HEAD"]
 
-    # Same policies as AWS recommended
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    # For APIs, this is correct → allow forwarding headers/body
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
   }
 
-  # ------------------------------
-  # RESTRICTIONS
-  # ------------------------------
+  # ----------------------------------------
+  # GEOGRAPHIC RESTRICTIONS
+  # ----------------------------------------
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
 
-  # ------------------------------
-  # VIEWER CERTIFICATE
-  # ------------------------------
+  # ----------------------------------------
+  # SSL CERTIFICATE
+  # ----------------------------------------
   viewer_certificate {
     cloudfront_default_certificate = true
   }
 
-  # ------------------------------
-  # TAGS
-  # ------------------------------
   tags = {
     Name = "Party With Me CloudFront"
   }
