@@ -56,12 +56,12 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # NLB communication (port 3000) within the VPC
+  # TCP 3000 (NLB / ECS)
   ingress {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   # Allow all outbound traffic
