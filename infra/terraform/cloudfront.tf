@@ -13,7 +13,7 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
     origin_id   = "s3-party-with-me-frontend"
 
     s3_origin_config {
-      origin_access_identity = "" # Add OAI if using private bucket
+      origin_access_identity = "" # Add OAI if your bucket is private
     }
   }
 
@@ -21,19 +21,21 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
   # NLB / ECS BACKEND ORIGIN
   # ------------------------------
   origin {
-    domain_name = aws_lb.internal_nlb.dns_name # Your NLB DNS here
+    domain_name = aws_lb.internal_nlb.dns_name
     origin_id   = "NLBOrigin"
 
+    # IMPORTANT FIX:
+    # NLB DOES NOT DO TLS TERMINATION — USE HTTP ONLY.
     custom_origin_config {
       http_port              = 80
       https_port             = 443
-      origin_protocol_policy = "https-only"
+      origin_protocol_policy = "http-only" # <<< FIXED
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
   # ------------------------------
-  # DEFAULT BEHAVIOR → S3
+  # DEFAULT BEHAVIOR → S3 (Frontend)
   # ------------------------------
   default_cache_behavior {
     target_origin_id       = "s3-party-with-me-frontend"
@@ -54,9 +56,13 @@ resource "aws_cloudfront_distribution" "frontend_cf" {
     target_origin_id       = "NLBOrigin"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods  = ["GET", "HEAD"]
+    allowed_methods = [
+      "GET", "HEAD", "OPTIONS",
+      "PUT", "POST", "PATCH", "DELETE"
+    ]
+    cached_methods = ["GET", "HEAD"]
 
+    # Same policies as AWS recommended
     cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
   }
