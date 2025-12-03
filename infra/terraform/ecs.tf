@@ -65,7 +65,7 @@ resource "aws_ecs_task_definition" "party_task" {
 
 
 #------------------------------
-#  ECS SERVICE (PRIVATE ONLY)
+#  ECS SERVICE (PRIVATE + NLB)
 #------------------------------
 
 resource "aws_ecs_service" "party_service" {
@@ -75,14 +75,21 @@ resource "aws_ecs_service" "party_service" {
   launch_type     = "FARGATE"
   desired_count   = 1
 
-  # NO PUBLIC IP
   network_configuration {
-    subnets          = var.private_subnets         # ← Use your private subnets
-    security_groups  = [var.ecs_security_group_id] # ← Use your existing SG
+    subnets          = var.private_subnets
+    security_groups  = [var.ecs_security_group_id]
     assign_public_ip = false
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.party_app_tg.arn
+    container_name   = "party-app"
+    container_port   = 3000
   }
 
   lifecycle {
     ignore_changes = [task_definition] # allows pushing new images without TF errors
   }
+
+  depends_on = [aws_lb_listener.party_app_listener] # ensures listener exists first
 }
