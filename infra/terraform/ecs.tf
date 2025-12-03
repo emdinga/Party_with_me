@@ -93,7 +93,7 @@ resource "aws_ecs_service" "party_service" {
   }
 
   load_balancer {
-    target_group_arn = data.aws_lb_target_group.party_app_tg.arn
+    target_group_arn = aws_lb_target_group.party_app_tg.arn
     container_name   = "party-app"
     container_port   = 3000
   }
@@ -103,22 +103,6 @@ resource "aws_ecs_service" "party_service" {
   }
 
   depends_on = [
-    data.aws_lb_listener.party_app_listener
+    aws_lb_listener.party_app_listener
   ]
-}
-
-#-----------------------------
-# DATA SOURCES (existing resources)
-#-----------------------------
-data "aws_lb_target_group" "party_app_tg" {
-  name = "party-app-tg"
-}
-
-data "aws_lb_listener" "party_app_listener" {
-  load_balancer_arn = data.aws_lb.internal_nlb.arn
-  port              = 3000
-}
-
-data "aws_lb" "internal_nlb" {
-  name = "party-internal-nlb"
 }
