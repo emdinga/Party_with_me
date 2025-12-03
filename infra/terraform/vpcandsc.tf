@@ -32,7 +32,6 @@ resource "aws_route_table_association" "party_with_me_private_subnet_assoc" {
   route_table_id = "rtb-07efde98cbefcebed" # main route table of your VPC
 }
 
-
 # ----------------------------
 # Security Group
 # ----------------------------
@@ -41,6 +40,7 @@ resource "aws_security_group" "party_with_me_sg" {
   description = "Allow HTTP/HTTPS access + NLB port"
   vpc_id      = aws_vpc.party_with_me_vpc.id
 
+  # HTTP
   ingress {
     from_port   = 80
     to_port     = 80
@@ -48,6 +48,7 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # HTTPS
   ingress {
     from_port   = 443
     to_port     = 443
@@ -55,14 +56,15 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Add this rule for NLB communication
+  # NLB communication on port 3000
   ingress {
-    from_port       = 3000
-    to_port         = 3000
-    protocol        = "tcp"
-    security_groups = [aws_security_group.party_with_me_sg.id] # or CIDR if public
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"] # allow traffic from inside the VPC
   }
 
+  # Allow all outbound
   egress {
     from_port   = 0
     to_port     = 0
