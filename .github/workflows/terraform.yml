@@ -31,18 +31,15 @@ jobs:
         with:
           terraform_version: 1.6.0
 
-      # ---------------------------------------
+      # ------------------------------
       # CLEANUP STALE TERRAFORM LOCK (SAFE)
-      # ---------------------------------------
+      # ------------------------------
       - name: Cleanup Terraform Lock (Safe)
         run: |
-          # DynamoDB table and state key
           TABLE="terraform-locks"
           STATE_KEY="party/terraform.tfstate"
 
           echo "Checking for stale Terraform locks in DynamoDB..."
-
-          # Check if the lock exists
           LOCK=$(aws dynamodb get-item \
             --table-name "$TABLE" \
             --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
@@ -78,12 +75,23 @@ jobs:
         run: terraform -chdir=infra/terraform validate
 
       # ------------------------------
-      # PLAN + SAVE OUTPUT
+      # PLAN + SAVE OUTPUT WITH RETRY
       # ------------------------------
       - name: Terraform Plan
         id: plan
         run: |
-          terraform -chdir=infra/terraform plan -out=tfplan
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          until terraform -chdir=infra/terraform plan -out=tfplan; do
+            RETRY_COUNT=$((RETRY_COUNT+1))
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "Terraform plan failed after $MAX_RETRIES attempts"
+              exit 1
+            fi
+            echo "Terraform plan failed, retrying in 10s... ($RETRY_COUNT/$MAX_RETRIES)"
+            sleep 10
+          done
+
           terraform -chdir=infra/terraform show -json tfplan > tfplan.json
 
       - name: Upload Terraform Plan Artifact
@@ -93,8 +101,19 @@ jobs:
           path: infra/terraform/tfplan.json
 
       # ------------------------------
-      # APPLY ONLY ON MASTER
+      # APPLY ONLY ON MASTER WITH RETRY
       # ------------------------------
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master'
-        run: terraform -chdir=infra/terraform apply -auto-approve tfplan
+        run: |
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          until terraform -chdir=infra/terraform apply -auto-approve tfplan; do
+            RETRY_COUNT=$((RETRY_COUNT+1))
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "Terraform apply failed after $MAX_RETRIES attempts"
+              exit 1
+            fi
+            echo "Terraform apply failed, retrying in 10s... ($RETRY_COUNT/$MAX_RETRIES)"
+            sleep 10
+          done
