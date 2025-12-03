@@ -95,7 +95,7 @@ resource "aws_ecs_service" "party_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.party_app_tg.arn
-    container_name   = "party-app"
+    container_name   = "party"
     container_port   = 3000
   }
 
