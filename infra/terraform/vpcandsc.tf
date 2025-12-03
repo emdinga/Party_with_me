@@ -38,10 +38,9 @@ resource "aws_route_table_association" "party_with_me_private_subnet_assoc" {
 # ----------------------------
 resource "aws_security_group" "party_with_me_sg" {
   name        = "party-with-me-sg"
-  description = "Allow HTTP/HTTPS and NLB traffic"
+  description = "Allow HTTP/HTTPS access + NLB port"
   vpc_id      = aws_vpc.party_with_me_vpc.id
 
-  # CloudFront / public access
   ingress {
     from_port   = 80
     to_port     = 80
@@ -56,12 +55,12 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # NLB communication on port 3000
+  # Add this rule for NLB communication
   ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Or restrict to CloudFront IP ranges if you want
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.party_with_me_sg.id] # or CIDR if public
   }
 
   egress {
