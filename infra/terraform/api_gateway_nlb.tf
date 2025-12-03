@@ -19,14 +19,15 @@ resource "aws_lb" "internal_nlb" {
 resource "aws_lb_target_group" "party_app_tg" {
   name        = "${var.project_name}-tg"
   port        = 3000
-  protocol    = "TCP"
+  protocol    = "TCP" # TCP traffic
   target_type = "ip"
   vpc_id      = aws_vpc.party_with_me_vpc.id
 
+  # For TCP target groups, health check must also be TCP
   health_check {
     enabled             = true
-    protocol            = "HTTP"
-    path                = "/health" # change to your health endpoint or '/'
+    protocol            = "TCP"
+    port                = "3000"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -111,7 +112,7 @@ resource "aws_api_gateway_integration" "proxy_integration" {
   connection_type         = "VPC_LINK"
   connection_id           = aws_api_gateway_vpc_link.nlb_vpc_link.id
 
-  uri = "http://${aws_lb.internal_nlb.dns_name}/" # API Gateway will append the proxy path
+  uri = "http://${aws_lb.internal_nlb.dns_name}/" # API Gateway appends the proxy path
 }
 
 # ----------------------------
@@ -121,12 +122,11 @@ resource "aws_api_gateway_deployment" "party_api_deploy" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
 
   triggers = {
-    redeploy = timestamp() # ensures new deployment each apply
+    redeploy = timestamp()
   }
 
   lifecycle {
     create_before_destroy = true
-    # prevent_destroy = true # Temporarily commented to allow refresh/apply
   }
 }
 

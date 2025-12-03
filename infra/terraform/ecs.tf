@@ -1,28 +1,22 @@
 #-----------------------------
-#  ECS CLUSTER
+# ECS CLUSTER
 #-----------------------------
-
 resource "aws_ecs_cluster" "party_cluster" {
   name = "party-cluster"
 }
 
-
-
-#----------------------------
-#  ECS TASK EXECUTION ROLE
-#----------------------------
-
+#-----------------------------
+# ECS TASK EXECUTION ROLE
+#-----------------------------
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecsTaskExecutionRole"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect = "Allow",
-      Principal = {
-        Service = "ecs-tasks.amazonaws.com"
-      },
-      Action = "sts:AssumeRole"
+      Effect    = "Allow",
+      Principal = { Service = "ecs-tasks.amazonaws.com" },
+      Action    = "sts:AssumeRole"
     }]
   })
 }
@@ -32,12 +26,35 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+#-----------------------------
+# ECS SECURITY GROUP
+#-----------------------------
+resource "aws_security_group" "ecs_sg" {
+  name        = "party-app-ecs-sg"
+  description = "Allow traffic from NLB"
+  vpc_id      = aws_vpc.party_with_me_vpc.id
 
+  # Allow traffic from NLB (or all for testing)
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # replace with NLB SG for production
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "party-app-ecs-sg" }
+}
 
 #--------------------------------------
-#  TASK DEFINITION (Private Fargate)
+# TASK DEFINITION (Private Fargate)
 #--------------------------------------
-
 resource "aws_ecs_task_definition" "party_task" {
   family                   = "party-app-task"
   requires_compatibilities = ["FARGATE"]
@@ -48,26 +65,21 @@ resource "aws_ecs_task_definition" "party_task" {
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.ecs_task_execution_role.arn
 
-  container_definitions = jsonencode([
-    {
-      name      = "party-app"
-      image     = "${aws_ecr_repository.auth_service.repository_url}:latest"
-      essential = true
+  container_definitions = jsonencode([{
+    name      = "party-app"
+    image     = "${aws_ecr_repository.auth_service.repository_url}:latest"
+    essential = true
 
-      portMappings = [{
-        containerPort = 3000
-        protocol      = "tcp"
-      }]
-    }
-  ])
+    portMappings = [{
+      containerPort = 3000
+      protocol      = "tcp"
+    }]
+  }])
 }
 
-
-
-#------------------------------
-#  ECS SERVICE (PRIVATE + NLB)
-#------------------------------
-
+#-----------------------------
+# ECS SERVICE (PRIVATE + NLB)
+#-----------------------------
 resource "aws_ecs_service" "party_service" {
   name            = "party-app-service"
   cluster         = aws_ecs_cluster.party_cluster.id
@@ -77,7 +89,7 @@ resource "aws_ecs_service" "party_service" {
 
   network_configuration {
     subnets          = var.private_subnets
-    security_groups  = [var.ecs_security_group_id]
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = false
   }
 
@@ -91,5 +103,8 @@ resource "aws_ecs_service" "party_service" {
     ignore_changes = [task_definition] # allows pushing new images without TF errors
   }
 
-  depends_on = [aws_lb_listener.party_app_listener] # ensures listener exists first
+  depends_on = [
+    aws_lb_listener.party_app_listener,
+    aws_lb_target_group.party_app_tg
+  ]
 }

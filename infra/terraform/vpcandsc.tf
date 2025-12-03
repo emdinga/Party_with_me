@@ -16,8 +16,8 @@ resource "aws_vpc" "party_with_me_vpc" {
 # ----------------------------
 resource "aws_subnet" "party_with_me_private_subnet" {
   vpc_id            = aws_vpc.party_with_me_vpc.id
-  cidr_block        = "10.0.1.0/24" # subnet CIDR
-  availability_zone = "us-east-1a"  # AZ
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "party-with-me-private-subnet"
@@ -29,7 +29,7 @@ resource "aws_subnet" "party_with_me_private_subnet" {
 # ----------------------------
 resource "aws_route_table_association" "party_with_me_private_subnet_assoc" {
   subnet_id      = aws_subnet.party_with_me_private_subnet.id
-  route_table_id = "rtb-07efde98cbefcebed" # main route table of your VPC
+  route_table_id = "rtb-07efde98cbefcebed" # main route table
 }
 
 # ----------------------------
@@ -56,15 +56,15 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # NLB communication on port 3000
+  # NLB communication (port 3000) within the VPC
   ingress {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] # allow traffic from inside the VPC
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
-  # Allow all outbound
+  # Allow all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
