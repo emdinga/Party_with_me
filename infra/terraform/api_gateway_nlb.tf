@@ -52,8 +52,6 @@ resource "aws_lb_listener" "party_app_listener" {
   }
 }
 
-
-
 # ----------------------------
 # API Gateway VPC Link
 # ----------------------------
@@ -74,20 +72,20 @@ resource "aws_api_gateway_rest_api" "party_api" {
   description = "API for Party With Me (private via VPC Link)"
 }
 
-# root resource id
+# Root resource
 data "aws_api_gateway_resource" "root" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
   path        = "/"
 }
 
-# create resource (e.g. /api)
+# API resource (e.g. /api)
 resource "aws_api_gateway_resource" "api_resource" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
   parent_id   = data.aws_api_gateway_resource.root.id
   path_part   = "api"
 }
 
-# Create a proxy resource to forward all paths (optional)
+# Proxy resource to forward all paths
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
   parent_id   = aws_api_gateway_resource.api_resource.id
@@ -102,7 +100,7 @@ resource "aws_api_gateway_method" "proxy_any" {
   authorization = "NONE"
 }
 
-# Integration using VPC_LINK to the NLB (uri uses NLB dns name)
+# Integration using VPC_LINK to NLB
 resource "aws_api_gateway_integration" "proxy_integration" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
   resource_id = aws_api_gateway_resource.proxy.id
@@ -116,23 +114,34 @@ resource "aws_api_gateway_integration" "proxy_integration" {
   uri = "http://${aws_lb.internal_nlb.dns_name}/" # API Gateway will append the proxy path
 }
 
+# ----------------------------
 # Deployment (no stage_name)
+# ----------------------------
 resource "aws_api_gateway_deployment" "party_api_deploy" {
   rest_api_id = aws_api_gateway_rest_api.party_api.id
 
   triggers = {
     redeploy = timestamp() # ensures new deployment each apply
   }
+
+  lifecycle {
+    prevent_destroy       = true # Prevent Terraform from deleting active deployment
+    create_before_destroy = true # Ensure new deployment is created before old one is removed
+  }
 }
 
+# ----------------------------
 # Stage
+# ----------------------------
 resource "aws_api_gateway_stage" "prod" {
   stage_name    = "prod"
   deployment_id = aws_api_gateway_deployment.party_api_deploy.id
   rest_api_id   = aws_api_gateway_rest_api.party_api.id
 }
 
-# Output invoke URL from stag
+# ----------------------------
+# Output
+# ----------------------------
 output "api_gateway_invoke_url" {
   value = aws_api_gateway_stage.prod.invoke_url
 }
