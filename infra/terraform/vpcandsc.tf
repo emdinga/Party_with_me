@@ -35,9 +35,12 @@ resource "aws_route_table_association" "party_with_me_private_subnet_assoc" {
 # ----------------------------
 # Security Group
 # ----------------------------
+# ----------------------------
+# Security Group
+# ----------------------------
 resource "aws_security_group" "party_with_me_sg" {
   name        = "party-with-me-sg"
-  description = "Allow HTTP/HTTPS access + NLB port"
+  description = "Allow HTTP/HTTPS access"
   vpc_id      = aws_vpc.party_with_me_vpc.id
 
   # HTTP
@@ -48,18 +51,18 @@ resource "aws_security_group" "party_with_me_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # HTTPS
+  # Custom TCP (NLB)
   ingress {
-    from_port   = 443
-    to_port     = 443
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # TCP 3000 (NLB / ECS)
+  # HTTPS
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
