@@ -125,8 +125,8 @@ resource "aws_api_gateway_deployment" "party_api_deploy" {
   }
 
   lifecycle {
-    prevent_destroy       = true # Prevent Terraform from deleting active deployment
-    create_before_destroy = true # Ensure new deployment is created before old one is removed
+    create_before_destroy = true
+    # prevent_destroy = true # Temporarily commented to allow refresh/apply
   }
 }
 
