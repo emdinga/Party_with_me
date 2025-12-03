@@ -36,11 +36,13 @@ jobs:
       # ---------------------------------------
       - name: Cleanup Terraform Lock (Safe)
         run: |
+          # DynamoDB table and state key
           TABLE="terraform-locks"
           STATE_KEY="party/terraform.tfstate"
 
           echo "Checking for stale Terraform locks in DynamoDB..."
 
+          # Check if the lock exists
           LOCK=$(aws dynamodb get-item \
             --table-name "$TABLE" \
             --key "{\"LockID\": {\"S\": \"$STATE_KEY\"}}" \
@@ -64,7 +66,7 @@ jobs:
         run: terraform -chdir=infra/terraform init -reconfigure
 
       # ------------------------------
-      # FORMATTING
+      # FORMAT CHECK
       # ------------------------------
       - name: Terraform Format Check
         run: terraform -chdir=infra/terraform fmt -check
