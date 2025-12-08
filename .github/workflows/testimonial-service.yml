@@ -1,0 +1,96 @@
+name: Testimonial Service CI/CD
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'backend/testimonial-service/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      ECR_REPO: party-with-me-testimonial
+      CLUSTER: party-cluster
+      SERVICE: testimonial-service
+
+    steps:
+      # ---------------------------
+      # CHECKOUT CODE
+      # ---------------------------
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # ---------------------------
+      # SET UP NODE
+      # ---------------------------
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # ---------------------------
+      # INSTALL DEPENDENCIES
+      # ---------------------------
+      - name: Install dependencies
+        run: npm install
+        working-directory: backend/testimonial-service
+
+      # ---------------------------
+      # LOGIN TO ECR
+      # ---------------------------
+      - name: Authenticate Docker to ECR
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      # ---------------------------
+      # BUILD DOCKER IMAGE
+      # ---------------------------
+      - name: Build Docker image
+        working-directory: backend/testimonial-service
+        run: docker build -t $ECR_REPO .
+
+      # ---------------------------
+      # TAG IMAGE
+      # ---------------------------
+      - name: Tag Docker image for ECR
+        run: |
+          docker tag $ECR_REPO:latest \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+
+      # ---------------------------
+      # PUSH IMAGE TO ECR
+      # ---------------------------
+      - name: Push Docker image to ECR
+        run: |
+          docker push \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:latest
+
+      # ---------------------------
+      # FORCE ECS TO REDEPLOY
+      # ---------------------------
+      - name: Force new ECS deployment
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws ecs update-service \
+            --cluster $CLUSTER \
+            --service $SERVICE \
+            --force-new-deployment \
+            --region $AWS_REGION
+
+      # ---------------------------
+      # CONFIRM DEPLOYMENT START
+      # ---------------------------
+      - name: Confirm ECS deployment triggered
+        run: echo "ECS deployment started for $SERVICE"
