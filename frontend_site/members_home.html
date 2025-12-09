@@ -1,6 +1,16 @@
-{% extends "layout2.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Home - Party with Me</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
 
-{% block content %}
+<!-- Header -->
+<div data-include="/header.html"></div>
+
 <main>
     <!-- Introduction Section -->
     <section class="intro-card">
@@ -24,7 +34,7 @@
         <!-- Feedback Form for Members -->
         <section class="feedback-form">
             <h2>We Value Your Feedback!</h2>
-            <form action="{{ url_for('submit_feedback') }}" method="POST">
+            <form id="feedback-form">
                 <label for="event_attended">Have you ever attended or hosted a party with us?</label>
                 <select id="event_attended" name="event_attended" required>
                     <option value="attended">Attended</option>
@@ -44,33 +54,33 @@
     <!-- Upcoming Events Section -->
     <section id="events-section">
         <h2>Upcoming Events</h2>
-        {% if events %}
-            {% for event in events %}
-                <div class="event">
-                    <h3>{{ event.title }}</h3>
-                    <p><strong>Date:</strong> {{ event.date }}</p>
-                    <p><strong>Location:</strong> {{ event.location }}</p>
-                    {% if event.poster_image %}
-                        <img src="{{ url_for('static', filename=event.poster_image) }}" alt="{{ event.title }} poster">
-                    {% endif %}
-                    <p><strong>Privacy:</strong> {{ event.privacy }}</p>
-                    {% if event.privacy == 'private' %}
-                        <p><strong>RSVP Link:</strong> <a href="{{ url_for('rsvp', event_id=event.id) }}">RSVP Here</a></p>
-                    {% endif %}
-                    <a href="{{ url_for('event_details_view', event_id=event.id) }}">See Details</a>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No upcoming events created.</p>
-        {% endif %}
+        <div class="event">
+            <h3>Summer Beach Party</h3>
+            <p><strong>Date:</strong> June 20, 2025</p>
+            <p><strong>Location:</strong> Miami Beach, FL</p>
+            <img src="/assets/images/beach-party.jpg" alt="Summer Beach Party poster">
+            <p><strong>Privacy:</strong> Public</p>
+            <a href="/event-details.html?event_id=1">See Details</a>
+        </div>
+        <div class="event">
+            <h3>Private Birthday Bash</h3>
+            <p><strong>Date:</strong> July 10, 2025</p>
+            <p><strong>Location:</strong> New York, NY</p>
+            <img src="/assets/images/birthday-bash.jpg" alt="Private Birthday Bash poster">
+            <p><strong>Privacy:</strong> Private</p>
+            <p><strong>RSVP Link:</strong> <a href="/rsvp.html?event_id=2">RSVP Here</a></p>
+            <a href="/event-details.html?event_id=2">See Details</a>
+        </div>
+        <!-- Add more events here as needed -->
     </section>
 </main>
-{% endblock %}
 
-{% block scripts %}
+<!-- Footer -->
+<div data-include="/footer.html"></div>
+
 <script>
     function toggleSeeMore(event) {
-        event.preventDefault(); // Prevent default link behavior
+        event.preventDefault();
         const seeMoreSection = document.querySelector('.see-more');
         const button = document.querySelector('.see-more-link');
         if (seeMoreSection.style.display === 'block') {
@@ -79,7 +89,7 @@
         } else {
             seeMoreSection.style.display = 'block';
             button.textContent = 'See Less';
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); // Scroll to bottom
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     }
 
@@ -89,11 +99,14 @@
 
     function showModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
-        document.getElementById(modalId).scrollTop = 0; // Ensure the modal starts at the top
+        document.getElementById(modalId).scrollTop = 0;
     }
 
     function hideModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
 </script>
-{% endblock %}
+
+</body>
+</html>
+ 
